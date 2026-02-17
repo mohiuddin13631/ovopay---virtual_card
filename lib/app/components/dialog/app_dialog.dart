@@ -11,12 +11,15 @@ import 'package:ovopay/app/components/text-field/rounded_text_field.dart';
 import 'package:ovopay/app/components/text/header_text.dart';
 import 'package:ovopay/app/components/text/header_text_smaller.dart';
 import 'package:ovopay/app/components/will_pop_widget.dart';
+import 'package:ovopay/app/screens/card/controller/card_controller.dart';
 import 'package:ovopay/app/screens/virtual_cards/controller/virtual_cards_controller.dart';
 import 'package:ovopay/core/data/controller/otp_verification_controller/otp_controller.dart';
 import 'package:ovopay/core/data/services/service_exporter.dart';
 import 'package:ovopay/core/route/route.dart';
 import 'package:lottie/lottie.dart';
 import '../../../core/utils/util_exporter.dart';
+import '../../screens/global/views/widgets/country_bottom_sheet.dart';
+import '../card/custom_card.dart';
 
 class AppDialogs {
   static Future pinVerificationPopUpWidget(
@@ -469,6 +472,130 @@ class AppDialogs {
                   ),
                 );
               },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  static Future pinDialog(BuildContext context, {required void Function() onTap}) {
+    return showDialog(
+      context: context,
+      useSafeArea: true,
+      barrierDismissible: false,
+      traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+      builder: (_) {
+        return WillPopWidget(
+          nextRoute: "",
+          action: () {},
+          child: GetBuilder<CardController>(
+            builder: (controller) => Dialog(
+              surfaceTintColor: MyColor.transparentColor,
+              insetPadding: EdgeInsets.all(Dimensions.space16.w),
+              backgroundColor: MyColor.transparentColor,
+              insetAnimationCurve: Curves.easeIn,
+              insetAnimationDuration: const Duration(milliseconds: 100),
+              child: LayoutBuilder(
+                builder: (context, constraint) {
+                  return Container(
+                    padding: EdgeInsetsDirectional.all(Dimensions.space16.w),
+                    decoration: BoxDecoration(
+                      color: MyColor.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20.w)),
+                      border: Border.all(
+                        color: MyColor.transparentColor,
+                        width: 0.6,
+                      ),
+                    ),
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraint.maxHeight / 3,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            //TITLE
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //Title
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    HeaderText(
+                                      text: MyStrings.getCard.tr,
+                                      textStyle: MyTextStyle.headerH3.copyWith(
+                                        color: MyColor.getBodyTextColor(),
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ), HeaderText(
+                                      text: MyStrings.number.tr,
+                                      textStyle: MyTextStyle.headerH3.copyWith(
+                                        color: MyColor.getBodyTextColor(),
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                //Close Button
+                                IconButton(
+                                  padding: EdgeInsets.all(Dimensions.space3.w),
+                                  style: IconButton.styleFrom(),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: MyAssetImageWidget(
+                                    color: MyColor.getPrimaryColor(),
+                                    isSvg: true,
+                                    assetPath: MyIcons.closeButton,
+                                    width: Dimensions.space40.w,
+                                    height: Dimensions.space40.w,
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            spaceDown(Dimensions.space20),
+
+                            CustomAppCard(
+                              radius: Dimensions.space10,
+                              borderColor: MyColor.warning.withValues(alpha: .7),
+                              borderWidth: 1,
+                              backgroundColor: MyColor.warning.withValues(alpha: .07),
+                              child: Text(MyStrings.pleaseEnterPin.tr),
+                            ),
+
+                            spaceDown(Dimensions.space30),
+
+                            RoundedTextField(
+                              labelText: MyStrings.pinNumber,
+                              hintText: MyStrings.pleaseEnterPin.tr,
+                              controller: controller.pinController,
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.text,
+                            ),
+
+                            spaceDown(Dimensions.space20),
+
+                            CustomElevatedBtn(
+                              isLoading: controller.isCardDetailsLoading,
+                              text: MyStrings.getNow,
+                              onTap: onTap,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         );

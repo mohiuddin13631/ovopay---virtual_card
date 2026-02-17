@@ -25,7 +25,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
   @override
   Widget build(BuildContext context) {
     return MyCustomScaffold(
-      pageTitle: "Enter Amount",
+      pageTitle: MyStrings.enterAmount.tr,
       body: Column(
         children: [
 
@@ -40,7 +40,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Top-up Method", style: MyTextStyle.caption1Style),
+                              Text(MyStrings.topUpMethod.tr, style: MyTextStyle.caption1Style),
                               spaceDown(Dimensions.space2.h),
                               Text(MyStrings.mainAccountBalance.tr, style: MyTextStyle.sectionTitle3)
                             ],

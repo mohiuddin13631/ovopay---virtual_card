@@ -99,6 +99,7 @@ class TransactionHistoryController extends GetxController {
   int page = 1;
   String? nextPageUrl;
   List<TransactionHistoryModel> transactionHistoryList = [];
+
   Future<void> getTransactionHistoryDataList({bool forceLoad = true}) async {
     try {
       page = page + 1;

@@ -541,6 +541,10 @@ class MyStrings {
   static const String investmentHistory = "Investment History";
   static const String noInvestmentHistory = "No Investment History";
 
+  //virtual card
+  static const String topUpCard = "Top Up Card";
+  static const String mainAccountBalance = "Main Account Balance";
+
   static const String returns = "Returns";
   static const String running = "Running";
   static const String cancelled = "Cancelled";
@@ -582,9 +586,12 @@ class MyStrings {
   static const String termsAndCondition = "Terms & Conditions";
   static const String confirmAndPay = "Confirm & Pay";
   static const String postalCode = "Postal Code";
+  static const String getCard = "Get Card";
+  static const String getNow = "Get Now";
+  static const String pinNumber = "Pin Number";
+  static const String pleaseEnterPin = "Please enter your PIN to access your card confidential data.";
   static const String addressLine2 = "Address line 2";
   static const String province = "Province";
-  static const String mainAccountBalance = "Main Account Balance";
   static const String availableForInstantTransfer = "Available for Instant Transfer";
   static const String chooseHowYouWantToUpYourCard = "Choose how you want to up your card";
   static const String fromMainBalance = "From Main Balance";
@@ -600,7 +607,10 @@ class MyStrings {
   static const String freezeCard = "Freeze Card";
   static const String afterFreezing = "After Freezing";
   static const String selectReason = "Select Reason";
+  static const String topUpMethod = "Top-Up Method";
+  static const String balance = "Balance";
   static const String reasonForFreezing = "Reason for freezing (optional)";
   static const String importantInformation = "Important Information";
-  static const String cardScreenTitle = "Tap on the card to view your card transections.";
+  static const String cardScreenTitle = "Tap on the card to view your card transactions.";
+  static const String balanceTermsAndConditions = "Balance transfers ate instant. Crypto deposits may take 5-30 minutes depending on network confirmation.";
 }

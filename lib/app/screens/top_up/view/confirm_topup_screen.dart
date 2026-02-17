@@ -6,9 +6,7 @@ import 'package:ovopay/app/components/card/amount_details_card.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/card/custom_contact_list_tile_card.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
-import 'package:ovopay/app/components/column_widget/card_column.dart';
 import 'package:ovopay/app/components/dialog/app_dialog.dart';
-import 'package:ovopay/app/components/divider/custom_divider.dart';
 import 'package:ovopay/app/components/image/my_asset_widget.dart';
 import 'package:ovopay/app/components/image/my_network_image_widget.dart';
 import 'package:ovopay/app/components/snack_bar/show_custom_snackbar.dart';
@@ -29,7 +27,6 @@ class ConfirmTopUpScreen extends StatefulWidget {
 
 class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
 
-
   // Reusable Contact List Tile
   Widget _buildContactTile(
       TopUpController controller, {
@@ -37,6 +34,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
         EdgeInsetsGeometry? padding,
       }) {
     return CustomContactListTileCard(
+
       leading: MyNetworkImageWidget(
         imageUrl: "https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid&w=740&q=80",
         width: Dimensions.space50.w,
@@ -48,6 +46,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
       subtitle: "1234 5678 9123 4567",
       showBorder: showBorder,
       padding: padding ?? EdgeInsets.zero,
+
     );
   }
 
@@ -117,6 +116,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 spaceDown(Dimensions.space16),
                 CustomAppCard(
                   child: Column(
@@ -183,6 +183,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
                     _showConfirmDialog(controller);
                   },
                 ),
+
               ],
             ),
           ),

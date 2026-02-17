@@ -193,4 +193,9 @@ class UrlContainer {
   static const String investmentPlan = 'investment/plan';
   static const String makeInvestmentStoreEndPoint = 'investment/store';
   static const String investmentHistoryEndPoint = 'investment/history';
+
+  //virtual card
+  static const String cardListEndPoint = 'card/index';
+  static const String cardDetailsEndPoint = 'card/details';
+
 }

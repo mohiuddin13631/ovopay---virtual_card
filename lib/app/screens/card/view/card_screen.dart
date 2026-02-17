@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
+import 'package:ovopay/app/components/custom_loader/custom_loader.dart';
+import 'package:ovopay/app/components/dialog/app_dialog.dart';
 import 'package:ovopay/app/components/image/my_asset_widget.dart';
 import 'package:ovopay/app/screens/card/controller/card_controller.dart';
 import 'package:ovopay/app/screens/card/view/widget/card_ui.dart';
+import 'package:ovopay/core/data/repositories/card/card_repo.dart';
 import 'package:ovopay/core/route/route.dart';
 import 'package:ovopay/core/utils/util_exporter.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CardScreen extends StatefulWidget {
   const CardScreen({super.key});
@@ -16,10 +20,29 @@ class CardScreen extends StatefulWidget {
 
 class _CardScreenState extends State<CardScreen> {
 
+  final ScrollController cardScrollController = ScrollController();
+  void scrollListener() {
+    if (cardScrollController.position.pixels == cardScrollController.position.maxScrollExtent) {
+      if (Get.find<CardController>().hasNext()) {
+        Get.find<CardController>().loadData(forceLoad: false);
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    Get.put(CardController());
+    Get.put(CardRepo());
+    var controller = Get.put(CardController(cardRepo: Get.find()));
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (mounted) {
+        controller.loadData(); // Receiver if index is 0, Sender otherwise
+
+        // Add scroll listeners
+        cardScrollController.addListener(() => scrollListener());
+      }
+    });
   }
 
   @override
@@ -32,7 +55,6 @@ class _CardScreenState extends State<CardScreen> {
           Get.back();
         },
         actionButton: [
-
           GestureDetector(
             onTap: () {
               Get.toNamed(RouteHelper.cardChargesAndFeesScreen);
@@ -63,61 +85,101 @@ class _CardScreenState extends State<CardScreen> {
             ),
           ),
         ],
-        body: Column(
-          children: [
-            spaceDown(context.height * .03),
-            Text(MyStrings.cardScreenTitle.tr, style: MyTextStyle.sectionTitle2.copyWith(fontWeight: FontWeight.w400)),
-            SizedBox(height: context.height * .1),
-            GestureDetector(
-              onVerticalDragEnd: (details) {
-                if (details.primaryVelocity == null) return;
+        body: Skeletonizer(
+          enabled: controller.isLoading,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    spaceDown(context.height * .03),
+                    Text(MyStrings.cardScreenTitle.tr, style: MyTextStyle.sectionTitle2.copyWith(fontWeight: FontWeight.w400)),
+                    SizedBox(height: context.height * .2),
+                    GestureDetector(
+                      onVerticalDragEnd: (details) {
+                        if (details.primaryVelocity == null) return;
 
-                if (details.primaryVelocity! < 0) {
-                  controller.onSwipe(true); // swipe up
-                } else {
-                  controller.onSwipe(false); // swipe down
-                }
+                        if (details.primaryVelocity! < 0) {
+                          controller.onSwipe(true); // swipe up
+                        } else {
+                          controller.onSwipe(false); // swipe down
+                        }
 
-              },
-              child: SizedBox(
-                height: controller.cardHeight + controller.overlap * 2,
-                child: Stack(
+                      },
+                      child: SizedBox(
+                        height: controller.cardHeight + controller.overlap * 2,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: List.generate(controller.cardList.length, (i) {
 
-                  clipBehavior: Clip.none,
-                  children: List.generate(controller.cards.length, (i) {
+                            final bool isFront = i == 0;
 
-                    final bool isFront = i == 0;
+                            double top = -i * controller.overlap;
+                            double scale = i == 0 ? 1 : (i == 1 ? 0.97 : 0.94);
 
-                    double top = -i * controller.overlap;
-                    double scale = i == 0 ? 1 : (i == 1 ? 0.97 : 0.94);
+                            if (controller.isAnimating && isFront) {
+                              top = controller.swipeDown ? 80 : -80;
+                            }
 
-                    if (controller.isAnimating && isFront) {
-                      top = controller.swipeDown ? 80 : -80;
-                    }
+                            return AnimatedPositioned(
+                              duration: const Duration(milliseconds: 260),
+                              curve: Curves.easeOut,
+                              top: top,
+                              left: 0,
+                              right: 0,
+                              child: AnimatedScale(
+                                duration: const Duration(milliseconds: 260),
+                                scale: scale,
+                                child: CardUi(
+                                  cardModel: controller.cardList[i],
+                                  currency: controller.currency,
+                                  isShowCardView: controller.isShowCardDetails,
+                                  onViewTap: () {
 
-                    return AnimatedPositioned(
-                      duration: const Duration(milliseconds: 260),
-                      curve: Curves.easeOut,
-                      top: top,
-                      left: 0,
-                      right: 0,
-                      child: AnimatedScale(
-                        duration: const Duration(milliseconds: 260),
-                        scale: scale,
-                        child: CardUi(
-                          onTap: () {
-                            Get.toNamed(RouteHelper.cardDetailsScreen, arguments: CardInfo(color: controller.cards[i]));
-                          },
-                          color: controller.cards[i]
+                                    AppDialogs.pinDialog(context,
+                                      onTap: () {
+                                      controller.getCardDetails(controller.cardList[i].id.toString());
+                                    },);
+
+                                    // controller.isShowCardDetails = !controller.isShowCardDetails;
+                                    controller.update();
+                                  },
+                                  onTap: () {
+                                    Get.toNamed(RouteHelper.cardDetailsScreen, arguments: CardInfo(color: controller.cards[i]));
+                                  },
+                                  color: controller.cards[i%3]
+                                ),
+                              ),
+                            );
+
+                          }).reversed.toList(),
                         ),
                       ),
-                    );
-
-                  }).reversed.toList(),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+
+
+              Positioned(
+                top: 0,
+                child: Container(
+                  height: context.height * .08,
+                  width: context.width,
+                  decoration: BoxDecoration(
+                    color: MyColor.screenBGColor,
+                  ),
+                  child: Column(
+                    children: [
+                      spaceDown(context.height * .02),
+                      Text(MyStrings.cardScreenTitle.tr, style: MyTextStyle.sectionTitle2.copyWith(fontWeight: FontWeight.w400)),
+                      spaceDown(Dimensions.space10.h),
+                    ],
+                  ),
+                )
+              )
+            ],
+          ),
         ),
       ),
     );

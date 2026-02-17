@@ -11,6 +11,7 @@ import 'package:ovopay/core/utils/my_color.dart';
 import 'package:ovopay/core/utils/my_icons.dart';
 import 'package:ovopay/core/utils/my_strings.dart';
 import 'package:ovopay/core/utils/text_style.dart';
+
 class TopUpCardScreen extends StatefulWidget {
   const TopUpCardScreen({super.key});
 
@@ -22,7 +23,7 @@ class _TopUpCardScreenState extends State<TopUpCardScreen> {
   @override
   Widget build(BuildContext context) {
     return MyCustomScaffold(
-      pageTitle: "Top Up Card",
+      pageTitle: MyStrings.topUpCard.tr,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +44,7 @@ class _TopUpCardScreenState extends State<TopUpCardScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Main Account Balance", style: MyTextStyle.caption1Style.copyWith(fontSize: Dimensions.space14.sp, color: MyColor.white)),
+                  Text(MyStrings.mainAccountBalance.tr, style: MyTextStyle.caption1Style.copyWith(fontSize: Dimensions.space14.sp, color: MyColor.white)),
                   spaceDown(Dimensions.space4.h),
                   Text("\$1547.82", style: MyTextStyle.sectionTitle.copyWith(color: MyColor.white, fontSize: 26.sp)),
                   spaceDown(Dimensions.space16.h),
@@ -97,7 +98,9 @@ class _TopUpCardScreenState extends State<TopUpCardScreen> {
                         Row(
                           children: [
                             Text(MyStrings.fromMainBalance.tr, style: MyTextStyle.sectionTitle3.copyWith(color: MyColor.black, fontSize: Dimensions.space16.sp)),
+
                             spaceSide(6),
+
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3.5),
                               decoration: BoxDecoration(
@@ -196,8 +199,8 @@ class _TopUpCardScreenState extends State<TopUpCardScreen> {
         
                   Row(
                     children: [
-                      SizedBox(height: 20, width: 25,),
-                      Expanded(child: Text("Balance transfers ate instant. Crypto deposits may take 5-30 minutes depending on network confirmation.", style: MyTextStyle.caption1Style.copyWith(color: MyColor.bodyText),))
+                      SizedBox(height: 20, width: 25),
+                      Expanded(child: Text(MyStrings.balanceTermsAndConditions.tr, style: MyTextStyle.caption1Style.copyWith(color: MyColor.bodyText),))
                     ],
                   )
                 ],

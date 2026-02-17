@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
-import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
 import 'package:ovopay/app/components/image/my_asset_widget.dart';
 import 'package:ovopay/app/components/no_data.dart';

@@ -12,6 +12,7 @@ import 'package:ovopay/app/screens/dashboard_screen/views/widgets/home_screen_tr
 import 'package:ovopay/core/utils/util_exporter.dart';
 
 class HomeScreen extends StatefulWidget {
+
   final GlobalKey<ScaffoldState> dashboardKey;
   final Function(int index)? onViewAllTransactionTapped;
   const HomeScreen({
@@ -27,8 +28,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    super.initState();
 
+    super.initState();
     final controller = Get.put(HomeController());
 
     // Fetch initial data
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         controller.initController();
       }
     });
+
   }
 
   @override
@@ -46,39 +48,39 @@ class _HomeScreenState extends State<HomeScreen> {
         return Scaffold(
           appBar: HomePageAppBar(dashboardKey: widget.dashboardKey),
           body: homeController.isLoading
-              ? HomeShimmer()
-              : RefreshIndicator(
-                  color: MyColor.getPrimaryColor(),
-                  onRefresh: () async {
-                    homeController.initController();
-                  },
-                  child: ListView(
-                    padding: EdgeInsetsDirectional.all(Dimensions.space16.w),
-                    children: [
-                      //kyc
-                      HomeScreenKycStatusCard(),
-                      //Balance Card
-                      HomeScreenBalanceCard(),
+            ? HomeShimmer()
+            : RefreshIndicator(
+                color: MyColor.getPrimaryColor(),
+                onRefresh: () async {
+                  homeController.initController();
+                },
+                child: ListView(
+                  padding: EdgeInsetsDirectional.all(Dimensions.space16.w),
+                  children: [
+                    //kyc
+                    HomeScreenKycStatusCard(),
+                    //Balance Card
+                    HomeScreenBalanceCard(),
 
-                      if (homeController.isLoading == false) ...[
-                        //Service menu
-                        HomeScreenServiceMenuCard(),
-                      ],
-                      //Banner Card
-                      HomeScreenBannerCard(),
-                      //Payment Offers
-                      if (homeController.offersList.isNotEmpty) ...[
-                        spaceDown(Dimensions.space20),
-                      ],
-                      HomeScreenPaymentOffersCard(),
-                      //Transaction
-                      spaceDown(Dimensions.space20),
-                      HomeScreenTransactionMenuCard(
-                        onViewAllTransactionTapped: widget.onViewAllTransactionTapped,
-                      ),
+                    if (homeController.isLoading == false) ...[
+                      //Service menu
+                      HomeScreenServiceMenuCard(),
                     ],
-                  ),
+                    //Banner Card
+                    HomeScreenBannerCard(),
+                    //Payment Offers
+                    if (homeController.offersList.isNotEmpty) ...[
+                      spaceDown(Dimensions.space20),
+                    ],
+                    HomeScreenPaymentOffersCard(),
+                    //Transaction
+                    spaceDown(Dimensions.space20),
+                    HomeScreenTransactionMenuCard(
+                      onViewAllTransactionTapped: widget.onViewAllTransactionTapped,
+                    ),
+                  ],
                 ),
+              ),
         );
       },
     );

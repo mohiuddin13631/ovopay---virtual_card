@@ -14,20 +14,22 @@ class Environment {
   static int maxAllowPrecision = 10; // Specify the required allow precision for amount of digits
 
   static const int otpResendDuration = 120;
+
   //Is Color from Internet
   static const bool IS_COLOR_FROM_INTERNET = false;
 
   //Onboard
   static const bool ENABLE_ONBOARD = true;
+
   //DEV MODE ==> false if production
-  static const bool DEV_MODE = false;
+  static const bool DEV_MODE = true;
 
   // API END POINT URL
   static const MAIN_API_URL = DEV_MODE ? TEST_API_URL : LIVE_API_URL; // Don't touch here
 
-  static const LIVE_API_URL = 'https://preview.ovosolution.com/ovopay/demo'; //Live end Point URL
+  static const LIVE_API_URL = 'https://test.ovosolution.com/ovopay_strowallet'; //Live end Point URL
 
-  static const TEST_API_URL = 'https://preview.ovosolution.com/ovopay/demo'; //Local or demo or test URL
+  static const TEST_API_URL = 'https://test.ovosolution.com/ovopay_strowallet'; //Local or demo or test URL
 
   // API END POINT URL END
 }

@@ -1,8 +1,20 @@
+import 'dart:convert';
 import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:ovopay/core/data/models/card/card_details_response_model.dart';
+import 'package:ovopay/core/data/models/card/card_list_response_model.dart';
+import 'package:ovopay/core/data/repositories/card/card_repo.dart';
+import 'package:ovopay/core/data/services/service_exporter.dart';
+import '../../../../core/data/models/global/response_model/response_model.dart';
+import '../../../../core/utils/my_strings.dart';
+import '../../../../core/utils/util.dart';
+import '../../../components/snack_bar/show_custom_snackbar.dart';
 
 class CardController extends GetxController {
+
+  CardRepo cardRepo;
+  CardController({required this.cardRepo});
 
   final double cardHeight = 344;
   final double overlap = 40;
@@ -11,7 +23,6 @@ class CardController extends GetxController {
   bool swipeDown = true;
 
   int selectedCardColorIndex = 0;
-
 
   List<List<Color>> cards = [
     [
@@ -53,6 +64,120 @@ class CardController extends GetxController {
       }
       isAnimating = false;
       update();
+  }
+
+  TextEditingController pinController = TextEditingController();
+
+  bool isLoading = false;
+  int page = 0;
+  String? nextPageUrl;
+
+  List<CardModel> cardList = [];
+  String currency = "";
+
+  CardModel? cardModel;
+
+  bool isShowCardDetails = false;
+
+  Future<void> loadData({bool forceLoad = true}) async {
+    currency = SharedPreferenceService.getCurrencySymbol();
+    try {
+      page = page + 1;
+      isLoading = forceLoad;
+      update();
+      ResponseModel responseModel = await cardRepo.getCardList(index: page.toString());
+
+      if (responseModel.statusCode == 200) {
+        final cardListResponseModel = cardListResponseModelFromJson(
+          jsonEncode(responseModel.responseJson),
+        );
+        if (cardListResponseModel.status == "success") {
+          nextPageUrl = cardListResponseModel.data?.cards?.nextPageUrl;
+          cardList.addAll(cardListResponseModel.data?.cards?.data ?? []);
+        } else {
+          CustomSnackBar.error(
+            errorList: cardListResponseModel.message ?? [MyStrings.somethingWentWrong],
+          );
+        }
+        update();
+        isLoading = false;
+        update();
+      } else {
+        CustomSnackBar.error(errorList: [responseModel.message]);
+      }
+    } catch (e) {
+      printE(e.toString());
+    }
+    isLoading = false;
+    update();
+  }
+
+  bool hasNext() {
+    return nextPageUrl != null && nextPageUrl!.isNotEmpty && nextPageUrl != 'null' ? true : false;
+  }
+
+
+  bool isCardDetailsLoading = false;
+  Future<void> getCardDetails(String id) async {
+
+    isCardDetailsLoading = true;
+    update();
+
+    try {
+      ResponseModel responseModel = await cardRepo.getCardDetails(id);
+
+      if (responseModel.statusCode == 200) {
+        final cardDetails = cardDetailsResponseModelFromJson(
+          jsonEncode(responseModel.responseJson),
+        );
+        if (cardDetails.status == "success") {
+          cardModel = cardDetails.data?.card;
+        } else {
+          CustomSnackBar.error(
+            errorList: cardDetails.message ?? [MyStrings.somethingWentWrong],
+          );
+        }
+        update();
+        isCardDetailsLoading = false;
+        update();
+      } else {
+        CustomSnackBar.error(errorList: [responseModel.message]);
+      }
+    } catch (e) {
+      printE(e.toString());
+    }
+    isCardDetailsLoading = false;
+    update();
+  }
+
+
+  Future<void> pinVerificationProcess() async {
+    try {
+
+      update();
+      ResponseModel responseModel = await cardRepo.pinVerificationRequest(pin: pinController.text);
+      if (responseModel.statusCode == 200) {
+        CardListResponseModel rechargeResponseModel = CardListResponseModel.fromJson(
+          responseModel.responseJson,
+        );
+
+        if (rechargeResponseModel.status == "success") {
+
+        } else {
+          CustomSnackBar.error(
+            errorList: rechargeResponseModel.message ?? [MyStrings.somethingWentWrong],
+          );
+        }
+        update();
+      } else {
+        CustomSnackBar.error(errorList: [responseModel.message]);
+      }
+    } catch (e) {
+      printE(e.toString());
+    } finally {
+
+      update();
+    }
   }
 }
 
