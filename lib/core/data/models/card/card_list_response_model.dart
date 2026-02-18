@@ -120,9 +120,11 @@ class CardModel {
   String? userId;
   String? userIdOfCard;
   String? cardName;
+  String? cardNumber;
   String? nameOnCard;
   String? cardProviderCardId;
   String? email;
+  String? cvv;
   String? cardCreatedDate;
   String? cardType;
   String? cardBrand;
@@ -139,11 +141,14 @@ class CardModel {
   String? createdAt;
   String? updatedAt;
 
+  bool isShowCardView;
+
   CardModel({
     this.id,
     this.userId,
     this.userIdOfCard,
     this.cardName,
+    this.cardNumber,
     this.nameOnCard,
     this.cardProviderCardId,
     this.email,
@@ -152,6 +157,7 @@ class CardModel {
     this.cardBrand,
     this.cardUserId,
     this.reference,
+    this.cvv,
     this.cardStatus,
     this.lastFour,
     this.expiry,
@@ -162,6 +168,7 @@ class CardModel {
     this.detailsNotificationSent,
     this.createdAt,
     this.updatedAt,
+    this.isShowCardView = false
   });
 
   factory CardModel.fromJson(Map<String, dynamic> json) => CardModel(
@@ -169,6 +176,8 @@ class CardModel {
     userId: json["user_id"]?.toString(),
     userIdOfCard: json["user_id_of_card"]?.toString(),
     cardName: json["card_name"]?.toString(),
+    cvv: json["cvv"]?.toString(),
+    cardNumber: json["card_number"]?.toString(),
     nameOnCard: json["name_on_card"]?.toString(),
     cardProviderCardId: json["card_provider_card_id"]?.toString(),
     email: json["email"]?.toString(),

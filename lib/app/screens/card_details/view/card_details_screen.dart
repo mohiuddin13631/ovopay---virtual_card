@@ -8,6 +8,7 @@ import 'package:ovopay/app/screens/card/view/widget/card_ui.dart';
 import 'package:ovopay/app/screens/card_details/view/widget/freeze_card_bottom_sheet.dart';
 import 'package:ovopay/app/screens/card_details/view/widget/terminate_card_bottom_sheet.dart';
 import 'package:ovopay/app/screens/statements/controller/statement_history_controller.dart';
+import 'package:ovopay/core/data/models/card/card_list_response_model.dart';
 import 'package:ovopay/core/data/repositories/transaction_history/transaction_history_repo.dart';
 import 'package:ovopay/core/route/route.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -66,7 +67,7 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                 child: Column(
                   children: [
 
-                    CardUi(color: widget.cardInfo?.color ?? []),
+                    CardUi(color: widget.cardInfo?.color ?? [], cardModel: CardModel(),),
 
                     spaceDown(Dimensions.space24.h),
 

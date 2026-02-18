@@ -12,7 +12,8 @@ import 'package:ovopay/core/utils/util_exporter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CardScreen extends StatefulWidget {
-  const CardScreen({super.key});
+  const CardScreen({super.key, this.onItemTapped});
+  final Function(int index)? onItemTapped;
 
   @override
   State<CardScreen> createState() => _CardScreenState();
@@ -51,9 +52,10 @@ class _CardScreenState extends State<CardScreen> {
       builder: (controller) => MyCustomScaffold(
         padding: EdgeInsets.zero,
         pageTitle: MyStrings.virtualCard,
-        onBackButtonTap: () {
-          Get.back();
-        },
+        onBackButtonTap: (widget.onItemTapped != null)
+            ? () {
+              widget.onItemTapped!(0);
+            } : null,
         actionButton: [
           GestureDetector(
             onTap: () {
@@ -100,8 +102,10 @@ class _CardScreenState extends State<CardScreen> {
                         if (details.primaryVelocity == null) return;
 
                         if (details.primaryVelocity! < 0) {
+                          print("upppp");
                           controller.onSwipe(true); // swipe up
-                        } else {
+                        } else { //increase
+                          print("downnn");
                           controller.onSwipe(false); // swipe down
                         }
 
@@ -133,16 +137,19 @@ class _CardScreenState extends State<CardScreen> {
                                 child: CardUi(
                                   cardModel: controller.cardList[i],
                                   currency: controller.currency,
-                                  isShowCardView: controller.isShowCardDetails,
+                                  index: i,
                                   onViewTap: () {
 
-                                    AppDialogs.pinDialog(context,
-                                      onTap: () {
-                                      controller.getCardDetails(controller.cardList[i].id.toString());
-                                    },);
-
-                                    // controller.isShowCardDetails = !controller.isShowCardDetails;
-                                    controller.update();
+                                    if(controller.cardList[i].isShowCardView == true){
+                                      controller.cardList[i].isShowCardView = false;
+                                      controller.update();
+                                    }else{
+                                      AppDialogs.pinDialog(context,
+                                        onTap: () {
+                                          controller.cardPinVerification(cardId: controller.cardList[i].id.toString(), index: i);
+                                        },
+                                      );
+                                    }
                                   },
                                   onTap: () {
                                     Get.toNamed(RouteHelper.cardDetailsScreen, arguments: CardInfo(color: controller.cards[i]));

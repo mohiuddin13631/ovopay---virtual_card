@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/core/data/models/card/card_details_response_model.dart';
 import 'package:ovopay/core/data/models/card/card_list_response_model.dart';
+import 'package:ovopay/core/data/models/card/card_pin_verify_response_model.dart';
 import 'package:ovopay/core/data/repositories/card/card_repo.dart';
 import 'package:ovopay/core/data/services/service_exporter.dart';
 import '../../../../core/data/models/global/response_model/response_model.dart';
@@ -58,8 +59,10 @@ class CardController extends GetxController {
     // Wait for animation
     await Future.delayed(const Duration(milliseconds: 260));
       if (down) {
+        cardList.add(cardList.removeAt(0));
         cards.add(cards.removeAt(0));
       } else {
+        cardList.insert(0, cardList.removeLast());
         cards.insert(0, cards.removeLast());
       }
       isAnimating = false;
@@ -125,7 +128,6 @@ class CardController extends GetxController {
 
     try {
       ResponseModel responseModel = await cardRepo.getCardDetails(id);
-
       if (responseModel.statusCode == 200) {
         final cardDetails = cardDetailsResponseModelFromJson(
           jsonEncode(responseModel.responseJson),
@@ -151,21 +153,34 @@ class CardController extends GetxController {
   }
 
 
-  Future<void> pinVerificationProcess() async {
+  Future<void> cardPinVerification({required int index, required String cardId}) async {
+
     try {
 
+      isCardDetailsLoading = true;
       update();
-      ResponseModel responseModel = await cardRepo.pinVerificationRequest(pin: pinController.text);
+
+      ResponseModel responseModel = await cardRepo.pinVerificationRequest(pin: pinController.text,cardId: cardId);
       if (responseModel.statusCode == 200) {
-        CardListResponseModel rechargeResponseModel = CardListResponseModel.fromJson(
-          responseModel.responseJson,
-        );
+        CardPinVerifyResponseModel model =  cardPinVerifyResponseModelFromJson(jsonEncode(responseModel.responseJson));
 
-        if (rechargeResponseModel.status == "success") {
+        if (model.status == "success") {
 
+          CardModel? cardModel = model.data?.card;
+
+          if (cardModel != null) {
+            cardList[index] = cardModel;
+            cardList[index].isShowCardView = true;
+
+
+            print("card view : ---------");
+            print(cardList[index + 1].isShowCardView);
+          }
+          pinController.clear();
+          Get.back();
         } else {
           CustomSnackBar.error(
-            errorList: rechargeResponseModel.message ?? [MyStrings.somethingWentWrong],
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
           );
         }
         update();
@@ -173,9 +188,11 @@ class CardController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
+      isCardDetailsLoading = false;
+      update();
       printE(e.toString());
     } finally {
-
+      isCardDetailsLoading = false;
       update();
     }
   }

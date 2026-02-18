@@ -170,6 +170,14 @@ class MyUtils {
     }
   }
 
+  static String addSpaceEvery4(String input) {
+    return input.replaceAllMapped(
+      RegExp(r'.{1,4}'),
+          (match) => '${match.group(0)} ',
+    ).trim();
+  }
+
+
   static bool isImage(String path) {
     if (path.contains('.jpg')) {
       return true;

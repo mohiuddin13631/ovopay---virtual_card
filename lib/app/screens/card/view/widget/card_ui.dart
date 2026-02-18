@@ -1,11 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/app/screens/card/controller/card_controller.dart';
+import 'package:ovopay/core/utils/util.dart';
 
 import '../../../../../core/data/models/card/card_list_response_model.dart';
-import '../../../../../core/route/route.dart';
 import '../../../../../core/utils/app_style.dart';
 import '../../../../../core/utils/dimensions.dart';
 import '../../../../../core/utils/my_color.dart';
@@ -15,18 +16,17 @@ import '../../../../../core/utils/text_style.dart';
 import '../../../../components/card/custom_card.dart';
 import '../../../../components/image/my_asset_widget.dart';
 import '../../../../components/snack_bar/show_custom_snackbar.dart';
-import 'package:flutter/cupertino.dart';
 class CardUi extends StatelessWidget {
 
   final List<Color> color;
   final double cardHeight;
   final VoidCallback? onTap;
-  final CardModel? cardModel;
+  final CardModel cardModel;
   final String? currency;
-  final bool isShowCardView;
   final VoidCallback? onViewTap;
+  final int index;
 
-  const CardUi({super.key, required this.color, this.cardHeight = 344, this.onTap, this.cardModel, this.currency, this.isShowCardView = false, this.onViewTap});
+  const CardUi({super.key, required this.color, this.cardHeight = 344, this.onTap, required this.cardModel, this.currency, this.onViewTap, this.index = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class CardUi extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "$currency${isShowCardView ? cardModel?.balance ?? "" : "•••••••••"}",
+                    "$currency${controller.cardList[index].isShowCardView ? controller.cardList[index].balance ?? "" : "•••••••••"}",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
@@ -94,7 +94,7 @@ class CardUi extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Icon(
-                        isShowCardView ? CupertinoIcons.eye : CupertinoIcons.eye_slash,
+                        controller.cardList[index].isShowCardView ? CupertinoIcons.eye : CupertinoIcons.eye_slash,
                         color: MyColor.getWhiteColor(),
                         size: Dimensions.space30,
                       ),
@@ -107,7 +107,7 @@ class CardUi extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "${isShowCardView ? "3455 4562 7710" : "•••••"} ${cardModel?.lastFour ?? ""}",
+                    controller.cardList[index].isShowCardView ? MyUtils.addSpaceEvery4(controller.cardList[index].cardNumber ?? "") : "••••• ${controller.cardList[index].lastFour ?? ""}",
                     style: MyTextStyle.sectionTitle.copyWith(color: MyColor.white, fontSize: 18.sp),
                   ),
                   spaceSide(Dimensions.space8.w),
@@ -116,7 +116,7 @@ class CardUi extends StatelessWidget {
                     child: GestureDetector(
                         onTap: () {
                           Clipboard.setData(
-                            ClipboardData(text: ""),
+                            ClipboardData(text: controller.cardList[index].cardNumber ?? ""),
                           ).then((_) {
                             CustomSnackBar.showToast(
                               message: MyStrings.copiedToClipBoard.tr,
@@ -137,7 +137,7 @@ class CardUi extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(MyStrings.cardName.tr, style: MyTextStyle.bodyTextStyle1.copyWith(color: MyColor.white, fontSize: 9.sp,)),
-                        Text(cardModel?.nameOnCard ?? "", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700), maxLines: 2,),
+                        Text(controller.cardList[index].nameOnCard ?? "", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700), maxLines: 2,),
                       ],
                     ),
                   ),
@@ -147,7 +147,7 @@ class CardUi extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(MyStrings.expirationDate.tr, style: MyTextStyle.bodyTextStyle1.copyWith(color: MyColor.white, fontSize: 9.sp,)),
-                        Text(isShowCardView ? cardModel?.expiry ?? "" : "••/••", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700)),
+                        Text(controller.cardList[index].isShowCardView ? controller.cardList[index].expiry ?? "" : "••/••", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700)),
                       ],
                     ),
                   ),
@@ -157,7 +157,7 @@ class CardUi extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(MyStrings.cvv.tr, style: MyTextStyle.bodyTextStyle1.copyWith(color: MyColor.white, fontSize: 9.sp,)),
-                        Text("•••", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700)),
+                        Text(controller.cardList[index].isShowCardView ? controller.cardList[index].cvv ?? "" : "•••", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700)),
                       ],
                     ),
                   ),

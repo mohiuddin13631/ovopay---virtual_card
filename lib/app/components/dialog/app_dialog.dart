@@ -535,7 +535,7 @@ class AppDialogs {
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ), HeaderText(
-                                      text: MyStrings.number.tr,
+                                      text: MyStrings.details.tr,
                                       textStyle: MyTextStyle.headerH3.copyWith(
                                         color: MyColor.getBodyTextColor(),
                                         fontWeight: FontWeight.w400,

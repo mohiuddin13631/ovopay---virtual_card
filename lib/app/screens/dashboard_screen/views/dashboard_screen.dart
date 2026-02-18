@@ -75,9 +75,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
 
       CardScreen(
-        // onItemTapped: (index) {
-        //   _onItemTapped(index);
-        // },
+        onItemTapped: (index) {
+          _onItemTapped(index);
+        },
       ),
 
       TransactionHistoryScreen(

@@ -18,10 +18,10 @@ class CardRepo {
 
   Future<ResponseModel> pinVerificationRequest({
     String pin = "",
-    String remark = "mobile_recharge",
+    String cardId = "-1",
   }) async {
-    Map<String, String> params = {'pin': pin, 'remark': remark};
-    String url = '${UrlContainer.baseUrl}${UrlContainer.verifyPin}';
+    Map<String, String> params = {'pin': pin};
+    String url = '${UrlContainer.baseUrl}${UrlContainer.pinVerifyEndPoint}/$cardId';
     final response = await ApiService.postRequest(url, params);
     return response;
   }
