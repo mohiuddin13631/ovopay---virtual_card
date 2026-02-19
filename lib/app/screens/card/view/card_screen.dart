@@ -137,7 +137,6 @@ class _CardScreenState extends State<CardScreen> {
                                 child: CardUi(
                                   cardModel: controller.cardList[i],
                                   currency: controller.currency,
-                                  index: i,
                                   onViewTap: () {
 
                                     if(controller.cardList[i].isShowCardView == true){
@@ -152,7 +151,7 @@ class _CardScreenState extends State<CardScreen> {
                                     }
                                   },
                                   onTap: () {
-                                    Get.toNamed(RouteHelper.cardDetailsScreen, arguments: CardInfo(color: controller.cards[i]));
+                                    Get.toNamed(RouteHelper.cardDetailsScreen, arguments: CardInfo(color: controller.cards[i], cardModel: controller.cardList[i]));
                                   },
                                   color: controller.cards[i%3]
                                 ),

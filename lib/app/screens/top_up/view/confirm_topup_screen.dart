@@ -4,22 +4,24 @@ import 'package:get/get.dart';
 import 'package:ovopay/app/components/buttons/app_main_submit_button.dart';
 import 'package:ovopay/app/components/card/amount_details_card.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
-import 'package:ovopay/app/components/card/custom_contact_list_tile_card.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
 import 'package:ovopay/app/components/dialog/app_dialog.dart';
+import 'package:ovopay/app/components/divider/custom_divider.dart';
 import 'package:ovopay/app/components/image/my_asset_widget.dart';
-import 'package:ovopay/app/components/image/my_network_image_widget.dart';
 import 'package:ovopay/app/components/snack_bar/show_custom_snackbar.dart';
 import 'package:ovopay/app/components/text-field/rounded_text_field.dart';
 import 'package:ovopay/app/screens/top_up/controller/topup_controller.dart';
-import 'package:ovopay/core/data/repositories/modules/gift_card/gift_card_repo.dart';
 import 'package:ovopay/core/route/route.dart';
 
 import '../../../../../core/data/services/service_exporter.dart';
 import '../../../../../core/utils/util_exporter.dart';
+import '../../../components/column_widget/card_column.dart';
 
 class ConfirmTopUpScreen extends StatefulWidget {
-  const ConfirmTopUpScreen({super.key});
+
+  final TopUpInfo topUpInfo;
+
+  const ConfirmTopUpScreen({super.key, required this.topUpInfo});
 
   @override
   State<ConfirmTopUpScreen> createState() => _ConfirmTopUpScreenState();
@@ -33,30 +35,71 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
         bool showBorder = true,
         EdgeInsetsGeometry? padding,
       }) {
-    return CustomContactListTileCard(
-
-      leading: MyNetworkImageWidget(
-        imageUrl: "https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid&w=740&q=80",
-        width: Dimensions.space50.w,
-        height: Dimensions.space50.w,
-        boxFit: BoxFit.cover,
-        radius: 100,
-      ),
-      title: "Jacob Jones",
-      subtitle: "1234 5678 9123 4567",
-      showBorder: showBorder,
-      padding: padding ?? EdgeInsets.zero,
-
+    return Row(
+      children: [
+        Container(
+          padding: EdgeInsetsGeometry.all(Dimensions.space10),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: MyColor.primary
+          ),
+          child: MyAssetImageWidget(assetPath: MyIcons.wallet, isSvg: true, width: 22, height: 22,)
+        ),
+        
+        spaceSide(Dimensions.space10.w),
+        
+        Text(MyStrings.reviewTheDetailsBeforeProceeding.tr, style: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText),)
+      ],
     );
   }
 
   // Reusable Amount Details Card
   Widget _buildAmountDetailsCard(TopUpController controller) {
-    return AmountDetailsCard(
-      amount: "${controller.currencySymbol}452",
-      total: "${controller.currencySymbol}4512",
-      firstTitle: MyStrings.amount,
-      endTitle: MyStrings.newBalance,
+    return Column(
+      children: [
+        AmountDetailsCard(
+          firstTitle: MyStrings.topUpMethod,
+          amount: widget.topUpInfo.topUpMethod,
+          endTitle: MyStrings.topUpAmount.tr,
+          total: "${controller.currency} ${controller.amountController.text}",
+        ),
+        CustomDivider(space: Dimensions.space8,),
+        AmountDetailsCard(
+          firstTitle: "${MyStrings.processingFee.tr} (${AppConverter.formatNumber(controller.chargeSetting?.topupChargeFromWallet ?? "")}%)",
+          amount: "${controller.currency}${controller.getProcessingFee(controller.chargeSetting?.topupChargeFromWallet ?? "")}",
+          endTitle: MyStrings.perTransactionCharge.tr,
+          total: "${controller.currency}${AppConverter.formatNumber(controller.chargeSetting?.perOperationCharge ?? "")}",
+        ),
+
+        CustomDivider(space: Dimensions.space8,),
+        Row(
+          children: [
+            CardColumn(
+              headerTextStyle: MyTextStyle.caption1Style.copyWith(
+                color: MyColor.getBodyTextColor(),
+              ),
+              header: MyStrings.totalDeductedFromWallet,
+              body: "${controller.currency}${controller.getDeductedAmount()}",
+              space: 5,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              isBodyEllipsis: false,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBalancePreviewCard(TopUpController controller) {
+    return Column(
+      children: [
+        AmountDetailsCard(
+          firstTitle: MyStrings.currentBalance,
+          endTitle: MyStrings.newBalance,
+          amount: "${controller.currency}${controller.cardModel?.balance ?? ""}",
+          total: "${controller.currency}${controller.getNewBalance()}",
+        ),
+      ],
     );
   }
 
@@ -76,10 +119,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
     await AppDialogs.confirmDialog(
       context,
       title: MyStrings.topUp.replaceAll("-", " "),
-      userDetailsWidget: CustomAppCard(
-        radius: Dimensions.largeRadius.r,
-        child: _buildContactTile(controller, showBorder: false),
-      ),
+      userDetailsWidget: SizedBox(),
       cashDetailsWidget: CustomAppCard(
         radius: Dimensions.largeRadius.r,
         child: _buildAmountDetailsCard(controller),
@@ -99,8 +139,6 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
 
   @override
   void initState() {
-    Get.put(GiftCardRepo());
-    Get.put(TopUpController(giftCardRepo: Get.find()));
     super.initState();
   }
 
@@ -132,6 +170,10 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
                       _buildAmountDetailsCard(controller),
                     ],
                   ),
+                ),
+                spaceDown(Dimensions.space12),
+                CustomAppCard(
+                  child: _buildBalancePreviewCard(controller),
                 ),
                 spaceDown(Dimensions.space16),
                 RoundedTextField(

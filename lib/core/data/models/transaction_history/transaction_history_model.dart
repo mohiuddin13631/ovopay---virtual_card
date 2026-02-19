@@ -108,6 +108,7 @@ class TransactionHistoryModel {
   String? remark;
   TrxOtherData? otherData;
   String? details;
+  String? status;
   String? createdAt;
   String? createdAtDiff;
 
@@ -121,6 +122,7 @@ class TransactionHistoryModel {
     this.remark,
     this.otherData,
     this.details,
+    this.status,
     this.createdAt,
     this.createdAtDiff,
   });
@@ -130,6 +132,7 @@ class TransactionHistoryModel {
         trx: json["trx"]?.toString(),
         trxType: json["trx_type"]?.toString(),
         amount: json["amount"]?.toString(),
+        status: json["status"]?.toString(),
         charge: json["charge"]?.toString(),
         totalAmount: json["total_amount"]?.toString(),
         remark: json["remark"]?.toString(),

@@ -197,6 +197,7 @@ class UrlContainer {
   //virtual card
   static const String cardListEndPoint = 'card/index';
   static const String cardDetailsEndPoint = 'card/details';
+  static const String getTopUpWalletEndPoint = 'card/topup/wallet';
   static const String pinVerifyEndPoint = 'card/confidential';
 
 }

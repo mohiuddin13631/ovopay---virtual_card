@@ -614,7 +614,7 @@ class RouteHelper {
     GetPage(
       name: topUpCardScreen,
       transitionDuration: const Duration(milliseconds: 400),
-      page: () => TopUpCardScreen(),
+      page: () => TopUpCardScreen(id: Get.arguments,),
       transition: Transition.fadeIn,
     ),
     GetPage(
@@ -626,7 +626,7 @@ class RouteHelper {
     GetPage(
       name: confirmTopUpScreen,
       transitionDuration: const Duration(milliseconds: 400),
-      page: () => ConfirmTopUpScreen(),
+      page: () => ConfirmTopUpScreen(topUpInfo: Get.arguments),
       transition: Transition.fadeIn,
     ),
     GetPage(

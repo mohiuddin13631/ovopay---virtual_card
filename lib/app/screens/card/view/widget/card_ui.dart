@@ -24,12 +24,12 @@ class CardUi extends StatelessWidget {
   final CardModel cardModel;
   final String? currency;
   final VoidCallback? onViewTap;
-  final int index;
 
-  const CardUi({super.key, required this.color, this.cardHeight = 344, this.onTap, required this.cardModel, this.currency, this.onViewTap, this.index = 0});
+  const CardUi({super.key, required this.color, this.cardHeight = 344, this.onTap, required this.cardModel, this.currency, this.onViewTap});
 
   @override
   Widget build(BuildContext context) {
+
     return GetBuilder<CardController>(
       builder: (controller) => GestureDetector(
         onTap: onTap,
@@ -74,7 +74,7 @@ class CardUi extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "$currency${controller.cardList[index].isShowCardView ? controller.cardList[index].balance ?? "" : "•••••••••"}",
+                    "$currency${cardModel.isShowCardView ? cardModel.balance ?? "" : "•••••••••"}",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
@@ -83,6 +83,7 @@ class CardUi extends StatelessWidget {
                   ),
 
                   spaceSide(Dimensions.space8),
+
                   CustomAppCard(
                     onPressed: onViewTap,
                     height: Dimensions.space40,
@@ -94,7 +95,7 @@ class CardUi extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Icon(
-                        controller.cardList[index].isShowCardView ? CupertinoIcons.eye : CupertinoIcons.eye_slash,
+                        cardModel.isShowCardView ? CupertinoIcons.eye : CupertinoIcons.eye_slash,
                         color: MyColor.getWhiteColor(),
                         size: Dimensions.space30,
                       ),
@@ -107,16 +108,16 @@ class CardUi extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    controller.cardList[index].isShowCardView ? MyUtils.addSpaceEvery4(controller.cardList[index].cardNumber ?? "") : "••••• ${controller.cardList[index].lastFour ?? ""}",
+                    cardModel.isShowCardView ? MyUtils.addSpaceEvery4(cardModel.cardNumber ?? "") : "••••• ${cardModel.lastFour ?? ""}",
                     style: MyTextStyle.sectionTitle.copyWith(color: MyColor.white, fontSize: 18.sp),
                   ),
                   spaceSide(Dimensions.space8.w),
                   Visibility(
-                    visible: controller.isShowCardDetails,
+                    visible: cardModel.isShowCardView,
                     child: GestureDetector(
                         onTap: () {
                           Clipboard.setData(
-                            ClipboardData(text: controller.cardList[index].cardNumber ?? ""),
+                            ClipboardData(text: cardModel.cardNumber ?? ""),
                           ).then((_) {
                             CustomSnackBar.showToast(
                               message: MyStrings.copiedToClipBoard.tr,
@@ -137,7 +138,7 @@ class CardUi extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(MyStrings.cardName.tr, style: MyTextStyle.bodyTextStyle1.copyWith(color: MyColor.white, fontSize: 9.sp,)),
-                        Text(controller.cardList[index].nameOnCard ?? "", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700), maxLines: 2,),
+                        Text(cardModel.nameOnCard ?? "", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700), maxLines: 2,),
                       ],
                     ),
                   ),
@@ -147,17 +148,19 @@ class CardUi extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(MyStrings.expirationDate.tr, style: MyTextStyle.bodyTextStyle1.copyWith(color: MyColor.white, fontSize: 9.sp,)),
-                        Text(controller.cardList[index].isShowCardView ? controller.cardList[index].expiry ?? "" : "••/••", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700)),
+                        Text(cardModel.isShowCardView ? cardModel.expiry ?? "" : "••/••", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700)),
                       ],
                     ),
                   ),
+
                   spaceSide(Dimensions.space24),
+
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(MyStrings.cvv.tr, style: MyTextStyle.bodyTextStyle1.copyWith(color: MyColor.white, fontSize: 9.sp,)),
-                        Text(controller.cardList[index].isShowCardView ? controller.cardList[index].cvv ?? "" : "•••", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700)),
+                        Text(cardModel.isShowCardView ? cardModel.cvv ?? "" : "•••", style: MyTextStyle.caption2Style.copyWith(color: MyColor.white, fontWeight: FontWeight.w700)),
                       ],
                     ),
                   ),

@@ -600,7 +600,7 @@ class MyStrings {
   static const String direct = "Direct";
   static const String cardChargesAndFees = "Card Charges and Fees";
   static const String transferFromYourAccountBalance = "Transfer from your account balance";
-  static const String depositViaProviderAPIDirectly = "Deposit via provider API directly";
+  static const String processingFee = "Processing Fee";
   static const String processingTime = "Processing Time";
   static const String confirmTopUp = "Confirm Top Up";
   static const String newBalance = "New Balance";
@@ -609,8 +609,19 @@ class MyStrings {
   static const String selectReason = "Select Reason";
   static const String topUpMethod = "Top-Up Method";
   static const String balance = "Balance";
+  static const String incoming = "Incoming";
+  static const String outgoing = "Outgoing";
+  static const String feeRate = "Fee Rate";
+  static const String minimumAmount = "Minimum Amount";
+  static const String maximumAmount = "Maximum Amount";
+  static const String valueMustBeLess = "Value must be less than or equal to";
+  static const String valueMustBeGreater = "Value must be greater than or equal to";
   static const String reasonForFreezing = "Reason for freezing (optional)";
   static const String importantInformation = "Important Information";
+  static const String topUpAmount = "Top-Up Amount";
+  static const String perTransactionCharge = "Per Transaction Charge";
+  static const String totalDeductedFromWallet = "Total Deducted From Wallet";
+  static const String reviewTheDetailsBeforeProceeding = "Review the details before proceeding";
   static const String cardScreenTitle = "Tap on the card to view your card transactions.";
   static const String balanceTermsAndConditions = "Balance transfers ate instant. Crypto deposits may take 5-30 minutes depending on network confirmation.";
 }

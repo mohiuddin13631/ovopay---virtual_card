@@ -80,8 +80,6 @@ class CardController extends GetxController {
 
   CardModel? cardModel;
 
-  bool isShowCardDetails = false;
-
   Future<void> loadData({bool forceLoad = true}) async {
     currency = SharedPreferenceService.getCurrencySymbol();
     try {
@@ -153,7 +151,11 @@ class CardController extends GetxController {
   }
 
 
-  Future<void> cardPinVerification({required int index, required String cardId}) async {
+  Future<void> cardPinVerification({int index = -1, required String cardId, CardModel? cardData}) async {
+
+    if(pinController.text.isEmpty){
+      return CustomSnackBar.error(errorList: [MyStrings.pleaseEnterPin]);
+    }
 
     try {
 
@@ -168,13 +170,12 @@ class CardController extends GetxController {
 
           CardModel? cardModel = model.data?.card;
 
-          if (cardModel != null) {
+          if (cardModel != null && index != -1) {
             cardList[index] = cardModel;
             cardList[index].isShowCardView = true;
-
-
-            print("card view : ---------");
-            print(cardList[index + 1].isShowCardView);
+          }else{
+            cardModel = cardData;
+            cardModel?.isShowCardView = true;
           }
           pinController.clear();
           Get.back();
@@ -196,10 +197,12 @@ class CardController extends GetxController {
       update();
     }
   }
+
+
 }
 
 class CardInfo{
   List<Color> color;
-
-  CardInfo({required this.color});
+  CardModel cardModel;
+  CardInfo({required this.color, required this.cardModel});
 }

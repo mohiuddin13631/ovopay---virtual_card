@@ -121,6 +121,12 @@ class DateConverter {
     return DateFormat('hh:mm:ss a').format(dateTime);
   }
 
+
+  static String formatDate(String dateString) {
+    DateTime dateTime = DateTime.parse(dateString);
+    return DateFormat('dd MMM yyyy').format(dateTime);
+  }
+
   static String localDate(DateTime dateTime) {
     return DateFormat('dd MMM yyyy').format(dateTime);
   }

@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
+import 'package:ovopay/app/components/snack_bar/show_custom_snackbar.dart';
+import 'package:ovopay/app/screens/top_up/controller/topup_controller.dart';
 import 'package:ovopay/core/route/route.dart';
-import 'package:ovopay/core/utils/app_style.dart';
-import 'package:ovopay/core/utils/dimensions.dart';
-import 'package:ovopay/core/utils/my_strings.dart';
-import 'package:ovopay/core/utils/text_style.dart';
+import 'package:ovopay/core/utils/util_exporter.dart';
 
-import '../../../../core/utils/my_color.dart';
-import '../../../../core/utils/util.dart';
 import '../../../components/text-field/rounded_text_field.dart';
 import '../../../components/text/header_text.dart';
+import '../../dashboard_screen/controller/home_controller.dart';
 class EnterAmountScreen extends StatefulWidget {
   const EnterAmountScreen({super.key});
 
@@ -24,124 +21,175 @@ class EnterAmountScreen extends StatefulWidget {
 class _EnterAmountScreenState extends State<EnterAmountScreen> {
   @override
   Widget build(BuildContext context) {
-    return MyCustomScaffold(
-      pageTitle: MyStrings.enterAmount.tr,
-      body: Column(
-        children: [
+    return GetBuilder<TopUpController>(
+      builder: (controller) => MyCustomScaffold(
+        pageTitle: MyStrings.enterAmount.tr,
+        body: Column(
+          children: [
 
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  CustomAppCard(
-                      radius: Dimensions.space12,
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(MyStrings.topUpMethod.tr, style: MyTextStyle.caption1Style),
-                              spaceDown(Dimensions.space2.h),
-                              Text(MyStrings.mainAccountBalance.tr, style: MyTextStyle.sectionTitle3)
-                            ],
-                          )
-                        ],
-                      )
-                  ),
-              
-                  spaceDown(Dimensions.space16.h),
-              
-                  CustomAppCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          HeaderText(
-                            text: MyStrings.enterAmount.tr,
-                            textStyle: MyTextStyle.sectionTitle.copyWith(
-                              color: MyColor.getHeaderTextColor(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    CustomAppCard(
+                        radius: Dimensions.space12,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(MyStrings.topUpMethod.tr, style: MyTextStyle.caption1Style),
+                                  spaceDown(Dimensions.space2.h),
+                                  Text(MyStrings.mainAccountBalance.tr, style: MyTextStyle.sectionTitle3)
+                                ],
+                              ),
                             ),
-                          ),
-                          spaceDown(Dimensions.space24.h),
-              
-                          RoundedTextField(
-                            contentPadding: EdgeInsets.symmetric(horizontal: Dimensions.space20, vertical: Dimensions.space18),
-                            showLabelText: false,
-                            labelText: MyStrings.enterAmount.tr,
-                            hintText: MyStrings.enterAmount,
-                            textInputAction: TextInputAction.done,
-                            keyboardType: TextInputType.numberWithOptions(
-                              decimal: true,
-                            ),
-                            textStyle: MyTextStyle.headerH3.copyWith(
-                              color: MyColor.getHeaderTextColor(),
-                            ),
-                            focusBorderColor: MyColor.getPrimaryColor(),
-                            textInputFormatter: [
-                              // Limits decimal places (optional, adjust as needed)
-                            ],
-                            onChanged: (value) {
-              
-                            },
-                            validator: (value) {
-              
-                            },
-                          ),
-              
-                          spaceDown(Dimensions.space8),
-                          Text.rich(
-                            TextSpan(
+
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                TextSpan(
-                                  text: "${MyStrings.availableBalance.tr}: ",
-                                  style: MyTextStyle.sectionBodyTextStyle.copyWith(
-                                    color: MyColor.getBodyTextColor(),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: MyUtils.getUserAmount(
-                                      "04154"
-                                  ),
-                                  style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.getPrimaryColor()),
-                                ),
+                                Text(MyStrings.feeRate.tr, style: MyTextStyle.caption1Style),
+                                spaceDown(Dimensions.space2.h),
+                                Text('${AppConverter.formatNumber(controller.chargeSetting?.topupChargeFromWallet ?? "")}%', style: MyTextStyle.sectionTitle3)
                               ],
                             ),
-                          ),
-              
-                          spaceDown(Dimensions.space24.h),
-              
-                          Wrap(
-                              runSpacing: Dimensions.space8.h,
-                              spacing: Dimensions.space8.w,
-                              children: List.generate(5, (index) {
-              
-                                return GestureDetector(
-                                  onTap: () {
-              
-                                  },
-                                  child: CustomAppCard(
-                                    radius: Dimensions.largeRadius,
-                                    padding: EdgeInsets.symmetric(horizontal: Dimensions.space18, vertical: Dimensions.space14),
-                                    backgroundColor: MyColor.getWhiteColor(),
-                                    borderColor: MyColor.getBorderColor(),
-                                    child: Text("500", style: MyTextStyle.caption1Style.copyWith(fontWeight: FontWeight.w400, fontSize: Dimensions.space15.sp)),
+                          ],
+                        )
+                    ),
+
+                    spaceDown(Dimensions.space16.h),
+
+                    CustomAppCard(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            HeaderText(
+                              text: MyStrings.amount.tr,
+                              textStyle: MyTextStyle.sectionTitle.copyWith(
+                                color: MyColor.getHeaderTextColor(),
+                              ),
+                            ),
+                            spaceDown(Dimensions.space12.h),
+
+                            RoundedTextField(
+                              contentPadding: EdgeInsets.symmetric(horizontal: Dimensions.space20, vertical: Dimensions.space18),
+                              showLabelText: false,
+                              labelText: MyStrings.enterAmount.tr,
+                              hintText: "${controller.currency}0.00",
+                              textInputAction: TextInputAction.done,
+                              controller: controller.amountController,
+                              keyboardType: TextInputType.numberWithOptions(
+                                decimal: true,
+                              ),
+                              textStyle: MyTextStyle.headerH3.copyWith(
+                                color: MyColor.getHeaderTextColor(),
+                              ),
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: Dimensions.space16),
+                                child: Text(controller.textCurrency, style: MyTextStyle.sectionTitle.copyWith(fontSize: Dimensions.space15.sp),),
+                              ),
+                              focusBorderColor: MyColor.getPrimaryColor(),
+                              textInputFormatter: [
+                                // Limits decimal places (optional, adjust as needed)
+                              ],
+                              onChanged: (value) {},
+                              validator: (value) {},
+                            ),
+
+                            spaceDown(Dimensions.space8),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "${MyStrings.availableBalance.tr}: ",
+                                    style: MyTextStyle.sectionBodyTextStyle.copyWith(
+                                      color: MyColor.getBodyTextColor(),
+                                    ),
                                   ),
-                                );
-                              })),
-                        ],
-                      )
-                  ),
-                ],
+                                  TextSpan(
+                                    text: "${controller.currency}${AppConverter.formatNumber(Get.find<HomeController>().accountBalanceFormatted, forceShowPrecision: true)}",
+                                    style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.getPrimaryColor()),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            spaceDown(Dimensions.space24.h),
+
+                            Wrap(
+                                runSpacing: Dimensions.space8.h,
+                                spacing: Dimensions.space8.w,
+                                children: List.generate(controller.suggestedAmountList.length, (index) {
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      controller.amountController.text = controller.suggestedAmountList[index];
+                                    },
+                                    child: CustomAppCard(
+                                      radius: Dimensions.largeRadius,
+                                      padding: EdgeInsets.symmetric(horizontal: Dimensions.space18, vertical: Dimensions.space14),
+                                      backgroundColor: MyColor.getWhiteColor(),
+                                      borderColor: MyColor.getBorderColor(),
+                                      child: Text(controller.suggestedAmountList[index], style: MyTextStyle.caption1Style.copyWith(fontWeight: FontWeight.w400, fontSize: Dimensions.space15.sp)),
+                                    ),
+                                  );
+                                })
+                            ),
+                          ],
+                        ),
+                    ),
+
+                    spaceDown(Dimensions.space16.h),
+
+                    CustomAppCard(
+                        radius: Dimensions.space12,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(child: Text(MyStrings.minimumAmount, style: MyTextStyle.caption1Style,)),
+                                Text("${controller.minimumAmount} ${controller.textCurrency}")
+                              ],
+                            ),
+
+                            spaceDown(Dimensions.space10.h),
+                            Row(
+                              children: [
+                                Expanded(child: Text(MyStrings.maximumAmount, style: MyTextStyle.caption1Style,)),
+                                Text("${controller.maximumAmount} ${controller.textCurrency}")
+                              ],
+                            ),
+                          ],
+                        )
+                    ),
+                    
+                    spaceDown(Dimensions.space16)
+                  ],
+                ),
               ),
             ),
-          ),
 
-          CustomElevatedBtn(
-            bgColor: MyColor.transparentColor,
-            borderColor: MyColor.primary,
-            textColor: MyColor.black,
-            text: MyStrings.next, onTap: () {Get.toNamed(RouteHelper.confirmTopUpScreen);},)
-        ],
-      )
+            CustomElevatedBtn(
+              bgColor: MyColor.transparentColor,
+              borderColor: MyColor.primary,
+              textColor: MyColor.black,
+              text: MyStrings.next, onTap: () {
+
+                if(controller.amountController.text.isEmpty){
+                  CustomSnackBar.error(errorList: [MyStrings.enterAmount]);
+                }else if(AppConverter.formatNumberDouble(controller.amountController.text) > controller.maximumAmount){
+                  CustomSnackBar.error(errorList: ["${MyStrings.valueMustBeLess.tr} ${controller.maximumAmount}"]);
+                }else if(AppConverter.formatNumberDouble(controller.amountController.text) < controller.minimumAmount){
+                  CustomSnackBar.error(errorList: ["${MyStrings.valueMustBeGreater.tr} ${controller.minimumAmount}"]);
+                }else{
+                  Get.toNamed(RouteHelper.confirmTopUpScreen, arguments: TopUpInfo(topUpMethod: controller.mainBalanceType));
+                }
+              }
+            )
+          ],
+        )
+      ),
     );
   }
 }
