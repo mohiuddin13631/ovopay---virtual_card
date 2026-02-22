@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
-import 'package:ovopay/app/screens/card_details/view/contorller/card_details_controller.dart';
+import 'package:ovopay/app/screens/choose_card/controller/create_new_card_controller.dart';
+import 'package:ovopay/core/data/repositories/card_repo/create_card_repo.dart';
+import 'package:ovopay/core/data/services/service_exporter.dart';
+import 'package:ovopay/core/helper/string_format_helper.dart';
 import 'package:ovopay/core/route/route.dart';
 import 'package:ovopay/core/utils/my_strings.dart';
 import 'package:ovopay/core/utils/text_style.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+
 import '../../../../core/utils/dimensions.dart';
 import '../../../../core/utils/my_color.dart';
 import '../widget/physical_card_section.dart';
@@ -26,63 +31,79 @@ class _ChooseCardScreenState extends State<ChooseCardScreen> with SingleTickerPr
   void initState() {
     _controller = TabController(length: 2, vsync: this);
     super.initState();
+
+    Get.put(CreateCardRepo());
+    var controller = Get.put(CreateNewCardController(repo: Get.find()));
+
+    _controller.addListener(() {
+      controller.update();
+    },);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (mounted) {
+        controller.createNewCardInfo();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CardDetailsController>(
+    return GetBuilder<CreateNewCardController>(
       builder: (controller) => MyCustomScaffold(
         pageTitle: MyStrings.chooseCard,
-        body: Column(
-          children: [
+        body: Skeletonizer(
+          enabled: controller.isLoading,
+          child: Column(
+            children: [
 
-            Container(
-              height: 50,
-              decoration: BoxDecoration(
-                  color: MyColor.white,
-                  borderRadius: BorderRadius.circular(Dimensions.space50),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    color: MyColor.white,
+                    borderRadius: BorderRadius.circular(Dimensions.space50),
+                ),
+                child: TabBar(
+                    controller: _controller,
+                    dividerColor: MyColor.getTransparentColor(),
+                    indicatorColor: MyColor.primary,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    overlayColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+                      return states.contains(WidgetState.focused) ? null : Colors.transparent;
+                    }),
+                    unselectedLabelStyle: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText),
+                    labelStyle: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText),
+                    indicator: BoxDecoration(
+                      color: MyColor.primary,
+                      borderRadius: BorderRadius.circular(100)
+                    ),
+                    labelColor: MyColor.white,
+                    unselectedLabelColor: MyColor.dark,
+                    labelPadding: EdgeInsets.symmetric(horizontal: 0),
+                    padding: EdgeInsets.all(0),
+                    onFocusChange: (value, index) {},
+                    tabs: [
+                  Tab(text: MyStrings.virtualCard.tr,),
+                  Tab(text: MyStrings.physicalCard.tr),
+                ]),
               ),
-              child: TabBar(
+
+              Expanded(
+                child: TabBarView(
                   controller: _controller,
-                  dividerColor: MyColor.getTransparentColor(),
-                  indicatorColor: MyColor.primary,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  overlayColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
-                    return states.contains(WidgetState.focused) ? null : Colors.transparent;
-                  }),
-                  unselectedLabelStyle: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText),
-                  labelStyle: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText),
-                  indicator: BoxDecoration(
-                    color: MyColor.primary,
-                    borderRadius: BorderRadius.circular(100)
-                  ),
-                  labelColor: MyColor.white,
-                  unselectedLabelColor: MyColor.dark,
-                  labelPadding: EdgeInsets.symmetric(horizontal: 0),
-                  padding: EdgeInsets.all(0),
-                  onFocusChange: (value, index) {},
-                  tabs: [
-                Tab(text: MyStrings.virtualCard.tr,),
-                Tab(text: MyStrings.physicalCard.tr),
-              ]),
-            ),
-
-            Expanded(
-              child: TabBarView(
-                controller: _controller,
-                children: [
-                  VirtualCardSection(),
-                  PhysicalCardSection(),
-                ],
+                  children: [
+                    VirtualCardSection(),
+                    PhysicalCardSection(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         bottomNavigationBar: SafeArea(
           child: Padding(
             padding: EdgeInsetsGeometry.all(Dimensions.space16),
             child: CustomElevatedBtn(
-              text: "${MyStrings.applyForCard.tr} - ${_controller.index == 0 ? controller.chargeSetting?.creationFee ?? "" : ""}",
+              text: "${MyStrings.applyForCard.tr} - ${SharedPreferenceService.getCurrencySymbol()}${_controller.index == 0 ? AppConverter.formatNumber(controller.chargeSetting?.creationFee ?? "", forceShowPrecision: true) : ""}",
               onTap: () {
                 Get.toNamed(RouteHelper.cardApplicationScreen, arguments: _controller.index == 1 ? true : false);
               },
