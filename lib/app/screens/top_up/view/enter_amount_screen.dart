@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
+import 'package:ovopay/app/components/dialog/app_dialog.dart';
 import 'package:ovopay/app/components/snack_bar/show_custom_snackbar.dart';
 import 'package:ovopay/app/screens/top_up/controller/topup_controller.dart';
 import 'package:ovopay/core/route/route.dart';
@@ -12,7 +13,10 @@ import '../../../components/text-field/rounded_text_field.dart';
 import '../../../components/text/header_text.dart';
 import '../../dashboard_screen/controller/home_controller.dart';
 class EnterAmountScreen extends StatefulWidget {
-  const EnterAmountScreen({super.key});
+
+  final TopUpInfo topUpInfo;
+
+  const EnterAmountScreen({super.key, required this.topUpInfo});
 
   @override
   State<EnterAmountScreen> createState() => _EnterAmountScreenState();
@@ -41,7 +45,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                                 children: [
                                   Text(MyStrings.topUpMethod.tr, style: MyTextStyle.caption1Style),
                                   spaceDown(Dimensions.space2.h),
-                                  Text(MyStrings.mainAccountBalance.tr, style: MyTextStyle.sectionTitle3)
+                                  Text(widget.topUpInfo.topUpMethod, style: MyTextStyle.sectionTitle3)
                                 ],
                               ),
                             ),
@@ -51,7 +55,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                               children: [
                                 Text(MyStrings.feeRate.tr, style: MyTextStyle.caption1Style),
                                 spaceDown(Dimensions.space2.h),
-                                Text('${AppConverter.formatNumber(controller.chargeSetting?.topupChargeFromWallet ?? "")}%', style: MyTextStyle.sectionTitle3)
+                                Text('${AppConverter.formatNumber(widget.topUpInfo.topUpMethod == MyStrings.fromMainBalance ? controller.chargeSettingForWallet?.topupChargeFromWallet ?? "" : controller.chargeSettingForWallet?.topupChargeFromCrypto ?? "")}%', style: MyTextStyle.sectionTitle3)
                               ],
                             ),
                           ],
@@ -149,7 +153,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                             Row(
                               children: [
                                 Expanded(child: Text(MyStrings.minimumAmount, style: MyTextStyle.caption1Style,)),
-                                Text("${controller.minimumAmount} ${controller.textCurrency}")
+                                Text("${widget.topUpInfo.topUpMethod == MyStrings.fromMainBalance ? controller.walletMinimumAmount : controller.cryptoMinimumAmount} ${controller.textCurrency}")
                               ],
                             ),
 
@@ -157,7 +161,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                             Row(
                               children: [
                                 Expanded(child: Text(MyStrings.maximumAmount, style: MyTextStyle.caption1Style,)),
-                                Text("${controller.maximumAmount} ${controller.textCurrency}")
+                                Text("${widget.topUpInfo.topUpMethod == MyStrings.fromMainBalance ? controller.walletMaximumAmount : controller.cryptoMaximumAmount} ${controller.textCurrency}")
                               ],
                             ),
                           ],
@@ -174,16 +178,31 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
               bgColor: MyColor.transparentColor,
               borderColor: MyColor.primary,
               textColor: MyColor.black,
+              isLoading: controller.isSubmitLoading,
               text: MyStrings.next, onTap: () {
-
-                if(controller.amountController.text.isEmpty){
-                  CustomSnackBar.error(errorList: [MyStrings.enterAmount]);
-                }else if(AppConverter.formatNumberDouble(controller.amountController.text) > controller.maximumAmount){
-                  CustomSnackBar.error(errorList: ["${MyStrings.valueMustBeLess.tr} ${controller.maximumAmount}"]);
-                }else if(AppConverter.formatNumberDouble(controller.amountController.text) < controller.minimumAmount){
-                  CustomSnackBar.error(errorList: ["${MyStrings.valueMustBeGreater.tr} ${controller.minimumAmount}"]);
+                if(widget.topUpInfo.topUpMethod == MyStrings.fromMainBalance){
+                  if(controller.amountController.text.isEmpty){
+                    CustomSnackBar.error(errorList: [MyStrings.enterAmount]);
+                  }
+                  else if(AppConverter.formatNumberDouble(controller.amountController.text) > controller.walletMaximumAmount){
+                    CustomSnackBar.error(errorList: ["${MyStrings.valueMustBeLess.tr} ${controller.walletMaximumAmount}"]);
+                  }else if(AppConverter.formatNumberDouble(controller.amountController.text) < controller.walletMinimumAmount){
+                    CustomSnackBar.error(errorList: ["${MyStrings.valueMustBeGreater.tr} ${controller.walletMinimumAmount}"]);
+                  }else{
+                    Get.toNamed(RouteHelper.confirmTopUpScreen, arguments: TopUpInfo(topUpMethod: controller.mainBalanceType));
+                  }
                 }else{
-                  Get.toNamed(RouteHelper.confirmTopUpScreen, arguments: TopUpInfo(topUpMethod: controller.mainBalanceType));
+                  if(controller.amountController.text.isEmpty){
+                    CustomSnackBar.error(errorList: [MyStrings.enterAmount]);
+                  } else if(AppConverter.formatNumberDouble(controller.amountController.text) > controller.cryptoMaximumAmount){
+                    CustomSnackBar.error(errorList: ["${MyStrings.valueMustBeLess.tr} ${controller.cryptoMaximumAmount}"]);
+                  }else if(AppConverter.formatNumberDouble(controller.amountController.text) < controller.cryptoMinimumAmount){
+                    CustomSnackBar.error(errorList: ["${MyStrings.valueMustBeGreater.tr} ${controller.cryptoMinimumAmount}"]);
+                  }else{
+                    controller.generateCryptoAddress(onSuccessCallback: (value) async {
+                      await AppDialogs.cryptoDialog(context, cryptoAddress: value.data).then((value) => controller.amountController.clear());
+                    });
+                  }
                 }
               }
             )

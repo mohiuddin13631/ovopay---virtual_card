@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:ovopay/core/data/models/card/card_list_response_model.dart';
+import 'package:ovopay/core/data/models/card/topup_wallet_response_model.dart';
 
 import '../transaction_history/transaction_history_model.dart';
 
@@ -34,14 +35,17 @@ class CardDetailsResponseModel {
 class Data {
   CardModel? card;
   Transactions? transactions;
+  ChargeSetting? chargeSetting;
 
   Data({
     this.card,
     this.transactions,
+    this.chargeSetting
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     card: json["card"] == null ? null : CardModel.fromJson(json["card"]),
+    chargeSetting: json["charge_setting"] == null ? null : ChargeSetting.fromJson(json["charge_setting"]),
     transactions: json["transactions"] == null ? null : Transactions.fromJson(json["transactions"]),
   );
 }

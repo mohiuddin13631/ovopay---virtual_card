@@ -6,6 +6,7 @@ import 'package:ovopay/app/screens/choose_card/widget/customize_card_color_botto
 import 'package:ovopay/core/utils/app_style.dart';
 import 'package:ovopay/core/utils/my_strings.dart';
 import 'package:ovopay/core/utils/text_style.dart';
+import 'package:ovopay/environment.dart';
 
 import '../../../../core/utils/dimensions.dart';
 import '../../../../core/utils/my_color.dart';
@@ -49,7 +50,7 @@ class VirtualCardSection extends StatelessWidget {
                     alignment: Alignment.topRight,
                     child: RotatedBox(
                         quarterTurns: 1,
-                        child: Text("OVOpay", style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.white, fontSize: 30),)),
+                        child: Text(Environment.appName.tr, style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.white, fontSize: 30),)),
                   ),
                   Spacer(),
                   Align(

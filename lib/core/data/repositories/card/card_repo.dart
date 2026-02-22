@@ -25,4 +25,13 @@ class CardRepo {
     final response = await ApiService.postRequest(url, params);
     return response;
   }
+
+  Future<ResponseModel> freezeUnfreezeCard({
+    String cardId = "-1",
+    bool isFreeze = true,
+  }) async {
+    String url = '${UrlContainer.baseUrl}${isFreeze ? UrlContainer.freezeCardEndPoint : UrlContainer.unfreezeCardEndPoint}/$cardId';
+    final response = await ApiService.postRequest(url, {});
+    return response;
+  }
 }

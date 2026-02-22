@@ -1,21 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/divider/custom_divider.dart';
 import 'package:ovopay/app/components/image/my_asset_widget.dart';
-import 'package:ovopay/core/utils/app_style.dart';
-import 'package:ovopay/core/utils/dimensions.dart';
-import 'package:ovopay/core/utils/my_icons.dart';
+import 'package:ovopay/core/data/models/transaction_history/transaction_history_model.dart';
+import 'package:ovopay/core/data/services/service_exporter.dart';
 import 'package:ovopay/core/utils/util_exporter.dart';
+
+import '../../../core/route/route.dart';
 class SuccessScreen extends StatefulWidget {
-  const SuccessScreen({super.key});
+
+  final SuccessScreenModel successScreenModel;
+
+  const SuccessScreen({super.key, required this.successScreenModel});
 
   @override
   State<SuccessScreen> createState() => _SuccessScreenState();
 }
 
 class _SuccessScreenState extends State<SuccessScreen> {
+
+  String getStatus(String status){
+    if(status == "0"){
+      return "Pending";
+    }else if(status == "1"){
+      return "Completed";
+    }else{
+      return "Rejected";
+    }
+  }
+
+  String processingFee = "";
+  @override
+  void initState() {
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,9 +49,9 @@ class _SuccessScreenState extends State<SuccessScreen> {
             MyAssetImageWidget(assetPath: MyIcons.check, isSvg: true, width: 100, height: 100),
             spaceDown(Dimensions.space4.h),
 
-            Text("Top-Up Successful!", style: MyTextStyle.sectionTitle.copyWith(fontSize: Dimensions.space22.sp)),
+            Text(MyStrings.topUpSuccessful.tr, style: MyTextStyle.sectionTitle.copyWith(fontSize: Dimensions.space22.sp)),
             spaceDown(Dimensions.space4),
-            Text("Your card has been topped  up with \$100.00 ", style: MyTextStyle.caption1Style.copyWith(fontSize: 13.sp)),
+            Text("${MyStrings.yourCardHasBeenToppedUpWith.tr} ${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.transaction?.amount ?? "")} ", style: MyTextStyle.caption1Style.copyWith(fontSize: 13.sp)),
             
             spaceDown(Dimensions.space16.h),
             
@@ -39,38 +60,38 @@ class _SuccessScreenState extends State<SuccessScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Setup & Monthly Fees", style: MyTextStyle.caption1Style.copyWith(fontSize: 13.sp)),
+                  Text(MyStrings.setupMonthlyFees.tr, style: MyTextStyle.caption1Style.copyWith(fontSize: 13.sp)),
                   spaceDown(Dimensions.space8.h),
 
                   RowItem(
                     title: MyStrings.transactionId.tr,
-                    subtitle: "TXN7011201746",
+                    subtitle: widget.successScreenModel.transaction?.trx ?? "",
                   ),
 
                   RowItem(
-                    title: "Date & Time",
-                    subtitle: "Dec 29, 2025, 06:26 PM",
+                    title: MyStrings.dateAndTime.tr,
+                    subtitle: DateConverter.formatDate(widget.successScreenModel.transaction?.createdAt ?? ""),
                   ),
 
                   RowItem(
-                    title: "Method",
-                    subtitle: "Crypto Deposit",
+                    title: MyStrings.method,
+                    subtitle: widget.successScreenModel.transaction?.cardTransactionType ?? "",
                   ),
 
                   RowItem(
-                    title: "Amount Added",
-                    subtitle: "\$100",
+                    title: MyStrings.amountAdded,
+                    subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.transaction?.amount ?? "")}",
                   ),
 
                   RowItem(
-                    title: "Processing Fee",
-                    subtitle: "\$100",
+                    title: MyStrings.processingFee.tr,
+                    subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.processingFee ?? "")}",
                   ),
 
                   RowItem(
                     isShowDivider: false,
                     title: MyStrings.status,
-                    subtitle: "Completed",
+                    subtitle: getStatus(widget.successScreenModel.transaction?.status ?? ""),
                   ),
 
                 ],
@@ -79,7 +100,14 @@ class _SuccessScreenState extends State<SuccessScreen> {
 
             spaceDown(Dimensions.space16.h),
 
-            Row(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Dimensions.space16),
+              child: CustomElevatedBtn(text: MyStrings.backToHome, onTap: () {
+                Get.offAllNamed(RouteHelper.dashboardScreen);
+              },),
+            )
+
+            /*Row(
               children: [
                 CustomAppCard(
                   radius: 12,
@@ -106,7 +134,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                   )
                 ),
               ],
-            )
+            )*/
             
           ],
         ),
@@ -145,4 +173,11 @@ class RowItem extends StatelessWidget {
       ],
     );
   }
+}
+
+class SuccessScreenModel{
+  final TransactionHistoryModel? transaction;
+  final String? processingFee;
+
+  SuccessScreenModel({this.transaction, this.processingFee});
 }

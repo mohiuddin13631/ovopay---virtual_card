@@ -10,7 +10,6 @@ import 'package:ovopay/app/screens/card_details/view/widget/freeze_card_bottom_s
 import 'package:ovopay/core/data/repositories/card/card_repo.dart';
 import 'package:ovopay/core/route/route.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
 import '../../../../../core/utils/util_exporter.dart';
 import '../../../components/dialog/app_dialog.dart';
 import '../../../components/image/my_asset_widget.dart';
@@ -77,7 +76,6 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                           );
                         }
                       },
-
                       color: widget.cardInfo?.color ?? [],
                       cardModel: controller.cardModel,
                       currency: controller.currency,
@@ -93,12 +91,17 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                           ReUsableCard(title:  MyStrings.topUp, icon: MyIcons.sendIcon, onTap: () {
                             Get.toNamed(RouteHelper.topUpCardScreen, arguments: controller.cardModel.id.toString());
                           }),
-                          ReUsableCard(title: MyStrings.withdraw, icon: MyIcons.withdraw),
+                          ReUsableCard(
+                            onTap: () {
+                              Get.toNamed(RouteHelper.withdrawScreen, arguments: controller.cardModel);
+                            },
+                            title: MyStrings.withdraw, icon: MyIcons.withdraw
+                          ),
                           ReUsableCard(
                             onTap: () {
                               FreezeCardBottomSheet.freezeCardBottomSheet(context);
                             },
-                            title: MyStrings.freeze,
+                            title: controller.cardModel.freezingReason == null ? MyStrings.freeze : MyStrings.unfreezeCard,
                             icon: MyIcons.freeze
                           ),
                         ],

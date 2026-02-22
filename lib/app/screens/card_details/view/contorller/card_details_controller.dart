@@ -28,6 +28,8 @@ class CardDetailsController extends GetxController {
   String currency = "";
   String textCurrency = "";
 
+  ChargeSetting? chargeSetting;
+
   Future<void> getCardDetails(String id) async {
 
     currency = SharedPreferenceService.getCurrencySymbol();
@@ -45,6 +47,7 @@ class CardDetailsController extends GetxController {
         if (cardDetails.status == "success") {
           cardModel = cardDetails.data?.card ?? CardModel(id: -1);
           transactionHistoryList.addAll(cardDetails.data?.transactions?.historyData ?? []);
+          chargeSetting = cardDetails.data?.chargeSetting;
         } else {
           CustomSnackBar.error(
             errorList: cardDetails.message ?? [MyStrings.somethingWentWrong],
@@ -60,6 +63,55 @@ class CardDetailsController extends GetxController {
       printE(e.toString());
     }
     isLoading = false;
+    update();
+  }
+
+
+  bool isSubmitLoading = false;
+  Future<void> freezeUnfreezeCard() async {
+
+    isSubmitLoading = true;
+    update();
+
+    try {
+      ResponseModel responseModel = await cardRepo.freezeUnfreezeCard(cardId: cardModel.id.toString(), isFreeze: cardModel.freezingReason == null);
+      if (responseModel.statusCode == 200) {
+        final cardDetails = cardDetailsResponseModelFromJson(
+          jsonEncode(responseModel.responseJson),
+        );
+        if (cardDetails.status == "success") {
+
+        } else {
+          CustomSnackBar.error(
+            errorList: cardDetails.message ?? [MyStrings.somethingWentWrong],
+          );
+        }
+        update();
+        isSubmitLoading = false;
+        update();
+      } else {
+        CustomSnackBar.error(errorList: [responseModel.message]);
+      }
+    } catch (e) {
+      printE(e.toString());
+    }
+    isSubmitLoading = false;
+    update();
+  }
+
+  List<String> freezingReasonList = [
+    "Select a reason...",
+    "Suspicious activity",
+    "Policy violation",
+    "Payment issue",
+    "User request",
+    "Temporary hold"
+  ];
+
+  String selectedFreezingReason = "Select a reason...";
+
+  void setFreezingReason(String value){
+    selectedFreezingReason = value;
     update();
   }
 

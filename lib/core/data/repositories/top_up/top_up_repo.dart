@@ -9,13 +9,28 @@ class TopUpRepo {
     return responseModel;
   }
 
-  Future<ResponseModel> pinVerificationRequest({
-    String pin = "",
-    String cardId = "-1",
+  Future<ResponseModel> getTopUpCrypto(String id) async {
+    String url = '${UrlContainer.baseUrl}${UrlContainer.getTopUpCryptoEndPoint}/$id';
+    ResponseModel responseModel = await ApiService.getRequest(url);
+    return responseModel;
+  }
+
+  Future<ResponseModel> confirmTopUp({
+    required String pin,
+    required String amount,
+    required String id,
   }) async {
-    Map<String, String> params = {'pin': pin};
-    String url = '${UrlContainer.baseUrl}${UrlContainer.pinVerifyEndPoint}/$cardId';
-    final response = await ApiService.postRequest(url, params);
+    String url = '${UrlContainer.baseUrl}${UrlContainer.confirmTopUpEndPoint}/$id?pin=$pin&amount=$amount';
+    final response = await ApiService.postRequest(url, {});
+    return response;
+  }
+
+  Future<ResponseModel> generateCryptoAddress({
+    required String amount,
+    required String id,
+  }) async {
+    String url = '${UrlContainer.baseUrl}${UrlContainer.generateCryptoAddressEndPoint}/$id?amount=$amount';
+    final response = await ApiService.postRequest(url, {});
     return response;
   }
 }

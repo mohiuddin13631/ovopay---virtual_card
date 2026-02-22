@@ -59,7 +59,6 @@ class Cards {
   int? from;
   int? lastPage;
   String? lastPageUrl;
-  List<Link>? links;
   dynamic nextPageUrl;
   String? path;
   int? perPage;
@@ -74,7 +73,6 @@ class Cards {
     this.from,
     this.lastPage,
     this.lastPageUrl,
-    this.links,
     this.nextPageUrl,
     this.path,
     this.perPage,
@@ -90,7 +88,6 @@ class Cards {
     from: json["from"],
     lastPage: json["last_page"],
     lastPageUrl: json["last_page_url"],
-    links: json["links"] == null ? [] : List<Link>.from(json["links"]!.map((x) => Link.fromJson(x))),
     nextPageUrl: json["next_page_url"],
     path: json["path"],
     perPage: json["per_page"],
@@ -105,7 +102,6 @@ class Cards {
     "from": from,
     "last_page": lastPage,
     "last_page_url": lastPageUrl,
-    "links": links == null ? [] : List<dynamic>.from(links!.map((x) => x.toJson())),
     "next_page_url": nextPageUrl,
     "path": path,
     "per_page": perPage,
@@ -218,174 +214,4 @@ class BillingAddress {
     billingStreet: json["billing_street"]?.toString(),
     billingZipCode: json["billing_zip_code"]?.toString(),
   );
-}
-
-class Transaction {
-  int? id;
-  String? userId;
-  String? agentId;
-  String? merchantId;
-  String? cardId;
-  dynamic cardTransactionId;
-  int? amount;
-  double? charge;
-  double? postBalance;
-  TrxType? trxType;
-  String? trx;
-  Details? details;
-  Remark? remark;
-  String? virtualCardId;
-  String? forVirtualCardId;
-  String? cardTransactionType;
-  String? currency;
-  String? status;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  double? totalAmount;
-
-  Transaction({
-    this.id,
-    this.userId,
-    this.agentId,
-    this.merchantId,
-    this.cardId,
-    this.cardTransactionId,
-    this.amount,
-    this.charge,
-    this.postBalance,
-    this.trxType,
-    this.trx,
-    this.details,
-    this.remark,
-    this.virtualCardId,
-    this.forVirtualCardId,
-    this.cardTransactionType,
-    this.currency,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-    this.totalAmount,
-  });
-
-  factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
-    id: json["id"],
-    userId: json["user_id"],
-    agentId: json["agent_id"],
-    merchantId: json["merchant_id"],
-    cardId: json["card_id"],
-    cardTransactionId: json["card_transaction_id"],
-    amount: json["amount"],
-    charge: json["charge"]?.toDouble(),
-    postBalance: json["post_balance"]?.toDouble(),
-    trxType: trxTypeValues.map[json["trx_type"]]!,
-    trx: json["trx"],
-    details: detailsValues.map[json["details"]]!,
-    remark: remarkValues.map[json["remark"]]!,
-    virtualCardId: json["virtual_card_id"],
-    forVirtualCardId: json["for_virtual_card_id"],
-    cardTransactionType: json["card_transaction_type"]?.toString(),
-    currency: json["currency"],
-    status: json["status"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    totalAmount: json["total_amount"]?.toDouble(),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "user_id": userId,
-    "agent_id": agentId,
-    "merchant_id": merchantId,
-    "card_id": cardId,
-    "card_transaction_id": cardTransactionId,
-    "amount": amount,
-    "charge": charge,
-    "post_balance": postBalance,
-    "trx_type": trxTypeValues.reverse[trxType],
-    "trx": trx,
-    "details": detailsValues.reverse[details],
-    "remark": remarkValues.reverse[remark],
-    "virtual_card_id": virtualCardId,
-    "for_virtual_card_id": forVirtualCardId,
-    "card_transaction_type": cardTransactionTypeValues.reverse[cardTransactionType],
-    "currency": currency,
-    "status": status,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-    "total_amount": totalAmount,
-  };
-}
-
-enum CardTransactionType {
-  MAIN_ACCOUNT_BALANCE
-}
-
-final cardTransactionTypeValues = EnumValues({
-  "Main Account Balance": CardTransactionType.MAIN_ACCOUNT_BALANCE
-});
-
-enum Details {
-  INITIAL_DEPOSIT_AMOUNT,
-  TOP_UP_TO_CARD
-}
-
-final detailsValues = EnumValues({
-  "Initial deposit amount": Details.INITIAL_DEPOSIT_AMOUNT,
-  "Top-up to card ": Details.TOP_UP_TO_CARD
-});
-
-enum Remark {
-  ADD_MONEY_TO_CARD,
-  INITIAL_DEPOSIT
-}
-
-final remarkValues = EnumValues({
-  "add_money_to_card": Remark.ADD_MONEY_TO_CARD,
-  "initial_deposit": Remark.INITIAL_DEPOSIT
-});
-
-enum TrxType {
-  EMPTY,
-  TRX_TYPE
-}
-
-final trxTypeValues = EnumValues({
-  "+": TrxType.EMPTY,
-  "-": TrxType.TRX_TYPE
-});
-
-class Link {
-  String? url;
-  String? label;
-  bool? active;
-
-  Link({
-    this.url,
-    this.label,
-    this.active,
-  });
-
-  factory Link.fromJson(Map<String, dynamic> json) => Link(
-    url: json["url"],
-    label: json["label"],
-    active: json["active"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "url": url,
-    "label": label,
-    "active": active,
-  };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

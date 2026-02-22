@@ -12,64 +12,63 @@ import 'package:ovopay/app/components/snack_bar/show_custom_snackbar.dart';
 import 'package:ovopay/app/components/text-field/rounded_text_field.dart';
 import 'package:ovopay/app/screens/success/success_screen.dart';
 import 'package:ovopay/app/screens/top_up/controller/topup_controller.dart';
+import 'package:ovopay/app/screens/withdraw/controller/withdraw_controller.dart';
 import 'package:ovopay/core/route/route.dart';
 
 import '../../../../../core/data/services/service_exporter.dart';
 import '../../../../../core/utils/util_exporter.dart';
 import '../../../components/column_widget/card_column.dart';
 
-class ConfirmTopUpScreen extends StatefulWidget {
+class ConfirmWithdrawScreen extends StatefulWidget {
 
-  final TopUpInfo topUpInfo;
-
-  const ConfirmTopUpScreen({super.key, required this.topUpInfo});
+  const ConfirmWithdrawScreen({super.key});
 
   @override
-  State<ConfirmTopUpScreen> createState() => _ConfirmTopUpScreenState();
+  State<ConfirmWithdrawScreen> createState() => _ConfirmWithdrawScreenState();
 }
 
-class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
+class _ConfirmWithdrawScreenState extends State<ConfirmWithdrawScreen> {
 
   // Reusable Contact List Tile
   Widget _buildContactTile(
-      TopUpController controller, {
+      WithdrawController controller, {
         bool showBorder = true,
         EdgeInsetsGeometry? padding,
       }) {
     return Row(
       children: [
         Container(
-          padding: EdgeInsetsGeometry.all(Dimensions.space10),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: MyColor.primary
-          ),
-          child: MyAssetImageWidget(assetPath: MyIcons.wallet, isSvg: true, width: 22, height: 22,)
+            padding: EdgeInsetsGeometry.all(Dimensions.space10),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: MyColor.primary
+            ),
+            child: MyAssetImageWidget(assetPath: MyIcons.wallet, isSvg: true, width: 22, height: 22,)
         ),
-        
+
         spaceSide(Dimensions.space10.w),
-        
+
         Text(MyStrings.reviewTheDetailsBeforeProceeding.tr, style: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText),)
       ],
     );
   }
 
   // Reusable Amount Details Card
-  Widget _buildAmountDetailsCard(TopUpController controller) {
+  Widget _buildAmountDetailsCard(WithdrawController controller) {
     return Column(
       children: [
         AmountDetailsCard(
-          firstTitle: MyStrings.topUpMethod,
-          amount: widget.topUpInfo.topUpMethod,
-          endTitle: MyStrings.topUpAmount.tr,
+          firstTitle: MyStrings.withdrawAmount,
+          amount: MyStrings.cardBalance,
+          endTitle: MyStrings.withdrawMethod.tr,
           total: "${controller.currency} ${controller.amountController.text}",
         ),
         CustomDivider(space: Dimensions.space8,),
         AmountDetailsCard(
-          firstTitle: "${MyStrings.processingFee.tr} (${AppConverter.formatNumber(controller.chargeSettingForWallet?.topupChargeFromWallet ?? "")}%)",
-          amount: "${controller.currency}${controller.getProcessingFee(controller.chargeSettingForWallet?.topupChargeFromWallet ?? "")}",
+          firstTitle: "${MyStrings.processingFee.tr} (${AppConverter.formatNumber(controller.chargeSetting?.cardWithdrawCharge ?? "")}%)",
+          amount: "${controller.currency}${controller.getProcessingFee(controller.chargeSetting?.cardWithdrawCharge ?? "")}",
           endTitle: MyStrings.perTransactionCharge.tr,
-          total: "${controller.currency}${AppConverter.formatNumber(controller.chargeSettingForWallet?.perOperationCharge ?? "")}",
+          total: "${controller.currency}${AppConverter.formatNumber(controller.chargeSetting?.perOperationCharge ?? "")}",
         ),
 
         CustomDivider(space: Dimensions.space8,),
@@ -79,8 +78,8 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
               headerTextStyle: MyTextStyle.caption1Style.copyWith(
                 color: MyColor.getBodyTextColor(),
               ),
-              header: MyStrings.totalDeductedFromWallet,
-              body: "${controller.currency}${controller.getDeductedAmount()}",
+              header: MyStrings.netAmountYouWillReceive,
+              body: "${controller.currency}${controller.getNetAmount()}",
               space: 5,
               crossAxisAlignment: CrossAxisAlignment.start,
               isBodyEllipsis: false,
@@ -91,7 +90,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
     );
   }
 
-  Widget _buildBalancePreviewCard(TopUpController controller) {
+  Widget _buildBalancePreviewCard(WithdrawController controller) {
     return Column(
       children: [
         AmountDetailsCard(
@@ -105,7 +104,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
   }
 
   // Reusable Confirm Dialog
-  Future<void> _showConfirmDialog(TopUpController controller) async {
+  Future<void> _showConfirmDialog(WithdrawController controller) async {
     MyUtils.clearAllTypeFocusNodes();
     if (controller.pinController.text.toString().length < SharedPreferenceService.getMaxPinNumberDigit()) {
       CustomSnackBar.error(
@@ -126,47 +125,14 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
         child: _buildAmountDetailsCard(controller),
       ),
       onFinish: () async {
-
-        await controller.onConfirmTopUp(
+        await controller.onConfirmWithdraw(
           onSuccessCallback: (value) async {
             // Handle the completed progress here
-
             double amount = AppConverter.formatNumberDouble(value.data?.amount ?? "");
             double totalAmount = AppConverter.formatNumberDouble(value.data?.totalAmount ?? "");
             double processingFee = totalAmount - amount;
 
             Navigator.pop(context);
-           /* await AppDialogs.successDialog(
-              context,
-              title: value.message?.first ?? "",
-              userDetailsWidget: SizedBox(),
-              cashDetailsWidget: CustomAppCard(
-                radius: Dimensions.largeRadius.r,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildAmountDetailsCard(controller),
-                    Container(
-                      height: 1,
-                      width: double.infinity,
-                      color: MyColor.getBorderColor(),
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                    ),
-                    CardColumn(
-                      headerTextStyle: MyTextStyle.caption1Style.copyWith(
-                        color: MyColor.getBodyTextColor(),
-                      ),
-                      header: MyStrings.transactionId.tr,
-                      isCopyable: true,
-                      body: value.data?.transaction?.trx ?? "",
-                      space: 5,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                    ),
-                  ],
-                ),
-              ),
-            );*/
-            // Navigator.pop(context);
             Get.toNamed(RouteHelper.successScreen, arguments: SuccessScreenModel(transaction: value.data?.transaction, processingFee: AppConverter.formatNumber(processingFee.toString())));
             return;
           },
@@ -182,11 +148,11 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<TopUpController>(
+    return GetBuilder<WithdrawController>(
       builder: (controller) {
         return MyCustomScaffold(
           padding: EdgeInsets.zero,
-          pageTitle: MyStrings.confirmTopUp,
+          pageTitle: MyStrings.confirmWithdraw,
           body: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: Dimensions.space14),
             child: Column(
@@ -194,6 +160,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
               children: [
 
                 spaceDown(Dimensions.space16),
+
                 CustomAppCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,11 +176,15 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
                     ],
                   ),
                 ),
+
                 spaceDown(Dimensions.space12),
+
                 CustomAppCard(
                   child: _buildBalancePreviewCard(controller),
                 ),
+
                 spaceDown(Dimensions.space16),
+
                 RoundedTextField(
                   showLabelText: false,
                   controller: controller.pinController,
@@ -256,7 +227,9 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
                     ),
                   ),
                 ),
+
                 spaceDown(Dimensions.space15),
+
                 AppMainSubmitButton(
                   text: MyStrings.confirm,
                   isLoading: controller.isSubmitLoading,

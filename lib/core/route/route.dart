@@ -72,6 +72,8 @@ import 'package:ovopay/app/screens/support_ticket/views/new_ticket_screen/new_ti
 import 'package:ovopay/app/screens/support_ticket/views/ticket_details_screen/ticket_details_screen.dart';
 import 'package:ovopay/app/screens/two_factor/two_factor_setup_screen/two_factor_setup_screen.dart';
 import 'package:ovopay/app/screens/two_factor/two_factor_verification_screen/two_factor_verification_screen.dart';
+import 'package:ovopay/app/screens/withdraw/view/confirm_withdraw_screen.dart';
+import 'package:ovopay/app/screens/withdraw/view/withdraw_screen.dart';
 import 'package:ovopay/core/data/models/user/user_model.dart';
 import 'package:ovopay/core/data/services/service_exporter.dart';
 import 'package:ovopay/core/utils/url_container.dart';
@@ -162,6 +164,8 @@ class RouteHelper {
   static const String enterAmountScreen = "/enter_amount_screen";
   static const String confirmTopUpScreen = "/confirm_top_up_screen";
   static const String successScreen = "/success_screen";
+  static const String withdrawScreen = "/withdraw_screen";
+  static const String confirmWithdrawScreen = "/confirm_withdraw_screen";
 
   // Define your routes
   static List<GetPage> routes = [
@@ -620,7 +624,7 @@ class RouteHelper {
     GetPage(
       name: enterAmountScreen,
       transitionDuration: const Duration(milliseconds: 400),
-      page: () => EnterAmountScreen(),
+      page: () => EnterAmountScreen(topUpInfo: Get.arguments,),
       transition: Transition.fadeIn,
     ),
     GetPage(
@@ -632,7 +636,21 @@ class RouteHelper {
     GetPage(
       name: successScreen,
       transitionDuration: const Duration(milliseconds: 400),
-      page: () => SuccessScreen(),
+      page: () => SuccessScreen(successScreenModel: Get.arguments),
+      transition: Transition.fadeIn,
+    ),
+
+    GetPage(
+      name: withdrawScreen,
+      transitionDuration: const Duration(milliseconds: 400),
+      page: () => WithdrawScreen(cardModel: Get.arguments),
+      transition: Transition.fadeIn,
+    ),
+
+    GetPage(
+      name: confirmWithdrawScreen,
+      transitionDuration: const Duration(milliseconds: 400),
+      page: () => ConfirmWithdrawScreen(),
       transition: Transition.fadeIn,
     ),
   ];

@@ -1,4 +1,5 @@
 class MyStrings {
+
   // Onboarding Texts
   static const String onboardTitle1 = "Send and receive money seamlessly with MFS";
   static const String onboardSubtitle1 = "Instantly transfer funds to friends, family, or businesses with a few taps, directly from your mobile wallet";
@@ -18,6 +19,8 @@ class MyStrings {
   static const String qrCodeLoginSubTitle = "Scan the QR code with your app to log in securely to the web.";
   static const String deleteAccount = "Delete Account";
   static const String fixed = "Fixed";
+  static const String done = "Done";
+  static const String pleaseSendExactly = "Please send exactly";
   static const String selectedAmount = "Selected Amount";
   static const String repeat = "Repeat";
   static const String lifeTime = "Lifetime";
@@ -99,6 +102,7 @@ class MyStrings {
   static const String forgotPinMSG = "You can easily reset your pin from the app. To get started Please tap on the “Reset PIN” button and follow the steps mentioned.";
   static const String getStarted = "Get started";
   static const String login = "Login";
+  static const String freezeCardConfirmation = "Are you sure you want to freeze this card? All transactions will be temporarily blocked.";
   static const String register = "Register";
   static const String firstName = "First Name";
   static const String lastName = "Last Name";
@@ -563,7 +567,11 @@ class MyStrings {
   static const String downloadReceipt = "Download Receipt";
   static const String topUp = "Top-Up";
   static const String withdraw = "Withdraw";
+  static const String withdrawAmount = "Withdraw Amount";
+  static const String withdrawMethod = "Withdraw Method";
+  static const String withdrawFrom = "Withdraw From";
   static const String freeze = "Freeze";
+  static const String cardBalance = "Cad Balance";
   static const String terminate = "Terminate";
   static const String terminateCard = "Terminate Card";
   static const String expirationDate = "Expiration Date";
@@ -595,6 +603,7 @@ class MyStrings {
   static const String availableForInstantTransfer = "Available for Instant Transfer";
   static const String chooseHowYouWantToUpYourCard = "Choose how you want to up your card";
   static const String fromMainBalance = "From Main Balance";
+  static const String fromCryptoBalance = "From Crypto Balance";
   static const String cryptoDeposit = "Crypto Deposit";
   static const String instant = "Instant";
   static const String direct = "Direct";
@@ -603,15 +612,24 @@ class MyStrings {
   static const String processingFee = "Processing Fee";
   static const String processingTime = "Processing Time";
   static const String confirmTopUp = "Confirm Top Up";
+  static const String confirmWithdraw = "Confirm Withdraw";
   static const String newBalance = "New Balance";
   static const String freezeCard = "Freeze Card";
+  static const String unfreezeCard = "Unfreeze Card";
   static const String afterFreezing = "After Freezing";
   static const String selectReason = "Select Reason";
   static const String topUpMethod = "Top-Up Method";
   static const String balance = "Balance";
   static const String incoming = "Incoming";
+  static const String topUpSuccessful = "Top-Up Successful";
+  static const String yourCardHasBeenToppedUpWith = "Your card has been topped  up with";
+  static const String setupMonthlyFees = "Setup & Monthly Fees";
   static const String outgoing = "Outgoing";
+  static const String amountAdded = "Amount Added";
+  static const String method = "Method";
+  static const String dateAndTime = "Date & Time";
   static const String feeRate = "Fee Rate";
+  static const String paymentPreview = "Payment Preview";
   static const String minimumAmount = "Minimum Amount";
   static const String maximumAmount = "Maximum Amount";
   static const String valueMustBeLess = "Value must be less than or equal to";
@@ -619,9 +637,17 @@ class MyStrings {
   static const String reasonForFreezing = "Reason for freezing (optional)";
   static const String importantInformation = "Important Information";
   static const String topUpAmount = "Top-Up Amount";
+  static const String allTransactionWillBeBlocked = "All transactions will be blocked";
+  static const String pendingPaymentsMayFail = "Pending payments may fail";
+  static const String subscriptionsWillbePaused = "Subscriptions will be paused";
+  static const String aFeeOf = "A fee of";
+  static const String willBeCharged = "will be charged";
+  static const String yourBalanceRemainsSafe = "Your balance remains safe";
   static const String perTransactionCharge = "Per Transaction Charge";
   static const String totalDeductedFromWallet = "Total Deducted From Wallet";
+  static const String netAmountYouWillReceive = "Net Amount You Will Receive";
   static const String reviewTheDetailsBeforeProceeding = "Review the details before proceeding";
   static const String cardScreenTitle = "Tap on the card to view your card transactions.";
   static const String balanceTermsAndConditions = "Balance transfers ate instant. Crypto deposits may take 5-30 minutes depending on network confirmation.";
+
 }

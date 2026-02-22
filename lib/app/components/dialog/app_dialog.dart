@@ -6,6 +6,7 @@ import 'package:ovopay/app/components/buttons/app_main_submit_button.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
 import 'package:ovopay/app/components/buttons/hold_to_confirm_button.dart';
 import 'package:ovopay/app/components/image/my_asset_widget.dart';
+import 'package:ovopay/app/components/image/my_network_image_widget.dart';
 import 'package:ovopay/app/components/otp_field_widget/otp_field_widget.dart';
 import 'package:ovopay/app/components/text-field/rounded_text_field.dart';
 import 'package:ovopay/app/components/text/header_text.dart';
@@ -14,6 +15,7 @@ import 'package:ovopay/app/components/will_pop_widget.dart';
 import 'package:ovopay/app/screens/card/controller/card_controller.dart';
 import 'package:ovopay/app/screens/virtual_cards/controller/virtual_cards_controller.dart';
 import 'package:ovopay/core/data/controller/otp_verification_controller/otp_controller.dart';
+import 'package:ovopay/core/data/models/card/crypto_address_response_model.dart';
 import 'package:ovopay/core/data/services/service_exporter.dart';
 import 'package:ovopay/core/route/route.dart';
 import 'package:lottie/lottie.dart';
@@ -876,6 +878,89 @@ class AppDialogs {
                           bgColor: MyColor.getPrimaryColor(),
                           text: buttonTitle.tr,
                           onTap: onTap,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  static Future cryptoDialog(
+      BuildContext context, {
+        required CryptoAddress? cryptoAddress,
+      }) {
+    return showDialog(
+      context: context,
+      useSafeArea: true,
+      barrierDismissible: true,
+      traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+      builder: (_) {
+        return Dialog(
+          surfaceTintColor: MyColor.transparentColor,
+          insetPadding: EdgeInsets.all(Dimensions.space16.w),
+          backgroundColor: MyColor.transparentColor,
+          insetAnimationCurve: Curves.fastOutSlowIn,
+          insetAnimationDuration: const Duration(milliseconds: 100),
+          child: LayoutBuilder(
+            builder: (context, constraint) {
+              return Container(
+                padding: EdgeInsetsDirectional.symmetric(
+                  vertical: Dimensions.space32.w,
+                  horizontal: Dimensions.space16.w,
+                ),
+                decoration: BoxDecoration(
+                  color: MyColor.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20.w)),
+                  border: Border.all(
+                    color: MyColor.transparentColor,
+                    width: 0.6,
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        HeaderText(
+                          text: MyStrings.paymentPreview.tr,
+                          textStyle: MyTextStyle.headerH3.copyWith(
+                            color: MyColor.getDarkColor(),
+                          ),
+                        ),
+
+                        spaceDown(Dimensions.space12.h),
+
+                        MyNetworkImageWidget(
+                          imageUrl: cryptoAddress?.img ?? "",
+                          width: 200,
+                          height: 200,
+                        ),
+
+                        spaceDown(Dimensions.space12.h),
+                        HeaderTextSmaller(
+                          text: "${MyStrings.pleaseSendExactly.tr} ${AppConverter.formatNumber(cryptoAddress?.amount ?? "")} ${cryptoAddress?.currency} to ${cryptoAddress?.sendto}",
+                          textAlign: TextAlign.center,
+                          textStyle: MyTextStyle.sectionBodyTextStyle.copyWith(
+                            color: MyColor.getBodyTextColor(),
+                          ),
+                        ),
+                        spaceDown(Dimensions.space30),
+                        CustomElevatedBtn(
+                          radius: Dimensions.largeRadius.r,
+                          bgColor: MyColor.getPrimaryColor(),
+                          text: MyStrings.done,
+                          onTap: () {
+                            Get.back();
+                          },
                         ),
                       ],
                     ),

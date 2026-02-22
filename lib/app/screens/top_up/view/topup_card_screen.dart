@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
 import 'package:ovopay/app/components/image/my_asset_widget.dart';
-import 'package:ovopay/app/screens/card_details/view/contorller/card_details_controller.dart';
 import 'package:ovopay/app/screens/dashboard_screen/controller/home_controller.dart';
 import 'package:ovopay/core/data/repositories/top_up/top_up_repo.dart';
 import 'package:ovopay/core/route/route.dart';
@@ -15,7 +14,6 @@ import 'package:ovopay/core/utils/my_icons.dart';
 import 'package:ovopay/core/utils/my_strings.dart';
 import 'package:ovopay/core/utils/text_style.dart';
 
-import '../../../../core/data/services/shared_pref_service.dart';
 import '../../../../core/helper/string_format_helper.dart';
 import '../controller/topup_controller.dart';
 
@@ -41,7 +39,7 @@ class _TopUpCardScreenState extends State<TopUpCardScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (mounted) {
-        controller.getTopUpWallet(widget.id);
+        controller.loadData(widget.id);
       }
     });
   }
@@ -94,7 +92,7 @@ class _TopUpCardScreenState extends State<TopUpCardScreen> {
 
               CustomAppCard(
                 onPressed: () {
-                  Get.toNamed(RouteHelper.enterAmountScreen);
+                  Get.toNamed(RouteHelper.enterAmountScreen, arguments: TopUpInfo(topUpMethod: MyStrings.fromMainBalance));
                 },
                 padding: EdgeInsetsGeometry.all(Dimensions.space8),
                 radius: 12,
@@ -150,6 +148,9 @@ class _TopUpCardScreenState extends State<TopUpCardScreen> {
               spaceDown(Dimensions.space12.h),
 
               CustomAppCard(
+                onPressed: () {
+                  Get.toNamed(RouteHelper.enterAmountScreen, arguments: TopUpInfo(topUpMethod: MyStrings.fromCryptoBalance));
+                },
                 padding: EdgeInsetsGeometry.all(Dimensions.space8),
                 radius: 12,
                 child: Row(
@@ -191,7 +192,7 @@ class _TopUpCardScreenState extends State<TopUpCardScreen> {
                             ],
                           ),
                           spaceDown(Dimensions.space4.h),
-                          Text("${MyStrings.processingFee.tr}: ${controller.chargeSetting?.topupChargeFromCrypto ?? ""}%", style: MyTextStyle.caption1Style.copyWith(color: MyColor.bodyText))
+                          Text("${MyStrings.processingFee.tr}: ${controller.chargeSettingForWallet?.topupChargeFromCrypto ?? ""}%", style: MyTextStyle.caption1Style.copyWith(color: MyColor.bodyText))
                         ],
                       ),
                     )
