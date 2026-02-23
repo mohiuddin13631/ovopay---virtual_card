@@ -3,13 +3,14 @@ import 'package:get/get.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
-import 'package:ovopay/app/screens/card_application/controller/card_application_controller.dart';
+import 'package:ovopay/app/screens/choose_card/controller/create_new_card_controller.dart';
 import '../../../../../../core/utils/util_exporter.dart';
 import '../../../../core/data/services/shared_pref_service.dart';
 import '../../../../environment.dart';
 import '../../../components/image/my_network_image_widget.dart';
 import '../../../components/text-field/rounded_text_field.dart';
 import '../../global/views/widgets/country_bottom_sheet.dart';
+
 class ShippingAddressScreen extends StatefulWidget {
   const ShippingAddressScreen({super.key});
 
@@ -20,7 +21,7 @@ class ShippingAddressScreen extends StatefulWidget {
 class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CardApplicationController>(
+    return GetBuilder<CreateNewCardController>(
       builder: (controller) => MyCustomScaffold(
         pageTitle: MyStrings.shippingAddress,
         body: CustomAppCard(

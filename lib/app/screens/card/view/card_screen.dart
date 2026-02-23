@@ -74,7 +74,9 @@ class _CardScreenState extends State<CardScreen> {
 
           GestureDetector(
             onTap: () {
-              Get.toNamed(RouteHelper.chooseCardScreen);
+              Get.toNamed(RouteHelper.chooseCardScreen)?.then((value) {
+                controller.loadData(forceLoad: false);
+              });
             },
             child: Container(
               padding: EdgeInsetsGeometry.symmetric(vertical: 10, horizontal: 10),

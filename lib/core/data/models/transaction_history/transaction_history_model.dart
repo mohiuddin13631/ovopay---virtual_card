@@ -87,7 +87,7 @@ class Transactions {
             : List<TransactionHistoryModel>.from(
                 json["data"]!.map((x) => TransactionHistoryModel.fromJson(x)),
               ),
-        nextPageUrl: json["next_page_url"],
+        nextPageUrl: json["next_page_url"]?.toString(),
         path: json["path"],
       );
 

@@ -29,7 +29,6 @@ class CardController extends GetxController {
     [
       Color(0xff24113E),
       Color(0xff24113E),
-      // Color(0xff565564),
       Color(0xff641990),
       Color(0xff5B16DF),
     ],
@@ -43,8 +42,6 @@ class CardController extends GetxController {
       Color(0xff121630),
       Color(0xff7D13D2),
       Color(0xff5576EF),
-      // Color(0xff121630),
-      // Color(0xff5CA3F7),
     ],
   ];
 
@@ -86,7 +83,7 @@ class CardController extends GetxController {
       page = page + 1;
       isLoading = forceLoad;
       update();
-      ResponseModel responseModel = await cardRepo.getCardList(index: page.toString());
+      ResponseModel responseModel = await cardRepo.getCardList();
 
       if (responseModel.statusCode == 200) {
         final cardListResponseModel = cardListResponseModelFromJson(

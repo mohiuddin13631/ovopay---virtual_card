@@ -4,15 +4,21 @@ import '../../../utils/util_exporter.dart';
 import '../../services/service_exporter.dart';
 
 class CardRepo {
-  Future<ResponseModel> getCardList({String index = "1"}) async {
-    String url = '${UrlContainer.baseUrl}${UrlContainer.cardListEndPoint}?page=$index';
+  Future<ResponseModel> getCardList() async {
+    String url = '${UrlContainer.baseUrl}${UrlContainer.cardListEndPoint}';
     ResponseModel responseModel = await ApiService.getRequest(url);
     return responseModel;
   }
 
-  Future<ResponseModel> getCardDetails(String id) async {
-    String url = '${UrlContainer.baseUrl}${UrlContainer.cardDetailsEndPoint}/$id';
+  Future<ResponseModel> getCardDetails(String id,{String page = "1"}) async {
+    String url = '${UrlContainer.baseUrl}${UrlContainer.cardDetailsEndPoint}/$id?page=$page';
     ResponseModel responseModel = await ApiService.postRequest(url, {});
+    return responseModel;
+  }
+
+  Future<ResponseModel> getChargeSettings() async {
+    String url = '${UrlContainer.baseUrl}${UrlContainer.chargeSettingsEndPoint}';
+    ResponseModel responseModel = await ApiService.getRequest(url);
     return responseModel;
   }
 

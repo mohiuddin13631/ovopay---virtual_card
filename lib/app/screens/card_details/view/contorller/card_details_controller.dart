@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:get/get.dart';
 import 'package:ovopay/core/data/models/card/card_list_response_model.dart';
@@ -30,28 +29,34 @@ class CardDetailsController extends GetxController {
 
   ChargeSetting? chargeSetting;
 
-  Future<void> getCardDetails(String id) async {
+  String? nextPageUrl;
+  int page = 0;
+
+  Future<void> getCardDetails({required String id, bool forceLoad = true}) async {
 
     currency = SharedPreferenceService.getCurrencySymbol();
     textCurrency = SharedPreferenceService.getCurrencySymbol(isFullText: true);
 
-    isLoading = true;
-    update();
-
     try {
-      ResponseModel responseModel = await cardRepo.getCardDetails(id);
+
+      page = page + 1;
+      isLoading = forceLoad;
+      update();
+
+      if(page == 1){
+        transactionHistoryList.clear();
+      }
+
+      ResponseModel responseModel = await cardRepo.getCardDetails(id, page: page.toString());
       if (responseModel.statusCode == 200) {
-        final cardDetails = cardDetailsResponseModelFromJson(
-          jsonEncode(responseModel.responseJson),
-        );
+        final cardDetails = cardDetailsResponseModelFromJson(jsonEncode(responseModel.responseJson));
         if (cardDetails.status == "success") {
+          nextPageUrl = cardDetails.data?.transactions?.nextPageUrl ?? "";
           cardModel = cardDetails.data?.card ?? CardModel(id: -1);
           transactionHistoryList.addAll(cardDetails.data?.transactions?.historyData ?? []);
           chargeSetting = cardDetails.data?.chargeSetting;
         } else {
-          CustomSnackBar.error(
-            errorList: cardDetails.message ?? [MyStrings.somethingWentWrong],
-          );
+          CustomSnackBar.error(errorList: cardDetails.message ?? [MyStrings.somethingWentWrong]);
         }
         update();
         isLoading = false;
@@ -64,6 +69,10 @@ class CardDetailsController extends GetxController {
     }
     isLoading = false;
     update();
+  }
+
+  bool hasNext() {
+    return nextPageUrl != null && nextPageUrl!.isNotEmpty && nextPageUrl != 'null' ? true : false;
   }
 
 

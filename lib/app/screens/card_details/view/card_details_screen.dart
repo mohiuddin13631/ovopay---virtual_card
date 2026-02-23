@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
 import 'package:ovopay/app/components/divider/custom_divider.dart';
+import 'package:ovopay/app/components/no_data.dart';
 import 'package:ovopay/app/screens/card/controller/card_controller.dart';
 import 'package:ovopay/app/screens/card/view/widget/card_ui.dart';
 import 'package:ovopay/app/screens/card_details/view/contorller/card_details_controller.dart';
@@ -11,6 +12,7 @@ import 'package:ovopay/core/data/repositories/card/card_repo.dart';
 import 'package:ovopay/core/route/route.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/utils/util_exporter.dart';
+import '../../../components/custom_loader/custom_loader.dart';
 import '../../../components/dialog/app_dialog.dart';
 import '../../../components/image/my_asset_widget.dart';
 
@@ -23,6 +25,16 @@ class CardDetailsScreen extends StatefulWidget {
 }
 
 class _CardDetailsScreenState extends State<CardDetailsScreen> {
+
+  final ScrollController cardScrollController = ScrollController();
+  void scrollListener() {
+    if (cardScrollController.position.pixels == cardScrollController.position.maxScrollExtent) {
+      if (Get.find<CardDetailsController>().hasNext()) {
+        Get.find<CardDetailsController>().getCardDetails(forceLoad: false, id: widget.cardInfo?.cardModel.id.toString() ?? "-1");
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -32,7 +44,10 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (mounted) {
-        controller.getCardDetails(widget.cardInfo?.cardModel.id.toString() ?? "-1");
+        controller.page = 0;
+        controller.getCardDetails(id: widget.cardInfo?.cardModel.id.toString() ?? "-1");
+
+        cardScrollController.addListener(() => scrollListener());
       }
     });
   }
@@ -54,6 +69,7 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
 
             },
             child: SingleChildScrollView(
+              controller: cardScrollController,
               physics: ClampingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
               ),
@@ -118,11 +134,16 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                           Text(MyStrings.transaction.tr, style: MyTextStyle.sectionTitle2,),
                           spaceDown(Dimensions.space18.h),
 
+                          controller.transactionHistoryList.isEmpty ? NoDataWidget() :
                           ListView.builder(
-                            itemCount: controller.transactionHistoryList.length,
+                            itemCount: controller.transactionHistoryList.length + 1,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
+
+                              if (controller.transactionHistoryList.length == index) {
+                                return controller.hasNext() ? const CustomLoader(isPagination: true) : const SizedBox();
+                              }
 
                               var transactionHistory = controller.transactionHistoryList[index];
 
@@ -161,7 +182,9 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                           )
                         ],
                       )
-                    )
+                    ),
+
+
                   ],
                 ),
               ),

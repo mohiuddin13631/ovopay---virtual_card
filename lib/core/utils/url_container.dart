@@ -199,6 +199,7 @@ class UrlContainer {
   static const String cardDetailsEndPoint = 'card/details';
   static const String getTopUpWalletEndPoint = 'card/topup/wallet';
   static const String createNewCardEndPoint = 'card/new';
+  static const String createCardEndPoint = 'card/create';
   static const String getTopUpCryptoEndPoint = 'card/topup/crypto';
   static const String pinVerifyEndPoint = 'card/confidential';
   static const String confirmTopUpEndPoint = 'card/topup/wallet-confirm';
@@ -207,5 +208,6 @@ class UrlContainer {
   static const String confirmWithdrawEndPoint = 'card/withdraw/confirm';
   static const String freezeCardEndPoint = 'card/freeze';
   static const String unfreezeCardEndPoint = 'card/unfreeze';
+  static const String chargeSettingsEndPoint = 'card/charge-info';
 
 }

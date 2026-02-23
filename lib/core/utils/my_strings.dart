@@ -491,6 +491,7 @@ class MyStrings {
   static const String chooseCardHolder = "Choose Card Holder ";
   static const String existingCardHolder = "Existing Card Holder";
   static const String createNewCardHolder = "Create New Card Holder";
+  static const String newCardInformation = "New Card Information";
   static const String reusable = "Reusable";
   static const String oneTime = "One Time";
   static const String chooseCardHolderSubText = "Choose an existing cardholder if available, or create a new cardholder by providing the required information";
@@ -641,7 +642,31 @@ class MyStrings {
   static const String pendingPaymentsMayFail = "Pending payments may fail";
   static const String subscriptionsWillbePaused = "Subscriptions will be paused";
   static const String aFeeOf = "A fee of";
+
+
+  static const String cardCreationCharge = "Card Creation Charge";
+  static const String monthlyMaintenanceCharge = "Monthly Maintenance Charge";
+  static const String maximumCardLimit = "Maximum Card Limit";
+  static const String walletRequiredAmount = "Wallet Required Amount";
+  static const String crossBorderTransactionCharge = "Cross border Transaction Charge";
+  static const String perOperationCharge = "Per Operation Charge";
+  static const String topUpChargeFromWallet = "Top-up Charge from Wallet";
+  static const String topUpChargeFromCrypto = "Top-up Charge from Crypto";
+  static const String minimumTopUpLimit = "Minimum Top-up Limit";
+  static const String maximumTopUpLimit = "Maximum Top-up Limit";
+  static const String withdrawCharge = "Withdraw Charge";
+  static const String withdrawMinimumLimit = "Withdraw Minimum Limit";
+  static const String withdrawMaximumLimit = "Withdraw Maximum Limit";
+  static const String actionDeclineCharge = "Action Decline Charge";
+
+
   static const String willBeCharged = "will be charged";
+  static const String cardCreationFee = "Card Creation Fee";
+  static const String cardCreatedSuccessfully = "Card created successfully";
+  static const String initialDepositAmount = "Initial Deposit Amount";
+  static const String creationFee = "Creation Fee";
+  static const String onetimePayment = "One-time payment";
+  static const String perTransactionFee = "Per Transaction Fee";
   static const String yourBalanceRemainsSafe = "Your balance remains safe";
   static const String perTransactionCharge = "Per Transaction Charge";
   static const String totalDeductedFromWallet = "Total Deducted From Wallet";

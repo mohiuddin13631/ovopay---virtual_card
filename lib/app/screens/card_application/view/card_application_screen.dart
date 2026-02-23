@@ -6,6 +6,8 @@ import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
 import 'package:ovopay/app/components/divider/custom_divider.dart';
 import 'package:ovopay/app/screens/card_application/view/widget/existing_user_section.dart';
 import 'package:ovopay/app/screens/card_application/view/widget/new_user_section.dart';
+import 'package:ovopay/app/screens/choose_card/controller/create_new_card_controller.dart';
+import 'package:ovopay/core/helper/string_format_helper.dart';
 import 'package:ovopay/core/utils/my_strings.dart';
 
 import '../../../../core/route/route.dart';
@@ -16,7 +18,6 @@ import '../../../../core/utils/my_icons.dart';
 import '../../../../core/utils/text_style.dart';
 import '../../../components/buttons/custom_elevated_button.dart';
 import '../../../components/image/my_asset_widget.dart';
-import '../controller/card_application_controller.dart';
 class CardApplicationScreen extends StatefulWidget {
 
   final bool isPhysicalCard;
@@ -31,13 +32,12 @@ class _CardApplicationScreenState extends State<CardApplicationScreen> {
 
   @override
   void initState() {
-    Get.put(CardApplicationController());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CardApplicationController>(
+    return GetBuilder<CreateNewCardController>(
       builder: (controller) => MyCustomScaffold(
         pageTitle: MyStrings.cardApplications,
         body: SingleChildScrollView(
@@ -133,7 +133,10 @@ class _CardApplicationScreenState extends State<CardApplicationScreen> {
                 ),
               ),
 
-              spaceDown(Dimensions.space12.h),
+              Visibility(
+                visible:  widget.isPhysicalCard,
+                child: spaceDown(Dimensions.space12.h)
+              ),
 
               Visibility(
                 visible: widget.isPhysicalCard,
@@ -156,6 +159,42 @@ class _CardApplicationScreenState extends State<CardApplicationScreen> {
                       ],
                     )
                 ),
+              ),
+
+              CustomAppCard(
+                padding: EdgeInsetsGeometry.all(Dimensions.space16),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(child: Text(MyStrings.cardCreationFee.tr, style: MyTextStyle.caption1Style.copyWith(fontSize: 13.5.sp),)),
+                        Text("${controller.currency}${AppConverter.formatNumber(controller.chargeSetting?.creationFee ?? "", forceShowPrecision: true)}", style: MyTextStyle.caption1Style.copyWith(fontSize: 13.5.sp),)
+                      ],
+                    ),
+                    CustomDivider(space: Dimensions.space10.h),
+                    Row(
+                      children: [
+                        Expanded(child: Text(MyStrings.initialDepositAmount.tr, style: MyTextStyle.caption1Style.copyWith(fontSize: 13.5.sp),)),
+                        Text("${controller.currency}${controller.initialDepositController.text.isEmpty ? "0.00" : controller.initialDepositController.text}", style: MyTextStyle.caption1Style.copyWith(fontSize: 13.5.sp),)
+                      ],
+                    ),
+                    CustomDivider(space: Dimensions.space10.h),
+                    Row(
+                      children: [
+                        Expanded(child: Text(MyStrings.perTransactionFee.tr, style: MyTextStyle.caption1Style.copyWith(fontSize: 13.5.sp),)),
+                        Text("${controller.currency}${AppConverter.formatNumber(controller.chargeSetting?.perOperationCharge ?? "")}", style: MyTextStyle.caption1Style.copyWith(fontSize: 13.5.sp),)
+                      ],
+                    ),
+                    CustomDivider(space: Dimensions.space10.h),
+                    Row(
+                      children: [
+                        Expanded(child: Text(MyStrings.total.tr, style: MyTextStyle.caption1Style.copyWith(fontSize: 13.5.sp),)),
+                        Text("${controller.currency}${controller.getTotal()}", style: MyTextStyle.caption1Style.copyWith(fontSize: 13.5.sp),)
+                      ],
+                    ),
+
+                  ],
+                )
               ),
 
               spaceDown(Dimensions.space12.h),
@@ -197,9 +236,12 @@ class _CardApplicationScreenState extends State<CardApplicationScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CustomElevatedBtn(
-                  text: "${MyStrings.confirmAndPay.tr} - \$10.00 USD",
+                  isLoading: controller.isSubmitLoading,
+                  text: "${MyStrings.confirmAndPay.tr} - ${controller.currency}${controller.getTotal()}",
                   onTap: () {
-                    Get.toNamed(RouteHelper.cardApplicationScreen);
+                    if (controller.newCardFormKey.currentState!.validate()) {
+                      controller.createNewCard(cardType: widget.isPhysicalCard ? "Physical" : "Virtual");
+                    }
                   },
                 ),
                 spaceDown(Dimensions.space8.h),
