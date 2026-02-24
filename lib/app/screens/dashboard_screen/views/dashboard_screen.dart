@@ -10,7 +10,6 @@ import 'package:ovopay/app/screens/dashboard_screen/controller/home_controller.d
 import 'package:ovopay/app/screens/dashboard_screen/views/home_screen.dart';
 import 'package:ovopay/app/screens/dashboard_screen/views/widgets/drawer_screen.dart';
 import 'package:ovopay/app/screens/profile_and_settings_screen/views/profile_and_settings_screen.dart';
-import 'package:ovopay/app/screens/statements/controller/statement_history_controller.dart';
 import 'package:ovopay/app/screens/transaction_history/controller/transaction_history_controller.dart';
 import 'package:ovopay/app/screens/transaction_history/views/transaction_history_screen.dart';
 import 'package:ovopay/core/utils/util_exporter.dart';
@@ -143,9 +142,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   height: Dimensions.space24.h,
                   boxFit: BoxFit.scaleDown,
                   color: _selectedIndex == 1 ? MyColor.getPrimaryColor() : MyColor.getBodyTextColor(),
-                  assetPath: _selectedIndex == 1 ? MyIcons.statementActive : MyIcons.statementInactive,
+                  assetPath: _selectedIndex == 1 ? MyIcons.cardActive : MyIcons.cardInactive,
                 ),
-                icon: Icons.credit_card,
+                icon: Icons.credit_card_rounded,
                 text: MyStrings.card.tr,
               ),
 

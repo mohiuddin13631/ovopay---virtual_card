@@ -21,6 +21,7 @@ import 'package:ovopay/app/screens/card_application/view/shipping_address_screen
 import 'package:ovopay/app/screens/card_charges_fees/view/card_charges_and_fees_screen.dart';
 import 'package:ovopay/app/screens/card_details/view/card_details_screen.dart';
 import 'package:ovopay/app/screens/choose_card/view/choose_card_screen.dart';
+import 'package:ovopay/app/screens/statements/statement_screen.dart';
 import 'package:ovopay/app/screens/success/success_screen.dart';
 import 'package:ovopay/app/screens/top_up/view/confirm_topup_screen.dart';
 import 'package:ovopay/app/screens/top_up/view/enter_amount_screen.dart';
@@ -166,6 +167,7 @@ class RouteHelper {
   static const String successScreen = "/success_screen";
   static const String withdrawScreen = "/withdraw_screen";
   static const String confirmWithdrawScreen = "/confirm_withdraw_screen";
+  static const String statementScreen = "/statement_screen";
 
   // Define your routes
   static List<GetPage> routes = [
@@ -651,6 +653,13 @@ class RouteHelper {
       name: confirmWithdrawScreen,
       transitionDuration: const Duration(milliseconds: 400),
       page: () => ConfirmWithdrawScreen(),
+      transition: Transition.fadeIn,
+    ),
+
+    GetPage(
+      name: statementScreen,
+      transitionDuration: const Duration(milliseconds: 400),
+      page: () => StatementScreen(),
       transition: Transition.fadeIn,
     ),
   ];

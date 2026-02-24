@@ -142,6 +142,33 @@ class _ProfileAndSettingsScreenState extends State<ProfileAndSettingsScreen> {
                       Get.toNamed(RouteHelper.notificationSettingsScreen);
                     },
                   ),
+
+                  CustomListTileCard(
+                    padding: EdgeInsetsDirectional.symmetric(
+                      vertical: Dimensions.space17,
+                    ),
+                    title: MyStrings.statement.tr,
+                    showBorder: true,
+                    titleStyle: MyTextStyle.bodyTextStyle2.copyWith(
+                      color: MyColor.getBodyTextColor(),
+                    ),
+                    leading: MyAssetImageWidget(
+                      isSvg: true,
+                      assetPath: MyIcons.statementInactive,
+                      width: Dimensions.space24.w,
+                      height: Dimensions.space24.w,
+                      boxFit: BoxFit.scaleDown,
+                      color: MyColor.getPrimaryColor(),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: MyColor.getBodyTextColor().withValues(alpha: 0.5),
+                    ),
+                    onPressed: () {
+                      Get.toNamed(RouteHelper.statementScreen);
+                    },
+                  ),
+
                   CustomListTileCard(
                     padding: EdgeInsetsDirectional.symmetric(
                       vertical: Dimensions.space17,

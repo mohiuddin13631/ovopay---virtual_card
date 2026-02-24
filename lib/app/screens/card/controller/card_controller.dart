@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/core/data/models/card/card_details_response_model.dart';
@@ -7,6 +7,7 @@ import 'package:ovopay/core/data/models/card/card_list_response_model.dart';
 import 'package:ovopay/core/data/models/card/card_pin_verify_response_model.dart';
 import 'package:ovopay/core/data/repositories/card/card_repo.dart';
 import 'package:ovopay/core/data/services/service_exporter.dart';
+
 import '../../../../core/data/models/global/response_model/response_model.dart';
 import '../../../../core/utils/my_strings.dart';
 import '../../../../core/utils/util.dart';
@@ -83,6 +84,11 @@ class CardController extends GetxController {
       page = page + 1;
       isLoading = forceLoad;
       update();
+
+      if(page == 1){
+        cardList.clear();
+      }
+
       ResponseModel responseModel = await cardRepo.getCardList();
 
       if (responseModel.statusCode == 200) {

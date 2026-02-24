@@ -106,6 +106,12 @@ final List<TransActionIconItem> transactionIconsList = [
     activeColor: MyColor.greenLightColor,
   ),
   TransActionIconItem(
+    icon: MyIcons.cardInactive,
+    label: ["virtual_card_creation"],
+    isActive: true,
+    activeColor: MyColor.skyBlueColor,
+  ),
+  TransActionIconItem(
     icon: MyIcons.billPay,
     label: ["utility_bill", "reject_utility_bill"],
     isActive: true,
@@ -371,6 +377,11 @@ class CustomMainTransactionListTileCard extends StatelessWidget {
                 size: Dimensions.space24.h,
                 color: service.activeColor,
               ),
+            ) : service.icon == "virtual_card_creation"
+          ? Icon(
+              Icons.credit_card_rounded,
+              size: Dimensions.space24.h,
+              color: service.activeColor,
             )
           : service.icon == "balance_add"
               ? FittedBox(

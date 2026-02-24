@@ -43,7 +43,7 @@ class HomeScreenTransactionMenuCard extends StatelessWidget {
                       ),
                       onTap: () {
                         if (onViewAllTransactionTapped != null) {
-                          onViewAllTransactionTapped!(1);
+                          onViewAllTransactionTapped!(2);
                         }
                       },
                       child: Padding(

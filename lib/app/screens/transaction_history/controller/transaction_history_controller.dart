@@ -19,6 +19,8 @@ class TransactionHistoryController extends GetxController {
     switch (remark) {
       case "balance_add":
         return "Balance Added";
+      case "virtual_card_creation":
+        return "Virtual card creation";
       case "balance_subtract":
         return "Balance Subtracted";
       case "add_money":
