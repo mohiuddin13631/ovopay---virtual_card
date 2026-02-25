@@ -7,6 +7,7 @@ import 'package:ovopay/core/data/models/card/card_list_response_model.dart';
 import 'package:ovopay/core/data/models/card/card_pin_verify_response_model.dart';
 import 'package:ovopay/core/data/repositories/card/card_repo.dart';
 import 'package:ovopay/core/data/services/service_exporter.dart';
+import 'package:ovopay/core/utils/my_images.dart';
 
 import '../../../../core/data/models/global/response_model/response_model.dart';
 import '../../../../core/utils/my_strings.dart';
@@ -24,9 +25,15 @@ class CardController extends GetxController {
   bool isAnimating = false;
   bool swipeDown = true;
 
-  int selectedCardColorIndex = 0;
+  String selectedCardImage = MyImages.imageOne;
 
-  List<List<Color>> cards = [
+  List<String> cardImages = [
+    MyImages.imageOne,
+    MyImages.imageTwo,
+    MyImages.imageThree,
+  ];
+
+  /*List<List<Color>> cards = [
     [
       Color(0xff24113E),
       Color(0xff24113E),
@@ -44,7 +51,7 @@ class CardController extends GetxController {
       Color(0xff7D13D2),
       Color(0xff5576EF),
     ],
-  ];
+  ];*/
 
   void onSwipe(bool down) async {
     if (isAnimating) return;
@@ -58,10 +65,10 @@ class CardController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 260));
       if (down) {
         cardList.add(cardList.removeAt(0));
-        cards.add(cards.removeAt(0));
+        cardImages.add(cardImages.removeAt(0));
       } else {
         cardList.insert(0, cardList.removeLast());
-        cards.insert(0, cards.removeLast());
+        cardImages.insert(0, cardImages.removeLast());
       }
       isAnimating = false;
       update();
@@ -69,7 +76,7 @@ class CardController extends GetxController {
 
   TextEditingController pinController = TextEditingController();
 
-  bool isLoading = false;
+  bool isLoading = true;
   int page = 0;
   String? nextPageUrl;
 
@@ -205,7 +212,7 @@ class CardController extends GetxController {
 }
 
 class CardInfo{
-  List<Color> color;
+  String? cardBgImage;
   CardModel cardModel;
-  CardInfo({required this.color, required this.cardModel});
+  CardInfo({this.cardBgImage, required this.cardModel});
 }

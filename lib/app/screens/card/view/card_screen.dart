@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
-import 'package:ovopay/app/components/custom_loader/custom_loader.dart';
 import 'package:ovopay/app/components/dialog/app_dialog.dart';
 import 'package:ovopay/app/components/image/my_asset_widget.dart';
 import 'package:ovopay/app/components/no_data.dart';
@@ -97,7 +96,6 @@ class _CardScreenState extends State<CardScreen> {
             children: [
               RefreshIndicator(
                 color: MyColor.getPrimaryColor(),
-
                 onRefresh: () async {
                   controller.loadData();
                 },
@@ -106,7 +104,31 @@ class _CardScreenState extends State<CardScreen> {
                     children: [
                       spaceDown(context.height * .03),
                       Text(MyStrings.cardScreenTitle.tr, style: MyTextStyle.sectionTitle2.copyWith(fontWeight: FontWeight.w400)),
-                      controller.cardList.isEmpty ? NoDataWidget() :
+
+                      if(controller.isLoading)...[
+                          Container(
+                            height: 344,
+                            width: context.width,
+                            margin: EdgeInsets.only(top: context.height * .1, left: 24, right: 24),
+                            padding: const EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(28),
+                              image: DecorationImage(image: AssetImage(MyImages.imageOne), fit: BoxFit.cover),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.25),
+                                  blurRadius: 18,
+                                  offset: const Offset(0, 12),
+                                ),
+                              ],
+                            ),
+                          )
+                      ],
+
+                      if(controller.cardList.isEmpty && !controller.isLoading)...[
+                        NoDataWidget()
+                      ],
+
                       SizedBox(height: context.height * .2),
 
                       GestureDetector(
@@ -114,13 +136,10 @@ class _CardScreenState extends State<CardScreen> {
                           if (details.primaryVelocity == null) return;
 
                           if (details.primaryVelocity! < 0) {
-                            print("upppp");
                             controller.onSwipe(true); // swipe up
                           } else { //increase
-                            print("downnn");
                             controller.onSwipe(false); // swipe down
                           }
-
                         },
                         child: SizedBox(
                           height: controller.cardHeight + controller.overlap * 2,
@@ -163,9 +182,8 @@ class _CardScreenState extends State<CardScreen> {
                                       }
                                     },
                                     onTap: () {
-                                      Get.toNamed(RouteHelper.cardDetailsScreen, arguments: CardInfo(color: controller.cards[i], cardModel: controller.cardList[i]));
+                                      Get.toNamed(RouteHelper.cardDetailsScreen, arguments: CardInfo(cardBgImage: controller.cardImages[i], cardModel: controller.cardList[i]));
                                     },
-                                    color: controller.cards[i%3]
                                   ),
                                 ),
                               );
@@ -178,7 +196,6 @@ class _CardScreenState extends State<CardScreen> {
                   ),
                 ),
               ),
-
 
               Positioned(
                 top: 0,

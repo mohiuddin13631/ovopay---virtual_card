@@ -38,7 +38,7 @@ class CustomizeCardColorBottomSheet {
                         children: [
                           Expanded(
                             child: HeaderText(
-                              text: "Choose Card Color",
+                              text: MyStrings.chooseCardColor,
                               textStyle: MyTextStyle.headerH3.copyWith(
                                 color: MyColor.getHeaderTextColor(),
                               ),
@@ -67,10 +67,10 @@ class CustomizeCardColorBottomSheet {
 
                       GetBuilder<CardController>(
                         builder: (controller) => Wrap(
-                          children: List.generate(controller.cards.length, (index) {
+                          children: List.generate(controller.cardImages.length, (index) {
                             return  GestureDetector(
                               onTap: () {
-                                controller.selectedCardColorIndex = index;
+                                controller.selectedCardImage = controller.cardImages[index];
                                 controller.update();
                               },
                               child: Stack(
@@ -82,9 +82,7 @@ class CustomizeCardColorBottomSheet {
                                     margin: EdgeInsets.only(right: 10, bottom: 10),
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        gradient: LinearGradient(
-                                            colors: controller.cards[index]
-                                        )
+                                        image: DecorationImage(image: AssetImage(controller.cardImages[index]))
                                     ),
                                   ),
                                   Positioned(
@@ -93,7 +91,7 @@ class CustomizeCardColorBottomSheet {
                                     top: 0,
                                     bottom: 10,
                                     child: Visibility(
-                                      visible: controller.selectedCardColorIndex == index,
+                                      visible: controller.selectedCardImage == controller.cardImages[index],
                                       child: Icon(Icons.check, size: 25, color: MyColor.white,))
                                   )
                                 ],

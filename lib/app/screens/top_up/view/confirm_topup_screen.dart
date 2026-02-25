@@ -62,7 +62,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
           firstTitle: MyStrings.topUpMethod,
           amount: widget.topUpInfo.topUpMethod,
           endTitle: MyStrings.topUpAmount.tr,
-          total: "${controller.currency} ${controller.amountController.text}",
+          total: "${controller.currency}${controller.amountController.text}",
         ),
         CustomDivider(space: Dimensions.space8,),
         AmountDetailsCard(

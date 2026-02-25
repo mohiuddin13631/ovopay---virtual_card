@@ -43,10 +43,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
     if (index == 1) {
       try {
+        // Get.find<CardController>().isLoading = true;
         Get.find<CardController>().page = 0;
-        Get.find<CardController>().loadData(
-          forceLoad: false,
-        );
+        Get.find<CardController>().loadData();
       } catch (e) {
         printE(e.toString());
       }

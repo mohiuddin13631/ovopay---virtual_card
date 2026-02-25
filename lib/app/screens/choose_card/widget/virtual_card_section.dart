@@ -7,7 +7,6 @@ import 'package:ovopay/core/utils/app_style.dart';
 import 'package:ovopay/core/utils/my_strings.dart';
 import 'package:ovopay/core/utils/text_style.dart';
 import 'package:ovopay/environment.dart';
-
 import '../../../../core/utils/dimensions.dart';
 import '../../../../core/utils/my_color.dart';
 import '../../../../core/utils/my_icons.dart';
@@ -31,11 +30,7 @@ class VirtualCardSection extends StatelessWidget {
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.centerRight,
-                  colors: controller.cards[controller.selectedCardColorIndex]
-                ),
+                image: DecorationImage(image: AssetImage(controller.selectedCardImage), fit: BoxFit.cover),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.25),

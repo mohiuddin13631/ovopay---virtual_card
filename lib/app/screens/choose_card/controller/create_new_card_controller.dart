@@ -129,7 +129,8 @@ class CreateNewCardController extends GetxController {
       "card_type" : cardType,
       "name_on_card" : carNameController.text,
       "email" : emailController.text,
-      "amount" : initialDepositController.text
+      "amount" : initialDepositController.text,
+      "bg_image" : Get.find<CardController>().selectedCardImage.split('/').last,
     };
 
     try {
@@ -137,12 +138,7 @@ class CreateNewCardController extends GetxController {
       if (responseModel.statusCode == 200) {
         final model = topUpWalletResponseModelFromJson(jsonEncode(responseModel.responseJson));
         if (model.status == "success") {
-          Get.offAndToNamed(RouteHelper.cardDetailsScreen, arguments: CardInfo(color: [
-            Color(0xff24113E),
-            Color(0xff24113E),
-            Color(0xff641990),
-            Color(0xff5B16DF),
-          ], cardModel: model.data?.card ?? CardModel()));
+          Get.offAndToNamed(RouteHelper.cardDetailsScreen, arguments: CardInfo(cardModel: model.data?.card ?? CardModel()));
           CustomSnackBar.success(successList: [MyStrings.cardCreatedSuccessfully]);
         } else {
           CustomSnackBar.error(errorList: model.message ?? [MyStrings.somethingWentWrong]);

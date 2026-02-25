@@ -665,6 +665,7 @@ class MyStrings {
   static const String cardCreatedSuccessfully = "Card created successfully";
   static const String initialDepositAmount = "Initial Deposit Amount";
   static const String creationFee = "Creation Fee";
+  static const String chooseCardColor = "Choose Card Color";
   static const String onetimePayment = "One-time payment";
   static const String perTransactionFee = "Per Transaction Fee";
   static const String yourBalanceRemainsSafe = "Your balance remains safe";

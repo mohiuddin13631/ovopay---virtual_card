@@ -21,6 +21,8 @@ class TransactionHistoryController extends GetxController {
         return "Balance Added";
       case "virtual_card_creation":
         return "Virtual card creation";
+      case "add_money_to_card":
+        return "Top-up to card";
       case "balance_subtract":
         return "Balance Subtracted";
       case "add_money":

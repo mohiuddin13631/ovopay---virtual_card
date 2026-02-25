@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/app/screens/card/controller/card_controller.dart';
+import 'package:ovopay/core/utils/my_images.dart';
 import 'package:ovopay/core/utils/util.dart';
-
 import '../../../../../core/data/models/card/card_list_response_model.dart';
 import '../../../../../core/utils/app_style.dart';
 import '../../../../../core/utils/dimensions.dart';
@@ -16,16 +16,15 @@ import '../../../../../core/utils/text_style.dart';
 import '../../../../components/card/custom_card.dart';
 import '../../../../components/image/my_asset_widget.dart';
 import '../../../../components/snack_bar/show_custom_snackbar.dart';
-class CardUi extends StatelessWidget {
 
-  final List<Color> color;
+class CardUi extends StatelessWidget {
   final double cardHeight;
   final VoidCallback? onTap;
   final CardModel cardModel;
   final String? currency;
   final VoidCallback? onViewTap;
 
-  const CardUi({super.key, required this.color, this.cardHeight = 344, this.onTap, required this.cardModel, this.currency, this.onViewTap});
+  const CardUi({super.key, this.cardHeight = 344, this.onTap, required this.cardModel, this.currency, this.onViewTap});
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +39,7 @@ class CardUi extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(28),
-            // image: DecorationImage(image: AssetImage("assets/images/card_bg_1.png")),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.centerRight,
-              colors: color,
-            ),
+            image: DecorationImage(image: AssetImage(cardModel.bgImage != null ? "assets/images/card_image/${cardModel.bgImage}" : MyImages.imageOne), fit: BoxFit.cover),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.25),

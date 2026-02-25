@@ -6,6 +6,12 @@ class MyImages {
   static const String onBoardImage2 = "assets/images/onboard/onboard_2.png";
   static const String onBoardImage3 = "assets/images/onboard/onboard_3.png";
 
+  //card bg image
+  static const String imageOne = "assets/images/card_image/image_one.png";
+  static const String imageTwo = "assets/images/card_image/image_two.png";
+  static const String imageThree = "assets/images/card_image/image_three.png";
+
+
   //Others
   static const String balanceCardBgImage = "assets/images/balance_card_bg.png";
   static const String vcCardBgImage = "assets/images/card_bg_pattern.png";

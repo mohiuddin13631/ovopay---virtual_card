@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
 import 'package:ovopay/app/components/divider/custom_divider.dart';
+import 'package:ovopay/app/screens/card/controller/card_controller.dart';
 import 'package:ovopay/app/screens/card_application/view/widget/existing_user_section.dart';
 import 'package:ovopay/app/screens/card_application/view/widget/new_user_section.dart';
 import 'package:ovopay/app/screens/choose_card/controller/create_new_card_controller.dart';
 import 'package:ovopay/core/helper/string_format_helper.dart';
 import 'package:ovopay/core/utils/my_strings.dart';
+import 'package:ovopay/environment.dart';
 
 import '../../../../core/route/route.dart';
 import '../../../../core/utils/app_style.dart';
@@ -45,27 +47,18 @@ class _CardApplicationScreenState extends State<CardApplicationScreen> {
             children: [
               Container(
                 height: 230,
-                width: context.width * .9,
+                width: context.width,
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(28),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.centerRight,
-                    colors:   [
-                      Color(0xff0D0B2A),
-                      Color(0xff481928),
-                      Color(0xffEA3E23),
-                      Color(0xffF89E26),
-                    ],
-                  ),
+                  image: DecorationImage(image: AssetImage(Get.find<CardController>().selectedCardImage), fit: BoxFit.cover)
                 ),
                 child: Column(
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Text("OVOpay", style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.white, fontSize: 30),),
+                      child: Text(Environment.appName, style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.white, fontSize: 30),),
                     ),
                     Spacer(),
                     Align(

@@ -59,6 +59,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/card_image/
     - assets/icons/
     - assets/icons/virtual_card/
     - assets/icons/actions/

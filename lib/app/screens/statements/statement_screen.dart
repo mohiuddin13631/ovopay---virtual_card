@@ -3,14 +3,11 @@ import 'package:get/get.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
 import 'package:ovopay/app/screens/statements/controller/statement_history_controller.dart';
 import 'package:ovopay/core/data/repositories/transaction_history/transaction_history_repo.dart';
-
-import '../../components/card/custom_card.dart';
-import '../../components/image/my_asset_widget.dart';
-import 'widgets/statement_balance_history_card.dart';
-import 'widgets/statement_balance_swap_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/utils/util_exporter.dart';
+import 'widgets/statement_balance_history_card.dart';
+import 'widgets/statement_balance_swap_card.dart';
 
 class StatementScreen extends StatefulWidget {
   const StatementScreen({super.key, this.onItemTapped});

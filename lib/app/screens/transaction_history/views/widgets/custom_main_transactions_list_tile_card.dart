@@ -112,6 +112,12 @@ final List<TransActionIconItem> transactionIconsList = [
     activeColor: MyColor.skyBlueColor,
   ),
   TransActionIconItem(
+    icon: MyIcons.rechargeIcon,
+    label: ["add_money_to_card"],
+    isActive: true,
+    activeColor: MyColor.skyBlueColor,
+  ),
+  TransActionIconItem(
     icon: MyIcons.billPay,
     label: ["utility_bill", "reject_utility_bill"],
     isActive: true,

@@ -7,8 +7,8 @@ import 'package:ovopay/app/components/image/my_asset_widget.dart';
 import 'package:ovopay/core/data/models/transaction_history/transaction_history_model.dart';
 import 'package:ovopay/core/data/services/service_exporter.dart';
 import 'package:ovopay/core/utils/util_exporter.dart';
-
 import '../../../core/route/route.dart';
+
 class SuccessScreen extends StatefulWidget {
 
   final SuccessScreenModel successScreenModel;
@@ -60,9 +60,6 @@ class _SuccessScreenState extends State<SuccessScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(MyStrings.setupMonthlyFees.tr, style: MyTextStyle.caption1Style.copyWith(fontSize: 13.sp)),
-                  spaceDown(Dimensions.space8.h),
-
                   RowItem(
                     title: MyStrings.transactionId.tr,
                     subtitle: widget.successScreenModel.transaction?.trx ?? "",
@@ -80,12 +77,12 @@ class _SuccessScreenState extends State<SuccessScreen> {
 
                   RowItem(
                     title: MyStrings.amountAdded,
-                    subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.transaction?.amount ?? "")}",
+                    subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.transaction?.amount ?? "", forceShowPrecision: true)}",
                   ),
 
                   RowItem(
                     title: MyStrings.processingFee.tr,
-                    subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.processingFee ?? "")}",
+                    subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.processingFee ?? "", forceShowPrecision: true)}",
                   ),
 
                   RowItem(

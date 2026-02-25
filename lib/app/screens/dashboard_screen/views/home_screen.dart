@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Fetch initial data
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+
       if (mounted) {
         controller.initController();
       }
@@ -57,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ListView(
                   padding: EdgeInsetsDirectional.all(Dimensions.space16.w),
                   children: [
+
                     //kyc
                     HomeScreenKycStatusCard(),
                     //Balance Card
@@ -66,12 +68,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       //Service menu
                       HomeScreenServiceMenuCard(),
                     ],
+
                     //Banner Card
                     HomeScreenBannerCard(),
+
                     //Payment Offers
                     if (homeController.offersList.isNotEmpty) ...[
                       spaceDown(Dimensions.space20),
                     ],
+
                     HomeScreenPaymentOffersCard(),
                     //Transaction
                     spaceDown(Dimensions.space20),

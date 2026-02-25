@@ -66,7 +66,8 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
           body: RefreshIndicator(
             color: MyColor.getPrimaryColor(),
             onRefresh: () async {
-
+              controller.page = 0;
+              controller.getCardDetails(id: widget.cardInfo?.cardModel.id.toString() ?? "-1");
             },
             child: SingleChildScrollView(
               controller: cardScrollController,
@@ -77,6 +78,9 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                 enabled: controller.isLoading,
                 child: Column(
                   children: [
+
+                    spaceDown(Dimensions.space12.h),
+
                     CardUi(
                       onViewTap: () {
                         if(controller.cardModel.isShowCardView == true){
@@ -92,7 +96,6 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                           );
                         }
                       },
-                      color: widget.cardInfo?.color ?? [],
                       cardModel: controller.cardModel,
                       currency: controller.currency,
                     ),

@@ -116,6 +116,7 @@ class CardModel {
   String? userId;
   String? userIdOfCard;
   String? cardName;
+  String? bgImage;
   String? cardNumber;
   String? nameOnCard;
   String? cardProviderCardId;
@@ -144,6 +145,7 @@ class CardModel {
     this.userId,
     this.userIdOfCard,
     this.cardName,
+    this.bgImage,
     this.cardNumber,
     this.nameOnCard,
     this.cardProviderCardId,
@@ -172,6 +174,7 @@ class CardModel {
     userId: json["user_id"]?.toString(),
     userIdOfCard: json["user_id_of_card"]?.toString(),
     cardName: json["card_name"]?.toString(),
+    bgImage: json["bg_image"]?.toString(),
     cvv: json["cvv"]?.toString(),
     cardNumber: json["card_number"]?.toString(),
     nameOnCard: json["name_on_card"]?.toString(),
