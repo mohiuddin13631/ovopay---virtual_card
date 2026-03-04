@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "364630175808",
-    "project_id": "ovopay-app",
-    "storage_bucket": "ovopay-app.firebasestorage.app"
+    "project_number": "296393548084",
+    "project_id": "trxera-app",
+    "storage_bucket": "trxera-app.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:364630175808:android:74ef0e7ec7087b60786fa5",
+        "mobilesdk_app_id": "1:296393548084:android:fc85f6151c5b41e9274561",
         "android_client_info": {
-          "package_name": "com.ovosolution.ovopay"
+          "package_name": "com.trxera.agent"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDGc_yVDOC4vQ6Ggns5SyKp3TSaAWqy2TI"
+          "current_key": "AIzaSyCs5tv3PU6F7rspPt30u5BxbACcSEULPnY"
         }
       ],
       "services": {
@@ -26,15 +26,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:364630175808:android:b29c6a19ace48d2a786fa5",
+        "mobilesdk_app_id": "1:296393548084:android:12613fbfd478afb5274561",
         "android_client_info": {
-          "package_name": "com.ovosolution.ovopayagent"
+          "package_name": "com.trxera.merchant"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDGc_yVDOC4vQ6Ggns5SyKp3TSaAWqy2TI"
+          "current_key": "AIzaSyCs5tv3PU6F7rspPt30u5BxbACcSEULPnY"
         }
       ],
       "services": {
@@ -45,15 +45,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:364630175808:android:aa2f94c3170bb995786fa5",
+        "mobilesdk_app_id": "1:296393548084:android:bb964f048b7f4d91274561",
         "android_client_info": {
-          "package_name": "com.ovosolution.ovopaymerchant"
+          "package_name": "com.trxera.user"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDGc_yVDOC4vQ6Ggns5SyKp3TSaAWqy2TI"
+          "current_key": "AIzaSyCs5tv3PU6F7rspPt30u5BxbACcSEULPnY"
         }
       ],
       "services": {

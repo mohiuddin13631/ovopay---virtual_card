@@ -49,19 +49,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDGc_yVDOC4vQ6Ggns5SyKp3TSaAWqy2TI',
-    appId: '1:364630175808:android:74ef0e7ec7087b60786fa5',
-    messagingSenderId: '364630175808',
-    projectId: 'ovopay-app',
-    storageBucket: 'ovopay-app.firebasestorage.app',
+    apiKey: 'AIzaSyCs5tv3PU6F7rspPt30u5BxbACcSEULPnY',
+    appId: '1:296393548084:android:bb964f048b7f4d91274561',
+    messagingSenderId: '296393548084',
+    projectId: 'trxera-app',
+    storageBucket: 'trxera-app.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC-waGILDrl7BV0mPbadUUhyYHqF1qlxaM',
-    appId: '1:364630175808:ios:4661274da087cdd9786fa5',
-    messagingSenderId: '364630175808',
-    projectId: 'ovopay-app',
-    storageBucket: 'ovopay-app.firebasestorage.app',
-    iosBundleId: 'com.ovosolution.ovopay',
+    apiKey: 'AIzaSyCvrNpu8zrOtC4-2uMJPCUPNs9YCEAga44',
+    appId: '1:296393548084:ios:245877f22bf5a60f274561',
+    messagingSenderId: '296393548084',
+    projectId: 'trxera-app',
+    storageBucket: 'trxera-app.firebasestorage.app',
+    iosBundleId: 'com.trxera.user',
   );
+
 }

@@ -620,7 +620,9 @@ class MyStrings {
   static const String afterFreezing = "After Freezing";
   static const String selectReason = "Select Reason";
   static const String topUpMethod = "Top-Up Method";
+  static const String perTransactionCharge = "Per Transaction Charge";
   static const String balance = "Balance";
+  static const String yourBalanceRemainsSafe = "Your balance remains safe";
   static const String incoming = "Incoming";
   static const String topUpSuccessful = "Top-Up Successful";
   static const String yourCardHasBeenToppedUpWith = "Your card has been topped  up with";
@@ -668,12 +670,12 @@ class MyStrings {
   static const String chooseCardColor = "Choose Card Color";
   static const String onetimePayment = "One-time payment";
   static const String perTransactionFee = "Per Transaction Fee";
-  static const String yourBalanceRemainsSafe = "Your balance remains safe";
-  static const String perTransactionCharge = "Per Transaction Charge";
   static const String totalDeductedFromWallet = "Total Deducted From Wallet";
-  static const String netAmountYouWillReceive = "Net Amount You Will Receive";
   static const String reviewTheDetailsBeforeProceeding = "Review the details before proceeding";
+  static const String netAmountYouWillReceive = "Net Amount You Will Receive";
   static const String cardScreenTitle = "Tap on the card to view your card transactions.";
   static const String balanceTermsAndConditions = "Balance transfers ate instant. Crypto deposits may take 5-30 minutes depending on network confirmation.";
 
 }
+
+

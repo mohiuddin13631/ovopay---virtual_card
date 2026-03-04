@@ -80,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     HomeScreenPaymentOffersCard(),
                     //Transaction
                     spaceDown(Dimensions.space20),
+                    
                     HomeScreenTransactionMenuCard(
                       onViewAllTransactionTapped: widget.onViewAllTransactionTapped,
                     ),

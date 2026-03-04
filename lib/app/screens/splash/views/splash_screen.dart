@@ -5,7 +5,6 @@ import 'package:ovopay/app/components/image/my_asset_widget.dart';
 import 'package:ovopay/app/screens/splash/controller/splash_controller.dart';
 import 'package:ovopay/core/data/controller/localization/localization_controller.dart';
 import 'package:ovopay/core/data/repositories/auth/general_setting_repo.dart';
-
 import '../../../../core/data/services/service_exporter.dart';
 import '../../../../core/utils/util_exporter.dart';
 
@@ -17,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+
   late AnimationController _controller;
   late Animation<double> _animation;
 
