@@ -52,12 +52,14 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SelectableText(
+                        // "+1305***2082",
                         "+${SharedPreferenceService.getDialCode()}${SharedPreferenceService.getUserPhoneNumber()}",
                         style: MyTextStyle.sectionSubTitle1.copyWith(
                           color: MyColor.getBodyTextColor(),
                         ),
                       ),
                       Text(
+                        // "Jhon Smith",
                         SharedPreferenceService.getUserFullName(),
                         style: MyTextStyle.sectionTitle2.copyWith(
                           color: MyColor.getHeaderTextColor(),

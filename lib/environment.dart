@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 class Environment {
+
   static const appName = "OvoPay";
   static const appVersion = "2.0.0";
 

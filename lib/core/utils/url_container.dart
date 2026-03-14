@@ -1,6 +1,7 @@
 import 'package:ovopay/environment.dart';
 
 class UrlContainer {
+
   static const String domainUrl = Environment.MAIN_API_URL;
   static const String baseUrl = '$domainUrl/api/';
 

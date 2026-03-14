@@ -47,7 +47,8 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
     MenuItem(
       icon: MyIcons.cardIcon,
       label: MyStrings.card,
-      isActive: SharedPreferenceService.getModuleStatusByKey("virtual_card"),
+      // isActive: SharedPreferenceService.getModuleStatusByKey("virtual_card"),
+      isActive: false,
       activeColor: MyColor.greenLightColor,
       onTap: () {
         Get.toNamed(RouteHelper.virtualCardsScreen);

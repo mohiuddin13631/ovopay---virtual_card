@@ -4,11 +4,12 @@ import 'package:ovopay/core/utils/util_exporter.dart';
 import 'package:ovopay/environment.dart';
 
 class MyColor {
+
   //BG
   static const Color screenBGColor = Color(0xFFF8FAFC);
 
   // Primary and Secondary
-  static const Color primary = Color(0xFF2B5BEE);
+  static const Color primary = Color(0xFF4610ea);
   static const Color secondary = Color(0xFFEEBE2B);
 
   // Text Colors

@@ -645,7 +645,6 @@ class MyStrings {
   static const String subscriptionsWillbePaused = "Subscriptions will be paused";
   static const String aFeeOf = "A fee of";
 
-
   static const String cardCreationCharge = "Card Creation Charge";
   static const String monthlyMaintenanceCharge = "Monthly Maintenance Charge";
   static const String maximumCardLimit = "Maximum Card Limit";

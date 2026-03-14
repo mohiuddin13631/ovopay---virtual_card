@@ -13,7 +13,6 @@ import 'package:ovopay/app/components/text-field/rounded_text_field.dart';
 import 'package:ovopay/app/screens/success/success_screen.dart';
 import 'package:ovopay/app/screens/top_up/controller/topup_controller.dart';
 import 'package:ovopay/core/route/route.dart';
-
 import '../../../../../core/data/services/service_exporter.dart';
 import '../../../../../core/utils/util_exporter.dart';
 import '../../../components/column_widget/card_column.dart';
@@ -49,7 +48,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
         
         spaceSide(Dimensions.space10.w),
         
-        Text(MyStrings.reviewTheDetailsBeforeProceeding.tr, style: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText),)
+        Text(MyStrings.reviewTheDetailsBeforeProceeding.tr, style: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText))
       ],
     );
   }
@@ -64,7 +63,9 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
           endTitle: MyStrings.topUpAmount.tr,
           total: "${controller.currency}${controller.amountController.text}",
         ),
+
         CustomDivider(space: Dimensions.space8,),
+        
         AmountDetailsCard(
           firstTitle: "${MyStrings.processingFee.tr} (${AppConverter.formatNumber(controller.chargeSettingForWallet?.topupChargeFromWallet ?? "")}%)",
           amount: "${controller.currency}${controller.getProcessingFee(controller.chargeSettingForWallet?.topupChargeFromWallet ?? "")}",
@@ -73,6 +74,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
         ),
 
         CustomDivider(space: Dimensions.space8,),
+
         Row(
           children: [
             CardColumn(
