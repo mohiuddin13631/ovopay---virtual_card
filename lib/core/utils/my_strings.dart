@@ -669,6 +669,13 @@ class MyStrings {
   static const String chooseCardColor = "Choose Card Color";
   static const String onetimePayment = "One-time payment";
   static const String perTransactionFee = "Per Transaction Fee";
+  static const String idNumber = "ID Number";
+  static const String requiredInformation = "Required Information";
+  static const String houseNumber = "House Number";
+  static const String roadNumber = "Road Number";
+  static const String idCardImage = "ID Card Image";
+  static const String userImage = "User Image";
+  static const String idType = "Id Type";
   static const String totalDeductedFromWallet = "Total Deducted From Wallet";
   static const String reviewTheDetailsBeforeProceeding = "Review the details before proceeding";
   static const String netAmountYouWillReceive = "Net Amount You Will Receive";

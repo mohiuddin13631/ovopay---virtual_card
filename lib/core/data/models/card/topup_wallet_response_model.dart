@@ -37,19 +37,91 @@ class Data {
   CardModel? card;
   ChargeSetting? chargeSetting;
   UserModel? user;
+  List<ExistingCardHolder>? existingCardHolders;
 
   Data({
     this.card,
     this.chargeSetting,
     this.user,
+    this.existingCardHolders,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     card: json["card"] == null ? null : CardModel.fromJson(json["card"]),
     chargeSetting: json["charge_setting"] == null ? null : ChargeSetting.fromJson(json["charge_setting"]),
     user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
+    existingCardHolders: json["existing_card_holders"] == null ? [] : List<ExistingCardHolder>.from(json["existing_card_holders"]!.map((x) => ExistingCardHolder.fromJson(x))),
   );
 
+}
+
+class ExistingCardHolder {
+  int? id;
+  String? userId;
+  String? customerEmail;
+  String? firstName;
+  String? lastName;
+  String? phoneNumber;
+  String? city;
+  String? state;
+  String? country;
+  String? line1;
+  String? zipCode;
+  String? houseNumber;
+  String? idNumber;
+  String? idType;
+  String? idImage;
+  String? userPhoto;
+  String? customerId;
+  String? dateOfBirth;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+
+  ExistingCardHolder({
+    this.id,
+    this.userId,
+    this.customerEmail,
+    this.firstName,
+    this.lastName,
+    this.phoneNumber,
+    this.city,
+    this.state,
+    this.country,
+    this.line1,
+    this.zipCode,
+    this.houseNumber,
+    this.idNumber,
+    this.idType,
+    this.idImage,
+    this.userPhoto,
+    this.customerId,
+    this.dateOfBirth,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory ExistingCardHolder.fromJson(Map<String, dynamic> json) => ExistingCardHolder(
+    id: json["id"],
+    userId: json["user_id"]?.toString(),
+    customerEmail: json["customer_email"]?.toString(),
+    firstName: json["first_name"]?.toString(),
+    lastName: json["last_name"]?.toString(),
+    phoneNumber: json["phone_number"]?.toString(),
+    city: json["city"]?.toString(),
+    state: json["state"]?.toString(),
+    country: json["country"]?.toString(),
+    line1: json["line_1"]?.toString(),
+    zipCode: json["zip_code"]?.toString(),
+    houseNumber: json["house_number"]?.toString(),
+    idNumber: json["id_number"]?.toString(),
+    idType: json["id_type"]?.toString(),
+    idImage: json["id_image"]?.toString(),
+    userPhoto: json["user_photo"]?.toString(),
+    customerId: json["customer_id"]?.toString(),
+    dateOfBirth: json["date_of_birth"]?.toString(),
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+  );
 }
 
 class ChargeSetting {

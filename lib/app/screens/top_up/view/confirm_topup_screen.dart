@@ -73,7 +73,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
           total: "${controller.currency}${AppConverter.formatNumber(controller.chargeSettingForWallet?.perOperationCharge ?? "")}",
         ),
 
-        CustomDivider(space: Dimensions.space8,),
+        CustomDivider(space: Dimensions.space8),
 
         Row(
           children: [
@@ -266,7 +266,6 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
                     _showConfirmDialog(controller);
                   },
                 ),
-
               ],
             ),
           ),

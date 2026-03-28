@@ -1,5 +1,4 @@
 import 'dart:io';
-
 class TicketStoreModel {
   String name;
   String email;

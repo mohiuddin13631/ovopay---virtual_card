@@ -136,6 +136,7 @@ class HomeController extends GetxController {
     try {
       ResponseModel response = await generalSettingRepo.getModuleList();
       if (response.statusCode == 200) {
+
         final appModuleResponseModel = appModuleResponseModelFromJson(
           jsonEncode(response.responseJson),
         );

@@ -26,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   @override
   void initState() {
 
@@ -58,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ListView(
                   padding: EdgeInsetsDirectional.all(Dimensions.space16.w),
                   children: [
-
                     //kyc
                     HomeScreenKycStatusCard(),
                     //Balance Card

@@ -10,13 +10,13 @@ import 'package:ovopay/app/screens/card_application/view/widget/new_user_section
 import 'package:ovopay/app/screens/choose_card/controller/create_new_card_controller.dart';
 import 'package:ovopay/core/helper/string_format_helper.dart';
 import 'package:ovopay/core/utils/my_strings.dart';
-import 'package:ovopay/environment.dart';
 
 import '../../../../core/route/route.dart';
 import '../../../../core/utils/app_style.dart';
 import '../../../../core/utils/dimensions.dart';
 import '../../../../core/utils/my_color.dart';
 import '../../../../core/utils/my_icons.dart';
+import '../../../../core/utils/my_images.dart';
 import '../../../../core/utils/text_style.dart';
 import '../../../components/buttons/custom_elevated_button.dart';
 import '../../../components/image/my_asset_widget.dart';
@@ -45,6 +45,7 @@ class _CardApplicationScreenState extends State<CardApplicationScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+
               Container(
                 height: 230,
                 width: context.width,
@@ -58,12 +59,12 @@ class _CardApplicationScreenState extends State<CardApplicationScreen> {
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Text(Environment.appName, style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.white, fontSize: 30),),
+                      child: Image.asset(MyImages.appLogoWhite, width: context.height * .15)
                     ),
                     Spacer(),
                     Align(
-                        alignment: Alignment.bottomRight,
-                        child: MyAssetImageWidget(assetPath: MyIcons.visa, width: 76, height: 24, isSvg: true,)
+                      alignment: Alignment.bottomRight,
+                      child: MyAssetImageWidget(assetPath: MyIcons.visa, width: 76, height: 24, isSvg: true,)
                     ),
                   ],
                 ),
@@ -232,7 +233,10 @@ class _CardApplicationScreenState extends State<CardApplicationScreen> {
                   isLoading: controller.isSubmitLoading,
                   text: "${MyStrings.confirmAndPay.tr} - ${controller.currency}${controller.getTotal()}",
                   onTap: () {
-                    if (controller.newCardFormKey.currentState!.validate()) {
+                    if(controller.selectedExistingCardHolder != null && controller.isExistingUser){
+                      controller.createNewCardFromExistingUser(cardType: widget.isPhysicalCard ? "Physical" : "Virtual");
+                    }
+                    else if (controller.newCardFormKey.currentState!.validate() && !controller.isExistingUser) {
                       controller.createNewCard(cardType: widget.isPhysicalCard ? "Physical" : "Virtual");
                     }
                   },

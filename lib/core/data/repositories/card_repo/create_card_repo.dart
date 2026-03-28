@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../../../utils/util_exporter.dart';
 import '../../models/global/response_model/response_model.dart';
 import '../../services/api_service.dart';
@@ -9,7 +11,18 @@ class CreateCardRepo {
     return responseModel;
   }
 
-  Future<ResponseModel> createNewCard({required Map<String, dynamic> map}) async {
+  Future<ResponseModel> createNewCard({required Map<String, dynamic> map, required Map<String, File> attachment}) async {
+
+    print(map);
+    print(attachment);
+
+    String url = '${UrlContainer.baseUrl}${UrlContainer.createCardEndPoint}';
+    ResponseModel responseModel = await ApiService.postMultiPartRequest(url, map, attachment);
+    return responseModel;
+  }
+
+  Future<ResponseModel> createNewCardFromExistingUser({required Map<String, dynamic> map}) async {
+
     String url = '${UrlContainer.baseUrl}${UrlContainer.createCardEndPoint}';
     ResponseModel responseModel = await ApiService.postRequest(url, map);
     return responseModel;
