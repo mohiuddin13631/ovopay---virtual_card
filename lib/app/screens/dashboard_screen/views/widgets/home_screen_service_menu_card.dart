@@ -35,6 +35,67 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
   static const int visibleItemCount = 11;
 
   final List<MenuItem> allServices = [
+
+    MenuItem(
+      icon: MyIcons.walletAddIcon,
+      label: MyStrings.addMoney,
+      isActive: SharedPreferenceService.getModuleStatusByKey("add_money"),
+      activeColor: MyColor.primary,
+      onTap: () {
+        Get.toNamed(RouteHelper.addMoneyScreen);
+      },
+    ),
+
+    MenuItem(
+      icon: MyIcons.sendIcon,
+      label: MyStrings.sendMoney,
+      isActive: SharedPreferenceService.getModuleStatusByKey("send_money"),
+      activeColor: MyColor.goldenColor,
+      onTap: () {
+        Get.toNamed(RouteHelper.sendMoneyScreen);
+      },
+    ),
+
+    MenuItem(
+      icon: MyIcons.cashOutIcon,
+      label: MyStrings.cashOut,
+      isActive: SharedPreferenceService.getModuleStatusByKey("cash_out"),
+      activeColor: MyColor.violateColor,
+      onTap: () {
+        Get.toNamed(RouteHelper.cashOutScreen);
+      },
+    ),
+
+    MenuItem(
+      icon: MyIcons.cardIcon,
+      label: MyStrings.card,
+      isActive: SharedPreferenceService.getModuleStatusByKey("virtual_card"),
+      activeColor: MyColor.greenLightColor,
+      onTap: () {
+        Get.toNamed(RouteHelper.virtualCardsScreen);
+      },
+    ),
+
+    MenuItem(
+      icon: MyIcons.bankTransferIcon,
+      label: MyStrings.bankTransfer,
+      isActive: SharedPreferenceService.getModuleStatusByKey("bank_transfer"),
+      activeColor: MyColor.goldenColor,
+      onTap: () {
+        Get.toNamed(RouteHelper.bankTransferScreen);
+      },
+    ),
+
+    MenuItem(
+      icon: MyIcons.giftIcon,
+      label: MyStrings.giftCard,
+      isActive: SharedPreferenceService.getModuleStatusByKey("gift_card"),
+      activeColor: MyColor.skyBlueColor,
+      onTap: () {
+        Get.toNamed(RouteHelper.giftCardScreen);
+      },
+    ),
+
     MenuItem(
       icon: MyIcons.rechargeIcon,
       label: MyStrings.recharge,
@@ -54,6 +115,7 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
         Get.toNamed(RouteHelper.virtualCardsScreen);
       },
     ),
+
     MenuItem(
       icon: MyIcons.billPay,
       label: MyStrings.billPay,
@@ -63,15 +125,7 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
         Get.toNamed(RouteHelper.billPayScreen);
       },
     ),
-    MenuItem(
-      icon: MyIcons.giftIcon,
-      label: MyStrings.giftCard,
-      isActive: SharedPreferenceService.getModuleStatusByKey("gift_card"),
-      activeColor: MyColor.skyBlueColor,
-      onTap: () {
-        Get.toNamed(RouteHelper.giftCardScreen);
-      },
-    ),
+
     MenuItem(
       icon: MyIcons.educationIcon,
       label: MyStrings.education,
@@ -81,15 +135,7 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
         Get.toNamed(RouteHelper.educationFeeScreen);
       },
     ),
-    MenuItem(
-      icon: MyIcons.bankTransferIcon,
-      label: MyStrings.bankTransfer,
-      isActive: SharedPreferenceService.getModuleStatusByKey("bank_transfer"),
-      activeColor: MyColor.goldenColor,
-      onTap: () {
-        Get.toNamed(RouteHelper.bankTransferScreen);
-      },
-    ),
+
     MenuItem(
       icon: MyIcons.savingsIcon,
       label: MyStrings.microFinance,
@@ -126,15 +172,7 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
         Get.toNamed(RouteHelper.requestMoneyScreen);
       },
     ),
-    MenuItem(
-      icon: MyIcons.sendIcon,
-      label: MyStrings.sendMoney,
-      isActive: SharedPreferenceService.getModuleStatusByKey("send_money"),
-      activeColor: MyColor.goldenColor,
-      onTap: () {
-        Get.toNamed(RouteHelper.sendMoneyScreen);
-      },
-    ),
+
     MenuItem(
       icon: MyIcons.paymentIcon,
       label: MyStrings.payment,
@@ -144,24 +182,8 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
         Get.toNamed(RouteHelper.paymentScreen);
       },
     ),
-    MenuItem(
-      icon: MyIcons.cashOutIcon,
-      label: MyStrings.cashOut,
-      isActive: SharedPreferenceService.getModuleStatusByKey("cash_out"),
-      activeColor: MyColor.violateColor,
-      onTap: () {
-        Get.toNamed(RouteHelper.cashOutScreen);
-      },
-    ),
-    MenuItem(
-      icon: MyIcons.walletAddIcon,
-      label: MyStrings.addMoney,
-      isActive: SharedPreferenceService.getModuleStatusByKey("add_money"),
-      activeColor: MyColor.primary,
-      onTap: () {
-        Get.toNamed(RouteHelper.addMoneyScreen);
-      },
-    ),
+
+
   ];
   List<MenuItem> get getAllServices {
     return allServices.where((v) => v.isActive).toList();
