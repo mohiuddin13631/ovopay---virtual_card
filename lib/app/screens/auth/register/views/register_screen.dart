@@ -4,12 +4,11 @@ import 'package:get/get.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
-import 'package:ovopay/app/components/dialog/app_dialog.dart';
+import 'package:ovopay/app/components/text-field/rounded_text_field.dart';
 import 'package:ovopay/app/components/text/header_text.dart';
 import 'package:ovopay/app/components/otp_field_widget/otp_field_widget.dart';
 import 'package:ovopay/app/components/will_pop_widget.dart';
 import 'package:ovopay/app/screens/auth/register/controller/registration_controller.dart';
-import 'package:ovopay/app/screens/auth/register/views/widgets/profile_complete_screen.dart';
 import 'package:ovopay/core/data/models/user/user_model.dart';
 import 'package:ovopay/core/data/repositories/auth/signup_repo.dart';
 import 'package:ovopay/core/route/route.dart';
@@ -26,44 +25,25 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final PageController _pageController = PageController(initialPage: 0);
-  final PageController _pageController2 = PageController(
-    initialPage: 0,
-  ); // Initialize with the first page
-  int _currentPage2 = 0;
+  final formKey = GlobalKey<FormState>();
+  bool hasAcceptedPolicies = false;
 
   void _goToLoginScreen() {
     Get.offAllNamed(RouteHelper.loginScreen);
   }
 
-  void _goToProfileComplete() {
-    setState(() {
+  void _goToRegisterForm() {
+    if (_pageController.hasClients) {
       _pageController.animateToPage(
         1,
         duration: const Duration(milliseconds: 600),
         curve: Curves.easeIn,
       );
-    });
-  }
-
-  void _nextPage({int? goToPage}) {
-    if (_pageController2.hasClients) {
-      _pageController2.animateToPage(
-        goToPage ?? ++_currentPage2,
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.linear,
-      );
     }
   }
 
-  void _previousPage({int? goToPage}) {
-    if (_pageController2.hasClients && _currentPage2 > 0) {
-      // Check bounds
-      _pageController2.animateToPage(
-        goToPage ?? --_currentPage2,
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.linear,
-      );
-    }
+  void _openPrivacyScreen() {
+    Get.toNamed(RouteHelper.privacyScreen);
   }
 
   @override
@@ -73,15 +53,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       RegistrationController(registrationRepo: Get.find()),
     );
     super.initState();
-    // Add listener to observe page changes
-    _pageController2.addListener(() {
-      final page = _pageController2.page?.round(); // Get the rounded page index
-      if (page != null && page != _currentPage2) {
-        setState(() {
-          _currentPage2 = page; // Update the current page index
-        });
-      }
-    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.userModel?.sv == "0") {
         controller.sendAuthorizeCode();
@@ -93,7 +64,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void dispose() {
     super.dispose();
     _pageController.dispose();
-    _pageController2.dispose();
   }
 
   @override
@@ -118,12 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 if (widget.userModel?.sv == "0") ...[
                   _buildOtpCodeVerificationPage(controller),
                 ],
-                ProfileCompleteScreen(
-                  pageController: _pageController2,
-                  currentPage: _currentPage2,
-                  nextPage: _nextPage,
-                  previousPage: _previousPage,
-                ),
+                _buildRegisterFormPage(controller),
               ],
             );
           },
@@ -134,7 +99,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _buildOtpCodeVerificationPage(RegistrationController controller) {
     TextSpan buildTimerText(RegistrationController controller) {
-      // Format time to show minutes and seconds
       int minutes = controller.time ~/ 60;
       int seconds = controller.time % 60;
       String timeText = '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
@@ -145,7 +109,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          //Code Verification
           CustomAppCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,13 +127,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Align(
                   alignment: AlignmentDirectional.center,
                   child: HeaderText(
-                    text: "${MyStrings.weHaveSentACodeTo.tr} +${widget.userModel?.dialCode}${widget.userModel?.mobile?.toNumberMask(unmaskedPrefix: 2, unmaskedSuffix: 2, maskChar: "•")}",
-                    textStyle: MyTextStyle.sectionSubTitle1.copyWith(color: MyColor.getBodyTextColor()),
+                    text: "${MyStrings.weHaveSentACodeTo.tr} +${widget.userModel?.dialCode}${widget.userModel?.mobile?.toNumberMask(unmaskedPrefix: 2, unmaskedSuffix: 2, maskChar: "â€¢")}",
+                    textStyle: MyTextStyle.sectionSubTitle1.copyWith(
+                      color: MyColor.getBodyTextColor(),
+                    ),
                   ),
                 ),
                 spaceDown(Dimensions.space35),
                 OTPFieldWidget(
-                  // controller: controller.otpController,
                   onChanged: (v) {
                     controller.onChangeOtpWidgetText(value: v);
                   },
@@ -188,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             onTap: () {
               controller.verifyYourSms(
                 onSuccess: () {
-                  _goToProfileComplete();
+                  _goToRegisterForm();
                 },
               );
             },
@@ -218,6 +182,253 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                   ),
                 ],
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRegisterFormPage(RegistrationController controller) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CustomAppCard(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                HeaderText(
+                  text: MyStrings.personalInformation.tr,
+                  textStyle: MyTextStyle.sectionTitle2.copyWith(
+                    color: MyColor.getHeaderTextColor(),
+                  ),
+                ),
+                spaceDown(Dimensions.space25),
+                Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      RoundedTextField(
+                        controller: controller.fNameController,
+                        labelText: MyStrings.firstName,
+                        hintText: MyStrings.enterYourFirstName,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.name,
+                        validator: (value) {
+                          if (value.toString().trim().isEmpty) {
+                            return MyStrings.kFirstNameNullError.tr;
+                          }
+
+                          return null;
+                        },
+                      ),
+                      spaceDown(Dimensions.space20),
+                      RoundedTextField(
+                        controller: controller.lNameController,
+                        labelText: MyStrings.lastName,
+                        hintText: MyStrings.enterYourLastName,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.name,
+                        validator: (value) {
+                          if (value.toString().trim().isEmpty) {
+                            return MyStrings.kLastNameNullError.tr;
+                          }
+
+                          return null;
+                        },
+                      ),
+                      spaceDown(Dimensions.space20),
+                      RoundedTextField(
+                        controller: controller.uNameController,
+                        labelText: MyStrings.username,
+                        hintText: MyStrings.enterYourUsername,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.name,
+                        validator: (value) {
+                          if (value.toString().trim().isEmpty) {
+                            return MyStrings.kUsernameIsRequired.tr;
+                          }
+
+                          return null;
+                        },
+                      ),
+                      spaceDown(Dimensions.space20),
+                      RoundedTextField(
+                        controller: controller.emailController,
+                        labelText: MyStrings.email,
+                        hintText: MyStrings.enterYourEmailExample,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          final email = value.toString().trim();
+                          if (email.isEmpty || !GetUtils.isEmail(email)) {
+                            return MyStrings.invalidEmailMsg.tr;
+                          }
+
+                          return null;
+                        },
+                      ),
+                      spaceDown(Dimensions.space20),
+                      RoundedTextField(
+                        controller: controller.pinController,
+                        labelText: MyStrings.password,
+                        hintText: MyStrings.enterYourPassword,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.visiblePassword,
+                        isPassword: true,
+                        validator: (value) {
+                          if (value.toString().trim().isEmpty) {
+                            return MyStrings.kPasswordIsRequired.tr;
+                          }
+
+                          return null;
+                        },
+                      ),
+                      spaceDown(Dimensions.space20),
+                      RoundedTextField(
+                        controller: controller.cPinController,
+                        labelText: MyStrings.confirmPassword,
+                        hintText: MyStrings.enterYourConfirmPassword,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.visiblePassword,
+                        isPassword: true,
+                        validator: (value) {
+                          if (value.toString().trim().isEmpty) {
+                            return MyStrings.kConfirmPasswordRequired.tr;
+                          }
+
+                          if (controller.pinController.text != controller.cPinController.text) {
+                            return MyStrings.kMatchPasswordError.tr;
+                          }
+
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          spaceDown(Dimensions.space16),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Transform.translate(
+                offset: const Offset(-6, -10),
+                child: Checkbox(
+                  value: hasAcceptedPolicies,
+                  activeColor: MyColor.getPrimaryColor(),
+                  side: BorderSide(
+                    color: MyColor.getBorderColor(),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      hasAcceptedPolicies = value ?? false;
+                    });
+                  },
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(
+                        '${MyStrings.iAgreeWith.tr} ',
+                        style: MyTextStyle.sectionSubTitle1.copyWith(
+                          color: MyColor.getBodyTextColor(),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: _openPrivacyScreen,
+                        child: Text(
+                          MyStrings.privacyPolicyText.tr,
+                          style: MyTextStyle.sectionSubTitle1.copyWith(
+                            color: MyColor.getPrimaryColor(),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        ', ',
+                        style: MyTextStyle.sectionSubTitle1.copyWith(
+                          color: MyColor.getBodyTextColor(),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: _openPrivacyScreen,
+                        child: Text(
+                          MyStrings.termsOfService.tr,
+                          style: MyTextStyle.sectionSubTitle1.copyWith(
+                            color: MyColor.getPrimaryColor(),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        ', ',
+                        style: MyTextStyle.sectionSubTitle1.copyWith(
+                          color: MyColor.getBodyTextColor(),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: _openPrivacyScreen,
+                        child: Text(
+                          MyStrings.servicePolicy.tr,
+                          style: MyTextStyle.sectionSubTitle1.copyWith(
+                            color: MyColor.getPrimaryColor(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          spaceDown(Dimensions.space15),
+          CustomElevatedBtn(
+            radius: Dimensions.largeRadius.r,
+            bgColor: MyColor.getPrimaryColor(),
+            isLoading: controller.submitRegistrationLoading,
+            text: MyStrings.register,
+            onTap: () {
+              MyUtils.clearAllTypeFocusNodes();
+              if (formKey.currentState?.validate() ?? false) {
+                controller.submitRegistration(
+                  hasAcceptedPolicies: hasAcceptedPolicies,
+                );
+              }
+            },
+          ),
+          spaceDown(Dimensions.space20),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: MyTextStyle.sectionSubTitle1.copyWith(
+                color: MyColor.getBodyTextColor(),
+                fontSize: Dimensions.space15.sp,
+              ),
+              children: [
+                TextSpan(
+                  text: '${MyStrings.alreadyHaveAnAccount.tr} ',
+                ),
+                TextSpan(
+                  text: MyStrings.login.tr,
+                  style: MyTextStyle.sectionSubTitle1.copyWith(
+                    color: MyColor.getPrimaryColor(),
+                    fontWeight: FontWeight.w700,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      _goToLoginScreen();
+                    },
+                ),
               ],
             ),
           ),

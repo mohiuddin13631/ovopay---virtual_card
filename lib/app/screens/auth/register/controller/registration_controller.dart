@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/app/components/snack_bar/show_custom_snackbar.dart';
+import 'package:ovopay/core/data/models/auth/sign_up_model/register_post_model.dart';
 import 'package:ovopay/core/data/models/auth/sign_up_model/registration_response_model.dart';
 import 'package:ovopay/core/data/models/authorization/authorization_response_model.dart';
 import 'package:ovopay/core/data/models/global/response_model/response_model.dart';
-import 'package:ovopay/core/data/models/profile_complete/profile_complete_post_model.dart';
 import 'package:ovopay/core/data/models/user/user_model.dart';
 
 import 'package:ovopay/core/data/repositories/auth/signup_repo.dart';
@@ -184,13 +184,12 @@ class RegistrationController extends GetxController {
 
   //VERIFY SMS END
 
-  //PROFILE COMPLETE SEction
-  bool submitProfileCompleteLoading = false;
-  Future<void> profileCompleteSubmit({required bool hasAcceptedPolicies}) async {
-    submitProfileCompleteLoading = true;
+  bool submitRegistrationLoading = false;
+  Future<void> submitRegistration({required bool hasAcceptedPolicies}) async {
+    submitRegistrationLoading = true;
     update();
     try {
-      ProfileCompletePostModel model = ProfileCompletePostModel(
+      RegisterPostModel model = RegisterPostModel(
         email: emailController.text,
         username: uNameController.text,
         firstName: fNameController.text,
@@ -200,8 +199,8 @@ class RegistrationController extends GetxController {
         zip: zipCodeController.text,
         city: cityController.text,
         image: null,
-        pin: pinController.text,
-        cPin: pinController.text,
+        password: pinController.text,
+        confirmPassword: cPinController.text,
         agree: hasAcceptedPolicies.toString(),
       );
 
@@ -230,7 +229,7 @@ class RegistrationController extends GetxController {
     } catch (e) {
       printE(e.toString());
     } finally {
-      submitProfileCompleteLoading = false;
+      submitRegistrationLoading = false;
       update();
     }
   }
