@@ -14,14 +14,14 @@ class LoginRepo {
       'mobile_number': mobile,
       'pin': pin,
     };
-    String url = '${UrlContainer.baseUrl}${UrlContainer.authenticationEndPoint}';
+    String url = '${UrlContainer.baseUrl}${UrlContainer.loginEndPoint}';
     final response = await ApiService.postRequest(url, map);
     return response;
   }
 
   Future<ResponseModel> registerUser(String countryCode, String mobile) async {
     Map<String, String> map = {'country': countryCode, 'mobile_number': mobile};
-    String url = '${UrlContainer.baseUrl}${UrlContainer.authenticationEndPoint}';
+    String url = '${UrlContainer.baseUrl}${UrlContainer.registrationEndPoint}';
     final response = await ApiService.postRequest(url, map);
     return response;
   }

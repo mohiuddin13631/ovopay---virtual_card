@@ -210,5 +210,4 @@ class UrlContainer {
   static const String freezeCardEndPoint = 'card/freeze';
   static const String unfreezeCardEndPoint = 'card/unfreeze';
   static const String chargeSettingsEndPoint = 'card/charge-info';
-
 }

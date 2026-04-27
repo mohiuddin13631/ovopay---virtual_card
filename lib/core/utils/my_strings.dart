@@ -1,5 +1,4 @@
 class MyStrings {
-
   // Onboarding Texts
   static const String onboardTitle1 = "Send and receive money seamlessly with MFS";
   static const String onboardSubtitle1 = "Instantly transfer funds to friends, family, or businesses with a few taps, directly from your mobile wallet";
@@ -71,6 +70,7 @@ class MyStrings {
   static const String otPVerificationCode = "OTP Verification Code";
   static const String enterVerificationCode = "Enter Verification Code";
   static const String permissionDenied = "Permission denied";
+  static const String permissionRequired = "Permission required";
   static const String chooseAFile = "Choose a file";
   static const String chooseAImage = "Choose a image";
   static const String cropImage = "Crop Image";
@@ -258,7 +258,13 @@ class MyStrings {
   static const String searchByTrxId = "Search by trx id";
   static const String trxId = "Trx Id";
   static const String cancel = "Cancel";
+  static const String notNow = "Not now";
   static const String camera = "Camera";
+  static const String openSettings = "Open Settings";
+  static const String retry = "Retry";
+  static const String cameraAccessTitle = "Camera access required";
+  static const String cameraAccessBody = "This feature uses your camera to scan QR codes for payments, transfers, cash out, and secure login. Camera access is only used while you scan and is described in our Privacy & Policy page.";
+  static const String cameraPermissionHelp = "Allow camera access to scan QR codes. You can review how camera access is used from the Privacy & Policy page.";
   static const String gallery = "Gallery";
   static const String chooseAnOption = "Choose an option";
   static const String canceled = "Canceled";
@@ -660,7 +666,6 @@ class MyStrings {
   static const String withdrawMaximumLimit = "Withdraw Maximum Limit";
   static const String actionDeclineCharge = "Action Decline Charge";
 
-
   static const String willBeCharged = "will be charged";
   static const String cardCreationFee = "Card Creation Fee";
   static const String cardCreatedSuccessfully = "Card created successfully";
@@ -681,7 +686,4 @@ class MyStrings {
   static const String netAmountYouWillReceive = "Net Amount You Will Receive";
   static const String cardScreenTitle = "Tap on the card to view your card transactions.";
   static const String balanceTermsAndConditions = "Balance transfers ate instant. Crypto deposits may take 5-30 minutes depending on network confirmation.";
-
 }
-
-

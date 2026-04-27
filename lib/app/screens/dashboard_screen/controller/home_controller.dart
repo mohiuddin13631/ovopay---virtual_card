@@ -27,6 +27,7 @@ class HomeController extends GetxController {
   String kycReason = ""; //Kyc Reason
 
   Future initController({bool forceLoad = true}) async {
+
     isPageLoading = forceLoad;
     update();
     await Future.wait([
