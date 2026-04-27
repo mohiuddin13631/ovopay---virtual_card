@@ -99,6 +99,9 @@ class MyStrings {
   static const String emailOrUsername = "Email or Username";
   static const String password = "Password";
   static const String confirmPassword = "Confirm Password";
+  static const String privacyPolicyText = "Privacy Policy";
+  static const String termsOfService = "Terms of Service";
+  static const String servicePolicy = "Service Policy";
   static const String forgotPin = "Forgot PIN?";
   static const String forgotYourPin = "Forgot your PIN?";
   static const String forgotPinMSG = "You can easily reset your pin from the app. To get started Please tap on the “Reset PIN” button and follow the steps mentioned.";
@@ -305,6 +308,7 @@ class MyStrings {
   static const String kPasswordIsRequired = "Password is required.";
   static const String kConfirmPasswordRequired = "Confirm password is required.";
   static const String kMatchPasswordError = "Password doesn't match";
+  static const String agreeToPoliciesError = "Please agree to the policies to continue";
   static const String skipVerification = "Skip Verification";
   static const String successfullyCodeResend = "Resend the code successfully";
   static const String resendCodeFail = "Failed to resend code";
@@ -313,6 +317,7 @@ class MyStrings {
   static const String enterYourUsername = "Enter your username";
   static const String enterYourPassword = "Enter your password";
   static const String enterYourConfirmPassword = "Enter your confirm password";
+  static const String iAgreeWith = "I agree with";
   static const String enterYourEmail = "Enter your email";
   static const String enterYourNameExample = "e.g. John Doe";
   static const String enterYourEmailExample = "e.g. user@example.com";
@@ -360,6 +365,7 @@ class MyStrings {
   static const String loginSubTitle = "Join today and simplify your financial management";
   static const String loginSubTitle2 = "Log in to manage your finances seamlessly.";
   static const String dontHaveAnAccount = "Don't have an account?";
+  static const String alreadyHaveAnAccount = "Already have an account?";
   static const String registerNow = "Register Now";
   static const String copiedToClipBoard = "Copied to your clipboard!";
   static const String security = "Security";

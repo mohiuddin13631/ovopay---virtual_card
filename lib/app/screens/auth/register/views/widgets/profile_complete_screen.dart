@@ -194,7 +194,7 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                               crossAxisAlignment: WrapCrossAlignment.center,
                               children: [
                                 Text(
-                                  'I agree with ',
+                                  '${MyStrings.iAgreeWith.tr} ',
                                   style: MyTextStyle.sectionSubTitle1.copyWith(
                                     color: MyColor.getBodyTextColor(),
                                   ),
@@ -202,7 +202,7 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                 GestureDetector(
                                   onTap: _openPrivacyScreen,
                                   child: Text(
-                                    'Privacy Policy',
+                                    MyStrings.privacyPolicyText.tr,
                                     style: MyTextStyle.sectionSubTitle1.copyWith(
                                       color: MyColor.getPrimaryColor(),
                                     ),
@@ -217,7 +217,7 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                 GestureDetector(
                                   onTap: _openPrivacyScreen,
                                   child: Text(
-                                    'Terms of Service',
+                                    MyStrings.termsOfService.tr,
                                     style: MyTextStyle.sectionSubTitle1.copyWith(
                                       color: MyColor.getPrimaryColor(),
                                     ),
@@ -232,7 +232,7 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                 GestureDetector(
                                   onTap: _openPrivacyScreen,
                                   child: Text(
-                                    'Service Policy',
+                                    MyStrings.servicePolicy.tr,
                                     style: MyTextStyle.sectionSubTitle1.copyWith(
                                       color: MyColor.getPrimaryColor(),
                                     ),
@@ -249,12 +249,12 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                       radius: Dimensions.largeRadius.r,
                       bgColor: MyColor.getPrimaryColor(),
                       isLoading: controller.submitProfileCompleteLoading,
-                      text: MyStrings.confirm,
+                      text: MyStrings.register,
                       onTap: () {
                         MyUtils.clearAllTypeFocusNodes();
                         if (!hasAcceptedPolicies) {
                           CustomSnackBar.error(
-                            errorList: ['Please agree to the policies to continue'],
+                            errorList: [MyStrings.agreeToPoliciesError.tr],
                           );
                           return;
                         }
@@ -272,8 +272,8 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                           fontSize: Dimensions.space15.sp,
                         ),
                         children: [
-                          const TextSpan(
-                            text: 'Already have an account? ',
+                          TextSpan(
+                            text: '${MyStrings.alreadyHaveAnAccount.tr} ',
                           ),
                           TextSpan(
                             text: MyStrings.login.tr,
