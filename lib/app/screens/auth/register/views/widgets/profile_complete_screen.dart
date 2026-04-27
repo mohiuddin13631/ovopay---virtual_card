@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
@@ -261,6 +262,32 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                           controller.profileCompleteSubmit();
                         }
                       },
+                    ),
+                    spaceDown(Dimensions.space20),
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: MyTextStyle.sectionSubTitle1.copyWith(
+                          color: MyColor.getBodyTextColor(),
+                          fontSize: Dimensions.space15.sp,
+                        ),
+                        children: [
+                          const TextSpan(
+                            text: 'Already have an account? ',
+                          ),
+                          TextSpan(
+                            text: MyStrings.login.tr,
+                            style: MyTextStyle.sectionSubTitle1.copyWith(
+                              color: MyColor.getPrimaryColor(),
+                              fontWeight: FontWeight.w700,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Get.offAllNamed(RouteHelper.loginScreen);
+                              },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
