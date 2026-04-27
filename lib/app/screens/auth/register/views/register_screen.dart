@@ -31,6 +31,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   ); // Initialize with the first page
   int _currentPage2 = 0;
 
+  void _goToLoginScreen() {
+    Get.offAllNamed(RouteHelper.loginScreen);
+  }
+
   void _goToProfileComplete() {
     setState(() {
       _pageController.animateToPage(
@@ -97,31 +101,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return WillPopWidget(
       nextRoute: "",
       action: () {
-        AppDialogs.confirmDialogForAll(
-          context,
-          onConfirmTap: () {
-            Get.offAllNamed(RouteHelper.loginScreen);
-          },
-          title: MyStrings.exitTitle,
-          subTitle: MyStrings.youWantToExitRegistrationProcess,
-        );
+        _goToLoginScreen();
       },
       child: MyCustomScaffold(
         pageTitle: MyStrings.register,
         onBackButtonTap: () {
-          if (_currentPage2 == 0) {
-            AppDialogs.confirmDialogForAll(
-              context,
-              onConfirmTap: () {
-                Get.offAllNamed(RouteHelper.loginScreen);
-              },
-              title: MyStrings.exitTitle,
-              subTitle: MyStrings.youWantToExitRegistrationProcess,
-            );
-          }
-          if (_currentPage2 == 1 || _currentPage2 == 2) {
-            _previousPage();
-          }
+          _goToLoginScreen();
         },
         actionButton: [],
         body: GetBuilder<RegistrationController>(

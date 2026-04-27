@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
-import 'package:ovopay/app/components/snack_bar/show_custom_snackbar.dart';
 import 'package:ovopay/app/components/text-field/rounded_text_field.dart';
 import 'package:ovopay/app/components/text/header_text.dart';
 import 'package:ovopay/app/screens/auth/register/controller/registration_controller.dart';
@@ -252,14 +251,10 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                       text: MyStrings.register,
                       onTap: () {
                         MyUtils.clearAllTypeFocusNodes();
-                        if (!hasAcceptedPolicies) {
-                          CustomSnackBar.error(
-                            errorList: [MyStrings.agreeToPoliciesError.tr],
-                          );
-                          return;
-                        }
                         if (formKey.currentState?.validate() ?? false) {
-                          controller.profileCompleteSubmit();
+                          controller.profileCompleteSubmit(
+                            hasAcceptedPolicies: hasAcceptedPolicies,
+                          );
                         }
                       },
                     ),

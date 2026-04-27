@@ -186,7 +186,7 @@ class RegistrationController extends GetxController {
 
   //PROFILE COMPLETE SEction
   bool submitProfileCompleteLoading = false;
-  Future<void> profileCompleteSubmit() async {
+  Future<void> profileCompleteSubmit({required bool hasAcceptedPolicies}) async {
     submitProfileCompleteLoading = true;
     update();
     try {
@@ -202,9 +202,10 @@ class RegistrationController extends GetxController {
         image: null,
         pin: pinController.text,
         cPin: pinController.text,
+        agree: hasAcceptedPolicies.toString(),
       );
 
-      ResponseModel responseModel = await registrationRepo.completeProfile(
+      ResponseModel responseModel = await registrationRepo.registerUser(
         model,
       );
 

@@ -6,12 +6,7 @@ import '../../../utils/util_exporter.dart';
 import '../../services/service_exporter.dart';
 
 class RegistrationRepo {
-  Future<ResponseModel> registerUser(SignUpModel model) async {
-    final map = model.toMap();
-    String url = '${UrlContainer.baseUrl}${UrlContainer.registrationEndPoint}';
-    ResponseModel responseModel = await ApiService.postRequest(url, map);
-    return responseModel;
-  }
+
 
   Future<ResponseModel> verifySmsOtp(String code) async {
     final map = {'code': code};
@@ -35,9 +30,9 @@ class RegistrationRepo {
     return response;
   }
 
-  Future<ResponseModel> completeProfile(ProfileCompletePostModel model) async {
+  Future<ResponseModel> registerUser(ProfileCompletePostModel model) async {
     Map<String, dynamic> params = model.toMap();
-    String url = '${UrlContainer.baseUrl}${UrlContainer.profileCompleteEndPoint}';
+    String url = '${UrlContainer.baseUrl}${UrlContainer.registrationEndPoint}';
     ResponseModel responseModel = await ApiService.postRequest(url, params);
     return responseModel;
   }
