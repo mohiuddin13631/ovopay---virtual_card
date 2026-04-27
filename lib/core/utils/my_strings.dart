@@ -96,6 +96,7 @@ class MyStrings {
   static const String yourWalletBalance = "Your wallet Balance";
   static const String currentBalance = "Current Balance";
   static const String username = "Username";
+  static const String emailOrUsername = "Email or Username";
   static const String password = "Password";
   static const String forgotPin = "Forgot PIN?";
   static const String forgotYourPin = "Forgot your PIN?";
@@ -202,6 +203,7 @@ class MyStrings {
   static const String maintenanceMode = "Maintenance Mode";
   static const String tosTitle = "Terms and conditions";
   static const String forgetPin = "Forgot PIN";
+  static const String forgetPassword = "Forgot Password";
   static const String verificationFailed = "Verification Failed";
   static const String emailVerificationFailed = "Email Verification Failed";
   static const String changeOrEditPINnumber = "Change or edit PIN number";
@@ -299,12 +301,14 @@ class MyStrings {
   static const String kUsernameIsRequired = "Username is required.";
   static const String kPhoneNumberIsRequired = "Phone Number is required.";
   static const String kPhoneNumberDigitIsRequired = "Phone number must be digits of length";
+  static const String kPasswordIsRequired = "Password is required.";
   static const String skipVerification = "Skip Verification";
   static const String successfullyCodeResend = "Resend the code successfully";
   static const String resendCodeFail = "Failed to resend code";
   static const String somethingWentWrong = "Something went wrong";
   static const String verificationSuccess = "Verification Success";
   static const String enterYourUsername = "Enter your username";
+  static const String enterYourPassword = "Enter your password";
   static const String enterYourEmail = "Enter your email";
   static const String enterYourNameExample = "e.g. John Doe";
   static const String enterYourEmailExample = "e.g. user@example.com";

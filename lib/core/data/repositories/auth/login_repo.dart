@@ -10,9 +10,9 @@ class LoginRepo {
     String pin,
   ) async {
     Map<String, String> map = {
-      'country': countryCode,
-      'mobile_number': mobile,
-      'pin': pin,
+      // 'country': countryCode,
+      'username': mobile,
+      'password': pin,
     };
     String url = '${UrlContainer.baseUrl}${UrlContainer.loginEndPoint}';
     final response = await ApiService.postRequest(url, map);

@@ -25,7 +25,7 @@ class LoginController extends BioMetricController {
 
   CountryData? countryData;
   TextEditingController countryController = TextEditingController();
-  TextEditingController mobileController = TextEditingController();
+  TextEditingController usernameEmailController = TextEditingController();
   TextEditingController pinController = TextEditingController();
 
   String? email;
@@ -53,7 +53,7 @@ class LoginController extends BioMetricController {
       // Call the login API
       ResponseModel model = await loginRepo.loginUser(
         countryData?.id?.toString() ?? "-1",
-        mobileController.text.toString(),
+        usernameEmailController.text.toString(),
         pinController.text.toString(),
       );
       // Check if the response status code is 200 (success)
@@ -114,7 +114,7 @@ class LoginController extends BioMetricController {
       // Call the login API
       ResponseModel model = await loginRepo.registerUser(
         countryData?.id?.toString() ?? "-1",
-        mobileController.text.toString(),
+        usernameEmailController.text.toString(),
       );
 
       // Check if the response status code is 200 (success)
@@ -128,7 +128,7 @@ class LoginController extends BioMetricController {
           await SharedPreferenceService.setRememberMe(true);
           await SharedPreferenceService.setString(
             SharedPreferenceService.userPhoneNumberKey,
-            mobileController.text,
+            usernameEmailController.text,
           );
         }
         // // Check if the login status is successful
@@ -207,13 +207,13 @@ class LoginController extends BioMetricController {
 
   void clearTextField() {
     pinController.text = '';
-    mobileController.text = '';
+    usernameEmailController.text = '';
     update();
   }
 
   CountryController countryDataController = CountryController();
   void initializeData() {
-    mobileController.text = SharedPreferenceService.getUserPhoneNumber();
+    usernameEmailController.text = SharedPreferenceService.getUserPhoneNumber();
     //Country data
     countryDataController.initialize();
     if (countryDataController.filteredCountries.isNotEmpty) {

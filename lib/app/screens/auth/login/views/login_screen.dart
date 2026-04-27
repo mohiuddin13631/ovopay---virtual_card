@@ -185,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           spaceDown(Dimensions.space30),
                           LoginRegFormsWidgets(),
-                          spaceDown(Dimensions.space30),
+                          spaceDown(Dimensions.space15),
                           CustomElevatedBtn(
                             radius: Dimensions.largeRadius.r,
                             isLoading: controller.isSubmitLoading,
