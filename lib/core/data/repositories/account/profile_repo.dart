@@ -48,7 +48,7 @@ class ProfileRepo {
 
   Future<ResponseModel> logout() async {
     String url = '${UrlContainer.baseUrl}${UrlContainer.logoutUrl}';
-    ResponseModel responseModel = await ApiService.getRequest(url);
+    ResponseModel responseModel = await ApiService.postRequest(url, {});
     return responseModel;
   }
 

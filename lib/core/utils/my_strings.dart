@@ -109,6 +109,7 @@ class MyStrings {
   static const String login = "Login";
   static const String freezeCardConfirmation = "Are you sure you want to freeze this card? All transactions will be temporarily blocked.";
   static const String register = "Register";
+  static const String createYourAccount = "Create Your Account";
   static const String firstName = "First Name";
   static const String lastName = "Last Name";
   static const String last = "Last";
@@ -364,6 +365,7 @@ class MyStrings {
   static const String loginHeader = "Login / Registration";
   static const String loginSubTitle = "Join today and simplify your financial management";
   static const String loginSubTitle2 = "Log in to manage your finances seamlessly.";
+  static const String registerSubTitle = "Join today and simplify your financial management";
   static const String dontHaveAnAccount = "Don't have an account?";
   static const String alreadyHaveAnAccount = "Already have an account?";
   static const String registerNow = "Register Now";
