@@ -351,6 +351,8 @@ class MyStrings {
   static const String loginHeader = "Login / Registration";
   static const String loginSubTitle = "Join today and simplify your financial management";
   static const String loginSubTitle2 = "Log in to manage your finances seamlessly.";
+  static const String dontHaveAnAccount = "Don't have an account?";
+  static const String registerNow = "Register Now";
   static const String copiedToClipBoard = "Copied to your clipboard!";
   static const String security = "Security";
   static const String notification = "Notification";

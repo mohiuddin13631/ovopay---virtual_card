@@ -180,101 +180,101 @@ class LoginRegFormsWidgets extends StatelessWidget {
           //       )
           //     :
           Column(
-                  children: [
-                    //Country
-                    RoundedTextField(
-                      readOnly: true,
-                      labelText: MyStrings.country.tr,
-                      hintText: MyStrings.selectACountry.tr,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
-                      controller: controller.countryController,
-                      prefixIcon: Container(
-                        margin: const EdgeInsetsDirectional.only(
-                          start: Dimensions.space15,
-                          end: Dimensions.space8,
-                        ),
-                        child: MyNetworkImageWidget(
-                          width: Dimensions.space22.sp,
-                          height: Dimensions.space16.sp,
-                          boxFit: BoxFit.contain,
-                          imageUrl: UrlContainer.countryFlagImageLink.replaceAll(
-                            "{countryCode}",
-                            (controller.countryData?.code ?? Environment.defaultCountryCode).toLowerCase(),
-                          ),
-                        ),
-                      ),
-                      suffixIcon: Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: MyColor.getBodyTextColor(),
-                        size: Dimensions.space25.sp,
-                      ),
-                      onTap: () {
-                        CountryBottomSheet.countryBottomSheet(
-                          context,
-                          selectedCountry: controller.countryData,
-                          onSelectedData: (v) {
-                            controller.selectedCountryData(v);
-                          },
-                        );
-                      },
+            children: [
+              //Country
+              RoundedTextField(
+                readOnly: true,
+                labelText: MyStrings.country.tr,
+                hintText: MyStrings.selectACountry.tr,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.text,
+                controller: controller.countryController,
+                prefixIcon: Container(
+                  margin: const EdgeInsetsDirectional.only(
+                    start: Dimensions.space15,
+                    end: Dimensions.space8,
+                  ),
+                  child: MyNetworkImageWidget(
+                    width: Dimensions.space22.sp,
+                    height: Dimensions.space16.sp,
+                    boxFit: BoxFit.contain,
+                    imageUrl: UrlContainer.countryFlagImageLink.replaceAll(
+                      "{countryCode}",
+                      (controller.countryData?.code ?? Environment.defaultCountryCode).toLowerCase(),
                     ),
-                    spaceDown(Dimensions.space24),
+                  ),
+                ),
+                suffixIcon: Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  color: MyColor.getBodyTextColor(),
+                  size: Dimensions.space25.sp,
+                ),
+                onTap: () {
+                  CountryBottomSheet.countryBottomSheet(
+                    context,
+                    selectedCountry: controller.countryData,
+                    onSelectedData: (v) {
+                      controller.selectedCountryData(v);
+                    },
+                  );
+                },
+              ),
+              spaceDown(Dimensions.space24),
 
-                    //phone
-                    RoundedTextField(
-                      labelText: MyStrings.phoneNumber.tr,
-                      hintText: MyStrings.phoneNumber.tr,
-                      controller: controller.mobileController,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.phone,
-                      prefixIcon: IntrinsicWidth(
-                        child: Container(
-                          padding: const EdgeInsetsDirectional.only(
-                            start: Dimensions.space15,
-                            end: Dimensions.space8,
-                          ),
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "+${controller.countryData?.dialCode ?? Environment.defaultPhoneDialCode}",
-                                  style: MyTextStyle.bodyTextStyle2.copyWith(
-                                    color: MyColor.getBodyTextColor(),
-                                  ),
-                                ),
-                                spaceSide(Dimensions.space8),
-                                Container(
-                                  color: MyColor.getBodyTextColor().withValues(alpha: 0.5),
-                                  width: 1.2.w,
-                                  height: Dimensions.space25.h,
-                                ),
-                              ],
+              //phone
+              RoundedTextField(
+                labelText: MyStrings.phoneNumber.tr,
+                hintText: MyStrings.phoneNumber.tr,
+                controller: controller.mobileController,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.phone,
+                prefixIcon: IntrinsicWidth(
+                  child: Container(
+                    padding: const EdgeInsetsDirectional.only(
+                      start: Dimensions.space15,
+                      end: Dimensions.space8,
+                    ),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "+${controller.countryData?.dialCode ?? Environment.defaultPhoneDialCode}",
+                            style: MyTextStyle.bodyTextStyle2.copyWith(
+                              color: MyColor.getBodyTextColor(),
                             ),
                           ),
-                        ),
+                          spaceSide(Dimensions.space8),
+                          Container(
+                            color: MyColor.getBodyTextColor().withValues(alpha: 0.5),
+                            width: 1.2.w,
+                            height: Dimensions.space25.h,
+                          ),
+                        ],
                       ),
-                      textInputFormatter: [
-                        FilteringTextInputFormatter.digitsOnly, // Allow only digits
-                        LengthLimitingTextInputFormatter(
-                          SharedPreferenceService.getMaxMobileNumberDigit(),
-                        ), // Limit to 5 characters
-                      ],
-                      validator: (value) {
-                        if (value.toString().isEmpty) {
-                          return MyStrings.kPhoneNumberIsRequired.tr;
-                        } else if (value.toString().length < SharedPreferenceService.getMaxMobileNumberDigit()) {
-                          return '${MyStrings.kPhoneNumberDigitIsRequired.tr} ${SharedPreferenceService.getMaxMobileNumberDigit().toString().tr}';
-                        } else {
-                          return null;
-                        }
-                      },
                     ),
-                  ],
+                  ),
                 ),
+                textInputFormatter: [
+                  FilteringTextInputFormatter.digitsOnly, // Allow only digits
+                  LengthLimitingTextInputFormatter(
+                    SharedPreferenceService.getMaxMobileNumberDigit(),
+                  ), // Limit to 5 characters
+                ],
+                validator: (value) {
+                  if (value.toString().isEmpty) {
+                    return MyStrings.kPhoneNumberIsRequired.tr;
+                  } else if (value.toString().length < SharedPreferenceService.getMaxMobileNumberDigit()) {
+                    return '${MyStrings.kPhoneNumberDigitIsRequired.tr} ${SharedPreferenceService.getMaxMobileNumberDigit().toString().tr}';
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+            ],
+          ),
         );
       },
     );

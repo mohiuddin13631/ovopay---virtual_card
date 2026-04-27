@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -158,12 +159,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           spaceDown(Dimensions.space30),
                           Text(
-                            SharedPreferenceService.getRememberMe() ? MyStrings.welcomeBack.tr : MyStrings.loginHeader.tr,
+                            MyStrings.welcomeBack.tr,
                             style: MyTextStyle.headerH1,
                           ),
                           const SizedBox(height: Dimensions.space8),
                           Text(
-                            SharedPreferenceService.getRememberMe() ? MyStrings.loginSubTitle2.tr : MyStrings.loginSubTitle.tr,
+                            MyStrings.loginSubTitle2.tr,
                             style: MyTextStyle.bodyTextStyle1.copyWith(
                               color: MyColor.getWhiteColor(),
                             ),
@@ -189,16 +190,38 @@ class _LoginScreenState extends State<LoginScreen> {
                             radius: Dimensions.largeRadius.r,
                             isLoading: controller.isSubmitLoading,
                             bgColor: MyColor.getPrimaryColor(),
-                            text: SharedPreferenceService.getRememberMe() ? MyStrings.login.tr : MyStrings.continueText.tr,
+                            text: MyStrings.login.tr,
                             onTap: () {
                               if (formKey.currentState!.validate()) {
-                                if (SharedPreferenceService.getRememberMe()) {
-                                  controller.loginUser();
-                                } else {
-                                  controller.registerUser();
-                                }
+                                controller.loginUser();
                               }
                             },
+                          ),
+                          spaceDown(Dimensions.space20),
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style: MyTextStyle.sectionSubTitle1.copyWith(
+                                color: MyColor.getBodyTextColor(),
+                                fontSize: Dimensions.space15.sp
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: "${MyStrings.dontHaveAnAccount.tr} ",
+                                ),
+                                TextSpan(
+                                  text: MyStrings.registerNow.tr,
+                                  style: MyTextStyle.sectionSubTitle1.copyWith(
+                                    color: MyColor.getPrimaryColor(),
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Get.toNamed(RouteHelper.registrationScreen);
+                                    },
+                                ),
+                              ],
+                            ),
                           ),
                           spaceDown(Dimensions.space100),
                         ],
