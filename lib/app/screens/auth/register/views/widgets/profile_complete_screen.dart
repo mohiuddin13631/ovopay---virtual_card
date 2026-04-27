@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
+import 'package:ovopay/app/components/snack_bar/show_custom_snackbar.dart';
 import 'package:ovopay/app/components/text-field/rounded_text_field.dart';
 import 'package:ovopay/app/components/text/header_text.dart';
 import 'package:ovopay/app/screens/auth/register/controller/registration_controller.dart';
+import 'package:ovopay/core/route/route.dart';
 
 import '../../../../../../core/utils/util_exporter.dart';
 
@@ -28,6 +30,11 @@ class ProfileCompleteScreen extends StatefulWidget {
 
 class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
   final formKey = GlobalKey<FormState>();
+  bool hasAcceptedPolicies = false;
+
+  void _openPrivacyScreen() {
+    Get.toNamed(RouteHelper.privacyScreen);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +164,85 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                         ],
                       ),
                     ),
+                    spaceDown(Dimensions.space16),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Transform.translate(
+                          offset: const Offset(-6, -10),
+                          child: Checkbox(
+                            value: hasAcceptedPolicies,
+                            activeColor: MyColor.getPrimaryColor(),
+                            side: BorderSide(
+                              color: MyColor.getBorderColor(),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                hasAcceptedPolicies = value ?? false;
+                              });
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                Text(
+                                  'I agree with ',
+                                  style: MyTextStyle.sectionSubTitle1.copyWith(
+                                    color: MyColor.getBodyTextColor(),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: _openPrivacyScreen,
+                                  child: Text(
+                                    'Privacy Policy',
+                                    style: MyTextStyle.sectionSubTitle1.copyWith(
+                                      color: MyColor.getPrimaryColor(),
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  ', ',
+                                  style: MyTextStyle.sectionSubTitle1.copyWith(
+                                    color: MyColor.getBodyTextColor(),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: _openPrivacyScreen,
+                                  child: Text(
+                                    'Terms of Service',
+                                    style: MyTextStyle.sectionSubTitle1.copyWith(
+                                      color: MyColor.getPrimaryColor(),
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  ', ',
+                                  style: MyTextStyle.sectionSubTitle1.copyWith(
+                                    color: MyColor.getBodyTextColor(),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: _openPrivacyScreen,
+                                  child: Text(
+                                    'Service Policy',
+                                    style: MyTextStyle.sectionSubTitle1.copyWith(
+                                      color: MyColor.getPrimaryColor(),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     spaceDown(Dimensions.space15),
                     CustomElevatedBtn(
                       radius: Dimensions.largeRadius.r,
@@ -165,6 +251,12 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                       text: MyStrings.confirm,
                       onTap: () {
                         MyUtils.clearAllTypeFocusNodes();
+                        if (!hasAcceptedPolicies) {
+                          CustomSnackBar.error(
+                            errorList: ['Please agree to the policies to continue'],
+                          );
+                          return;
+                        }
                         if (formKey.currentState?.validate() ?? false) {
                           controller.profileCompleteSubmit();
                         }
