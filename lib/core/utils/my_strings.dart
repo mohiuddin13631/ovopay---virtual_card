@@ -98,6 +98,7 @@ class MyStrings {
   static const String username = "Username";
   static const String emailOrUsername = "Email or Username";
   static const String password = "Password";
+  static const String confirmPassword = "Confirm Password";
   static const String forgotPin = "Forgot PIN?";
   static const String forgotYourPin = "Forgot your PIN?";
   static const String forgotPinMSG = "You can easily reset your pin from the app. To get started Please tap on the “Reset PIN” button and follow the steps mentioned.";
@@ -302,6 +303,8 @@ class MyStrings {
   static const String kPhoneNumberIsRequired = "Phone Number is required.";
   static const String kPhoneNumberDigitIsRequired = "Phone number must be digits of length";
   static const String kPasswordIsRequired = "Password is required.";
+  static const String kConfirmPasswordRequired = "Confirm password is required.";
+  static const String kMatchPasswordError = "Password doesn't match";
   static const String skipVerification = "Skip Verification";
   static const String successfullyCodeResend = "Resend the code successfully";
   static const String resendCodeFail = "Failed to resend code";
@@ -309,6 +312,7 @@ class MyStrings {
   static const String verificationSuccess = "Verification Success";
   static const String enterYourUsername = "Enter your username";
   static const String enterYourPassword = "Enter your password";
+  static const String enterYourConfirmPassword = "Enter your confirm password";
   static const String enterYourEmail = "Enter your email";
   static const String enterYourNameExample = "e.g. John Doe";
   static const String enterYourEmailExample = "e.g. user@example.com";
