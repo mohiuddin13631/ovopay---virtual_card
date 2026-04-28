@@ -225,8 +225,8 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
                     scrollDirection: Axis.vertical,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    // crossAxisCount: 4,
-                    crossAxisCount: ScreenUtil().screenWidth < 600 ? 4 : 6, // Set to 4 columns
+                    crossAxisCount: 3,
+                    // crossAxisCount: ScreenUtil().screenWidth < 600 ? 4 : 6, // Set to 4 columns
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                     children: [
