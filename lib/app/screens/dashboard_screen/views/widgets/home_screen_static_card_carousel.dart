@@ -92,7 +92,7 @@ class _HomeScreenStaticCardCarouselState
           ),
           spaceDown(Dimensions.space12),
           SizedBox(
-            height: 235.h,
+            height: 215.h,
             child: PageView.builder(
               controller: _pageController,
               itemCount: _cards.length,
