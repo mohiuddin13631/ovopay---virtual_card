@@ -70,14 +70,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
 
                     //Banner Card
-                    HomeScreenBannerCard(),
+                    // HomeScreenBannerCard(),
 
                     //Payment Offers
-                    if (homeController.offersList.isNotEmpty) ...[
-                      spaceDown(Dimensions.space20),
-                    ],
+                    // if (homeController.offersList.isNotEmpty) ...[
+                    //   spaceDown(Dimensions.space20),
+                    // ],
 
-                    HomeScreenPaymentOffersCard(),
+                    // HomeScreenPaymentOffersCard(),
                     //Transaction
                     spaceDown(Dimensions.space20),
                     

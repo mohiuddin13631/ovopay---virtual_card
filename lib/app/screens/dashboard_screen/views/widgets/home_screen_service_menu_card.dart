@@ -287,8 +287,8 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
             backgroundColor: service.activeColor.withValues(alpha: 0.1),
             borderColor: service.activeColor,
             padding: EdgeInsets.all(Dimensions.space12.w),
-            width: Dimensions.space48.h,
-            height: Dimensions.space48.h,
+            width: 65.w,
+            height: 65.w,
             radius: Dimensions.largeRadius,
             child: MyAssetImageWidget(
               isSvg: true,
