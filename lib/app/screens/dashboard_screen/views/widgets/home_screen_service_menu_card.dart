@@ -226,9 +226,9 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     crossAxisCount: 3,
-                    // crossAxisCount: ScreenUtil().screenWidth < 600 ? 4 : 6, // Set to 4 columns
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.9,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 14,
                     children: [
                       // Display visible services
                       ...getVisibleServices.map(
@@ -280,40 +280,68 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
   Widget buildServiceItem(MenuItem service) {
     return GestureDetector(
       onTap: service.onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CustomAppCard(
-            backgroundColor: service.activeColor.withValues(alpha: 0.1),
-            borderColor: service.activeColor,
-            padding: EdgeInsets.all(Dimensions.space12.w),
-            width: 65.w,
-            height: 65.w,
-            radius: Dimensions.largeRadius,
-            child: MyAssetImageWidget(
-              isSvg: true,
-              assetPath: service.icon,
-              width: Dimensions.space24.w,
-              height: Dimensions.space24.w,
-              color: service.activeColor,
-            ),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: Dimensions.space8.w,
+          vertical: Dimensions.space10.h,
+        ),
+        decoration: BoxDecoration(
+          color: MyColor.getWhiteColor(),
+          borderRadius: BorderRadius.circular(Dimensions.largeRadius.r),
+          border: Border.all(
+            color: service.activeColor.withValues(alpha: 0.12),
+            width: 1,
           ),
-          spaceDown(Dimensions.space4),
-          Flexible(
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                service.label.tr,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: MyTextStyle.caption1Style.copyWith(
-                  fontSize: Dimensions.fontSmall,
-                  color: MyColor.getBodyTextColor(),
+          boxShadow: [
+            BoxShadow(
+              color: service.activeColor.withValues(alpha: 0.08),
+              blurRadius: 16,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              width: 64.w,
+              height: 64.w,
+              decoration: BoxDecoration(
+                color: service.activeColor.withValues(alpha: 0.10),
+                borderRadius: BorderRadius.circular(18.r),
+                border: Border.all(
+                  color: service.activeColor.withValues(alpha: 0.28),
+                ),
+              ),
+              child: Center(
+                child: MyAssetImageWidget(
+                  isSvg: true,
+                  assetPath: service.icon,
+                  width: Dimensions.space26.w,
+                  height: Dimensions.space26.w,
+                  color: service.activeColor,
                 ),
               ),
             ),
-          ),
-        ],
+            spaceDown(Dimensions.space10),
+            Expanded(
+              child: Center(
+                child: Text(
+                  service.label.tr,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: MyTextStyle.caption1Style.copyWith(
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w600,
+                    color: MyColor.getBodyTextColor(),
+                    height: 1.2,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
