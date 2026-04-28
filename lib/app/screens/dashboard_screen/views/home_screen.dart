@@ -8,6 +8,7 @@ import 'package:ovopay/app/screens/dashboard_screen/views/widgets/home_screen_ba
 import 'package:ovopay/app/screens/dashboard_screen/views/widgets/home_screen_kyc_status_card.dart';
 import 'package:ovopay/app/screens/dashboard_screen/views/widgets/home_screen_payment_offer_list_card.dart';
 import 'package:ovopay/app/screens/dashboard_screen/views/widgets/home_screen_service_menu_card.dart';
+import 'package:ovopay/app/screens/dashboard_screen/views/widgets/home_screen_static_card_carousel.dart';
 import 'package:ovopay/app/screens/dashboard_screen/views/widgets/home_screen_transaction_list_card.dart';
 import 'package:ovopay/core/utils/util_exporter.dart';
 
@@ -67,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (homeController.isLoading == false) ...[
                       //Service menu
                       HomeScreenServiceMenuCard(),
+                      HomeScreenStaticCardCarousel(),
                     ],
 
                     //Banner Card
