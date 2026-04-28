@@ -290,7 +290,7 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
           borderRadius: BorderRadius.circular(Dimensions.largeRadius.r),
           border: Border.all(
             color: service.activeColor.withValues(alpha: 0.12),
-            width: 1,
+            width: .5,
           ),
           boxShadow: [
             BoxShadow(
