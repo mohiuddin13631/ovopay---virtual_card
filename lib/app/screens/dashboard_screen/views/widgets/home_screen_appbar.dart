@@ -53,14 +53,14 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                     children: [
                       SelectableText(
                         // "+1305***2082",
-                        "+${SharedPreferenceService.getDialCode()}${SharedPreferenceService.getUserPhoneNumber()}",
+                        SharedPreferenceService.getUserFullName(),
                         style: MyTextStyle.sectionSubTitle1.copyWith(
                           color: MyColor.getBodyTextColor(),
                         ),
                       ),
                       Text(
                         // "Jhon Smith",
-                        SharedPreferenceService.getUserFullName(),
+                        SharedPreferenceService.getUserEmail(),
                         style: MyTextStyle.sectionTitle2.copyWith(
                           color: MyColor.getHeaderTextColor(),
                         ),

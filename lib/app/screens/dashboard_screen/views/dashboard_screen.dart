@@ -73,17 +73,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
         },
       ),
 
-      // CardScreen(
-      //   onItemTapped: (index) {
-      //     _onItemTapped(index);
-      //   },
-      // ),
-
-      StaticCardPreviewScreen(
+      CardScreen(
         onItemTapped: (index) {
           _onItemTapped(index);
         },
       ),
+
+      // StaticCardPreviewScreen(
+      //   onItemTapped: (index) {
+      //     _onItemTapped(index);
+      //   },
+      // ),
 
       TransactionHistoryScreen(
         onItemTapped: (index) {

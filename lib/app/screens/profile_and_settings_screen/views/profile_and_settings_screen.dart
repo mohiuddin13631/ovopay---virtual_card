@@ -70,7 +70,7 @@ class _ProfileAndSettingsScreenState extends State<ProfileAndSettingsScreen> {
                       padding: EdgeInsetsDirectional.zero,
                       imagePath: SharedPreferenceService.getUserImage(),
                       title: SharedPreferenceService.getUserFullName(),
-                      subtitle: "+${SharedPreferenceService.getDialCode()}${SharedPreferenceService.getUserPhoneNumber()}",
+                      subtitle: SharedPreferenceService.getUserEmail(),
                       showBorder: false,
                       titleStyle: MyTextStyle.sectionTitle.copyWith(
                         color: MyColor.getDarkColor(),
