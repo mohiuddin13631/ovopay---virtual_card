@@ -35,9 +35,11 @@ class CardRepo {
   Future<ResponseModel> freezeUnfreezeCard({
     String cardId = "-1",
     bool isFreeze = true,
+    String? reason
+
   }) async {
-    String url = '${UrlContainer.baseUrl}${isFreeze ? UrlContainer.freezeCardEndPoint : UrlContainer.unfreezeCardEndPoint}/$cardId';
-    final response = await ApiService.postRequest(url, {});
+    String url = '${UrlContainer.baseUrl}${isFreeze ? UrlContainer.unfreezeCardEndPoint : UrlContainer.freezeCardEndPoint}/$cardId';
+    final response = await ApiService.postRequest(url, {"reason": reason ?? ""});
     return response;
   }
 }

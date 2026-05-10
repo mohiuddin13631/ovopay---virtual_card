@@ -99,7 +99,7 @@ class Transactions {
 }
 
 class TransactionHistoryModel {
-  int? id;
+  String? id;
   String? trx;
   String? trxType;
   String? amount;
@@ -109,8 +109,12 @@ class TransactionHistoryModel {
   String? remark;
   TrxOtherData? otherData;
   String? details;
+  String? method;
+  String? narrative;
+  String? currency;
   String? status;
   String? createdAt;
+  String? createdAtFromAPi;
   String? createdAtDiff;
 
   TransactionHistoryModel({
@@ -124,24 +128,32 @@ class TransactionHistoryModel {
     this.otherData,
     this.cardTransactionType,
     this.details,
+    this.method,
+    this.narrative,
     this.status,
+    this.currency,
     this.createdAt,
+    this.createdAtFromAPi,
     this.createdAtDiff,
   });
 
   factory TransactionHistoryModel.fromJson(Map<String, dynamic> json) => TransactionHistoryModel(
-        id: json["id"],
+        id: json["id"]?.toString(),
         trx: json["trx"]?.toString(),
-        trxType: json["trx_type"]?.toString(),
+        trxType: json["type"]?.toString(),
         amount: json["amount"]?.toString(),
         status: json["status"]?.toString(),
+        narrative: json["narrative"]?.toString(),
         charge: json["charge"]?.toString(),
+        currency: json["currency"]?.toString(),
         cardTransactionType: json["card_transaction_type"]?.toString(),
         totalAmount: json["total_amount"]?.toString(),
         remark: json["remark"]?.toString(),
         otherData: json["other_data"] == null ? null : TrxOtherData.fromJson(json["other_data"]),
         details: json["details"]?.toString(),
+        method: json["method"]?.toString(),
         createdAt: json["created_at"]?.toString(),
+        createdAtFromAPi: json["createdAt"]?.toString(),
         createdAtDiff: json["created_at_diff"]?.toString(),
       );
 

@@ -17,13 +17,21 @@ class ChangePinController extends GetxController {
   bool isLoading = false;
   List<String> errors = [];
 
-  TextEditingController passController = TextEditingController();
-  TextEditingController currentPassController = TextEditingController();
-  TextEditingController confirmPassController = TextEditingController();
+  TextEditingController pinController = TextEditingController();
+  TextEditingController currentPinController = TextEditingController();
+  TextEditingController confirmPinController = TextEditingController();
 
-  FocusNode currentPassFocusNode = FocusNode();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController currentPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
+  FocusNode currentPinFocusNode = FocusNode();
+  FocusNode pinFocusNode = FocusNode();
+  FocusNode confirmPinFocusNode = FocusNode();
+
+  FocusNode currentPasswordFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
-  FocusNode confirmPassFocusNode = FocusNode();
+  FocusNode confirmPasswordFocusNode = FocusNode();
 
   void addError({required String error}) {
     if (!errors.contains(error)) {
@@ -41,8 +49,8 @@ class ChangePinController extends GetxController {
 
   bool submitLoading = false;
   Future<void> changePassword({required VoidCallback onSuccess}) async {
-    String currentPass = currentPassController.text.toString();
-    String password = passController.text.toString();
+    String currentPass = currentPinController.text.toString();
+    String password = pinController.text.toString();
 
     try {
       submitLoading = true;
@@ -57,9 +65,9 @@ class ChangePinController extends GetxController {
           responseModel.responseJson,
         );
         if (model.status?.toLowerCase() == AppStatus.SUCCESS.toLowerCase()) {
-          currentPassController.clear();
-          passController.clear();
-          confirmPassController.clear();
+          currentPinController.clear();
+          pinController.clear();
+          confirmPinController.clear();
 
           onSuccess();
         } else {
@@ -80,8 +88,8 @@ class ChangePinController extends GetxController {
   void clearData() {
     isLoading = false;
     errors.clear();
-    currentPassController.text = '';
-    passController.text = '';
-    confirmPassController.text = '';
+    currentPinController.text = '';
+    pinController.text = '';
+    confirmPinController.text = '';
   }
 }

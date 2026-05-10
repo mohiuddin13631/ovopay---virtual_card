@@ -120,7 +120,7 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                             onTap: () {
                               FreezeCardBottomSheet.freezeCardBottomSheet(context);
                             },
-                            title: controller.cardModel.freezingReason == null ? MyStrings.freeze : MyStrings.unfreezeCard,
+                            title: controller.cardModel.cardStatus == "active" ? MyStrings.freeze : MyStrings.unfreezeCard,
                             icon: MyIcons.freeze
                           ),
                         ],
@@ -134,7 +134,7 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(MyStrings.transaction.tr, style: MyTextStyle.sectionTitle2,),
+                          Text(MyStrings.transactions.tr, style: MyTextStyle.sectionTitle2,),
                           spaceDown(Dimensions.space18.h),
 
                           controller.transactionHistoryList.isEmpty ? NoDataWidget() :
@@ -158,9 +158,9 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text(transactionHistory.details ?? "", style: MyTextStyle.sectionTitle3),
+                                              Text(transactionHistory.narrative ?? "", style: MyTextStyle.sectionTitle3),
                                               spaceDown(Dimensions.space4),
-                                              Text("${controller.getStatus(transactionHistory.status ?? "")} • ${DateConverter.formatDate(transactionHistory.createdAt ?? "")}", style: MyTextStyle.caption1Style)
+                                              Text("${transactionHistory.status ?? ""} • ${DateConverter.formatDate2(transactionHistory.createdAtFromAPi ?? "")}", style: MyTextStyle.caption1Style)
                                             ],
                                           ),
                                         ),
@@ -168,9 +168,9 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
-                                            Text("${transactionHistory.trxType} ${controller.currency}${AppConverter.formatNumber(transactionHistory.amount ?? "")}", style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.black)),
+                                            Text("${transactionHistory.trxType == "credit" ? "+" : "-"}${AppConverter.formatNumber(transactionHistory.amount ?? "", forceShowPrecision: true)} ${transactionHistory.currency?.toUpperCase()}", style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.black)),
                                             spaceDown(Dimensions.space4),
-                                            Text(transactionHistory.trxType == "+" ? MyStrings.incoming.tr : MyStrings.outgoing.tr, style: MyTextStyle.caption1Style)
+                                            Text(transactionHistory.trxType == "credit" ? MyStrings.incoming.tr : MyStrings.outgoing.tr, style: MyTextStyle.caption1Style)
                                           ],
                                         )
                                       ],

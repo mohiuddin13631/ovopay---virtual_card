@@ -67,7 +67,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
 
                   RowItem(
                     title: MyStrings.dateAndTime.tr,
-                    subtitle: DateConverter.formatDate(widget.successScreenModel.transaction?.createdAt ?? ""),
+                    subtitle: DateConverter.formatDate2(widget.successScreenModel.transaction?.createdAt ?? ""),
                   ),
 
                   RowItem(
@@ -101,7 +101,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
               padding: const EdgeInsets.symmetric(horizontal: Dimensions.space16),
               child: CustomElevatedBtn(text: MyStrings.backToHome, onTap: () {
                 Get.offAllNamed(RouteHelper.dashboardScreen);
-              },),
+              }),
             )
 
             /*Row(

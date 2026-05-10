@@ -134,14 +134,14 @@ class FreezeCardBottomSheet {
                                   onItemSelected: (String value) {
                                     controller.setFreezingReason(value);
                                   },
-                                  selectedItem: controller.selectedFreezingReason,
+                                  selectedItem: controller.selectedFreezingReason.isEmpty ? "Select a reason..." : controller.selectedFreezingReason,
                                   child: RoundedTextField(
                                     readOnly: true,
                                     showLabelText: false,
                                     labelText: MyStrings.priority.tr,
                                     hintText: "",
                                     controller: TextEditingController(
-                                      text: controller.selectedFreezingReason,
+                                      text: controller.selectedFreezingReason.isEmpty ? "Select a reason..." : controller.selectedFreezingReason.tr,
                                     ),
                                     textInputAction: TextInputAction.next,
                                     keyboardType: TextInputType.phone,

@@ -12,14 +12,14 @@ import 'package:ovopay/core/utils/util_exporter.dart';
 
 import '../../../../core/data/services/service_exporter.dart';
 
-class ChangPineScreen extends StatefulWidget {
-  const ChangPineScreen({super.key});
+class ChangPasswordScreen extends StatefulWidget {
+  const ChangPasswordScreen({super.key});
 
   @override
-  State<ChangPineScreen> createState() => _ChangPineScreenState();
+  State<ChangPasswordScreen> createState() => _ChangPasswordScreenState();
 }
 
-class _ChangPineScreenState extends State<ChangPineScreen> {
+class _ChangPasswordScreenState extends State<ChangPasswordScreen> {
   @override
   void initState() {
     Get.put(ChangePasswordRepo());
@@ -40,7 +40,7 @@ class _ChangPineScreenState extends State<ChangPineScreen> {
   @override
   Widget build(BuildContext context) {
     return MyCustomScaffold(
-      pageTitle: MyStrings.changePin,
+      pageTitle: MyStrings.changePassword,
       body: SingleChildScrollView(
         clipBehavior: Clip.none,
         child: GetBuilder<ChangePinController>(
@@ -56,8 +56,8 @@ class _ChangPineScreenState extends State<ChangPineScreen> {
                           children: [
                             //Current pin
                             RoundedTextField(
-                              labelText: MyStrings.currentPin,
-                              hintText: MyStrings.enterCurrentPin,
+                              labelText: MyStrings.currentPassword,
+                              hintText: MyStrings.enterCurrentPassword,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.number,
                               textInputFormatter: [
@@ -69,14 +69,14 @@ class _ChangPineScreenState extends State<ChangPineScreen> {
                               isPassword: true,
                               validator: (value) {
                                 if (value.toString().isEmpty) {
-                                  return MyStrings.enterCurrentPin.tr;
+                                  return MyStrings.enterCurrentPassword.tr;
                                 } else {
                                   return null;
                                 }
                               },
-                              controller: controller.currentPinController,
-                              focusNode: controller.currentPinFocusNode,
-                              nextFocus: controller.pinFocusNode,
+                              controller: controller.currentPasswordController,
+                              focusNode: controller.currentPasswordFocusNode,
+                              nextFocus: controller.passwordFocusNode,
                             ),
                             spaceDown(Dimensions.space20),
                             //Create new pin
@@ -165,8 +165,8 @@ class _ChangPineScreenState extends State<ChangPineScreen> {
                               onSuccess: () {
                                 AppDialogs.successDialogForAll(
                                   context,
-                                  title: MyStrings.changePin.tr,
-                                  subTitle: MyStrings.pinChanged.tr,
+                                  title: MyStrings.changePassword.tr,
+                                  subTitle: MyStrings.passwordChanged.tr,
                                   onTap: () {
                                     Get.back();
                                     Get.back();

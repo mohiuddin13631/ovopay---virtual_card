@@ -83,13 +83,14 @@ class CardDetailsController extends GetxController {
     update();
 
     try {
-      ResponseModel responseModel = await cardRepo.freezeUnfreezeCard(cardId: cardModel.id.toString(), isFreeze: cardModel.freezingReason == null);
+      ResponseModel responseModel = await cardRepo.freezeUnfreezeCard(cardId: cardModel.id.toString(), isFreeze: cardModel.cardStatus == "frozen", reason: selectedFreezingReason);
       if (responseModel.statusCode == 200) {
         final cardDetails = cardDetailsResponseModelFromJson(
           jsonEncode(responseModel.responseJson),
         );
         if (cardDetails.status == "success") {
-
+          Get.back();
+          CustomSnackBar.success(successList: cardDetails.message ?? [MyStrings.somethingWentWrong]);
         } else {
           CustomSnackBar.error(
             errorList: cardDetails.message ?? [MyStrings.somethingWentWrong],
@@ -109,7 +110,6 @@ class CardDetailsController extends GetxController {
   }
 
   List<String> freezingReasonList = [
-    "Select a reason...",
     "Suspicious activity",
     "Policy violation",
     "Payment issue",
@@ -117,7 +117,7 @@ class CardDetailsController extends GetxController {
     "Temporary hold"
   ];
 
-  String selectedFreezingReason = "Select a reason...";
+  String selectedFreezingReason = "";
 
   void setFreezingReason(String value){
     selectedFreezingReason = value;

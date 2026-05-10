@@ -127,6 +127,19 @@ class DateConverter {
     return DateFormat('dd MMM yyyy').format(dateTime);
   }
 
+  static String formatDate2(String? isoDate) {
+    if (isoDate == null || isoDate.isEmpty) {
+      return '';
+    }
+
+    try {
+      final dateTime = DateTime.parse(isoDate);
+      return DateFormat('dd MMM yyyy').format(dateTime);
+    } catch (e) {
+      return 'Invalid date format';
+    }
+  }
+
   static String localDate(DateTime dateTime) {
     return DateFormat('dd MMM yyyy').format(dateTime);
   }

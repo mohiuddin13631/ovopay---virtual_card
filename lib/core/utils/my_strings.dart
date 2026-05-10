@@ -154,7 +154,9 @@ class MyStrings {
   static const String resetYourPinSuccess = "Reset PIN Successful";
   static const String resetYourPinSubText = "The password must be different then before";
   static const String changePin = "Change PIN";
+  static const String changePassword = "Change Password";
   static const String currentPin = "Current PIN";
+  static const String currentPassword = "Current Password";
   static const String enterConfirmationCode = "Enter Confirmation Code";
   static const String weHaveSentACodeTo = "We have sent a code to";
   static const String submit = "Submit";
@@ -212,6 +214,7 @@ class MyStrings {
   static const String verificationFailed = "Verification Failed";
   static const String emailVerificationFailed = "Email Verification Failed";
   static const String changeOrEditPINnumber = "Change or edit PIN number";
+  static const String changeOrEditPassword = "Change or edit password";
   static const String pin = "PIN";
   static const String newPin = "New PIN";
   static const String confirmPin = "Confirm PIN";
@@ -252,8 +255,10 @@ class MyStrings {
   static const String paymentInformation = "Payment Information";
   static const String create = "Create";
   static const String createNewPin = "Create new Pin";
+  static const String createNewPin = "Create new Pin";
   static const String confirmNewPin = "Confirm new Pin";
   static const String enterCurrentPin = "Enter current PIN";
+  static const String enterCurrentPassword = "Enter current Password";
   static const String enterNewPin = "Enter new PIN";
   static const String enterConfirmPin = "Enter confirm PIN";
   static const String addMoney = "Add Money";
@@ -350,7 +355,8 @@ class MyStrings {
   static const String daysAgo = "days ago";
   static const String logout = "Logout";
   static const String otherServices = "Other Services";
-  static const String passwordChanged = "Pin change successfully";
+  static const String pinChanged = "Pin change successfully";
+  static const String passwordChanged = "Password change successfully";
   static const String limit = "Limit";
   static const String error = "Error";
   static const String trxType = "Trx Type";

@@ -22,6 +22,7 @@ import 'package:ovopay/app/screens/card/view/static_card_preview_screen.dart';
 import 'package:ovopay/app/screens/card_charges_fees/view/card_charges_and_fees_screen.dart';
 import 'package:ovopay/app/screens/card_details/view/card_details_screen.dart';
 import 'package:ovopay/app/screens/choose_card/view/choose_card_screen.dart';
+import 'package:ovopay/app/screens/profile_and_settings_screen/views/change_password_screen.dart';
 import 'package:ovopay/app/screens/statements/statement_screen.dart';
 import 'package:ovopay/app/screens/success/success_screen.dart';
 import 'package:ovopay/app/screens/top_up/view/confirm_topup_screen.dart';
@@ -94,6 +95,7 @@ class RouteHelper {
   //Auth
   static const String forgotPinScreen = "/forgot_pin_screen";
   static const String pinChangeScreen = "/pin_change_screen";
+  static const String passwordChangeScreen = "/password_change_screen";
 
   // Additional screens
   static const String emailVerificationScreen = "/verify_email_screen";
@@ -247,6 +249,14 @@ class RouteHelper {
       transitionDuration: const Duration(milliseconds: 400),
       transition: Transition.rightToLeftWithFade,
     ),
+
+    GetPage(
+      name: passwordChangeScreen,
+      page: () => const ChangPasswordScreen(),
+      transitionDuration: const Duration(milliseconds: 400),
+      transition: Transition.rightToLeftWithFade,
+    ),
+
     GetPage(
       name: deleteAccountScreen,
       page: () => const DeleteAccountScreen(),

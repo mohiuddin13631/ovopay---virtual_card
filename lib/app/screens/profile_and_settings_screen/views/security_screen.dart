@@ -24,11 +24,20 @@ class SecurityScreen extends StatelessWidget {
               child: Column(
                 children: [
                   _buildMenuListTile(
+                    title: MyStrings.password,
+                    subtitle: MyStrings.changeOrEditPassword,
+                    iconPath: MyIcons.pinIcon,
+                    onPressed: () => Get.toNamed(RouteHelper.passwordChangeScreen),
+                  ),
+
+
+                  _buildMenuListTile(
                     title: MyStrings.pin,
                     subtitle: MyStrings.changeOrEditPINnumber,
                     iconPath: MyIcons.pinIcon,
                     onPressed: () => Get.toNamed(RouteHelper.pinChangeScreen),
                   ),
+
                   _buildMenuListTile(
                     title: MyStrings.touchORFaceID,
                     subtitle: MyStrings.touchIDSubText,
