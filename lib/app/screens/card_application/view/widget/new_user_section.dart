@@ -26,6 +26,91 @@ class NewUserSection extends StatelessWidget {
     super.key,
   });
 
+  List<Widget> _buildAddressRows(CreateNewCardController controller) {
+    final fields = <Widget>[
+      if (controller.user?.city == null)
+        _buildAddressField(
+          controller: controller,
+          label: MyStrings.city.tr,
+          textController: controller.cityController,
+          validatorMessage: MyStrings.city.tr,
+        ),
+      if (controller.user?.state == null)
+        _buildAddressField(
+          controller: controller,
+          label: MyStrings.state.tr,
+          textController: controller.stateController,
+          validatorMessage: MyStrings.state.tr,
+        ),
+      if (controller.user?.zip == null)
+        _buildAddressField(
+          controller: controller,
+          label: MyStrings.postalCode.tr,
+          textController: controller.zipCodeController,
+          validatorMessage: MyStrings.enterYourZipCode.tr,
+        ),
+      if (controller.user?.address == null)
+        _buildAddressField(
+          controller: controller,
+          label: MyStrings.roadNumber.tr,
+          textController: controller.roadNumberController,
+          validatorMessage: MyStrings.roadNumber.tr,
+        ),
+    ];
+
+    final rows = <Widget>[];
+
+    for (var i = 0; i < fields.length; i += 2) {
+      final hasSecondField = i + 1 < fields.length;
+
+      rows.add(
+        Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: hasSecondField ? Dimensions.space10.w : 0),
+                child: fields[i],
+              ),
+            ),
+            if (hasSecondField)
+              Expanded(
+                child: fields[i + 1],
+              ),
+          ],
+        ),
+      );
+
+      if (hasSecondField || i + 2 < fields.length) {
+        rows.add(spaceDown(Dimensions.space25.h));
+      }
+    }
+
+    return rows;
+  }
+
+  Widget _buildAddressField({
+    required CreateNewCardController controller,
+    required String label,
+    required TextEditingController textController,
+    required String validatorMessage,
+  }) {
+    return RoundedTextField(
+      readOnly: controller.isExistingUser,
+      labelText: label,
+      hintText: label,
+      controller: textController,
+      textInputAction: TextInputAction.next,
+      keyboardType: TextInputType.text,
+      validator: (value) {
+        if (value.toString().isEmpty) {
+          return validatorMessage;
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CreateNewCardController>(
@@ -61,6 +146,10 @@ class NewUserSection extends StatelessWidget {
                   controller: controller.initialDepositController,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.phone,
+                  suffixIcon: Container(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Text(SharedPreferenceService.getCurrencySymbol(isFullText: true))
+                  ),
                   onChanged: (value) {
                     controller.getTotal();
                     controller.update();
@@ -251,102 +340,7 @@ class NewUserSection extends StatelessWidget {
 
                     spaceDown(Dimensions.space25.h),
 
-                    Row(
-                      children: [
-                        if(controller.user?.city == null)...[
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(right: controller.user?.city == null ? Dimensions.space10.w : 0),
-                              child: RoundedTextField(
-                                readOnly: controller.isExistingUser,
-                                labelText: MyStrings.city.tr,
-                                hintText: MyStrings.city.tr,
-                                controller: controller.cityController,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value.toString().isEmpty) {
-                                    return MyStrings.city.tr;
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-
-                        if(controller.user?.state == null)...[
-                          Expanded(
-                            child: RoundedTextField(
-                              readOnly: controller.isExistingUser,
-                              labelText: MyStrings.state.tr,
-                              hintText: MyStrings.state.tr,
-                              controller: controller.stateController,
-                              textInputAction: TextInputAction.next,
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value.toString().isEmpty) {
-                                  return MyStrings.state.tr;
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-
-                      ],
-                    ),
-
-                    spaceDown(Dimensions.space25.h),
-                    Row(
-                      children: [
-
-                        if(controller.user?.zip == null)...[
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(right: controller.user?.zip == null ? Dimensions.space10.w : 0),
-                              child: RoundedTextField(
-                                readOnly: controller.isExistingUser,
-                                labelText: MyStrings.postalCode.tr,
-                                hintText: MyStrings.postalCode.tr,
-                                controller: controller.zipCodeController,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value.toString().isEmpty) {
-                                    return MyStrings.enterYourZipCode.tr;
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-
-                        if(controller.user?.address == null)...[
-                          Expanded(
-                            child: RoundedTextField(
-                              readOnly: controller.isExistingUser,
-                              labelText: MyStrings.roadNumber.tr,
-                              hintText: MyStrings.roadNumber.tr,
-                              controller: controller.roadNumberController,
-                              textInputAction: TextInputAction.next,
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value.toString().isEmpty) {
-                                  return MyStrings.roadNumber.tr;
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                          ),
-                        ]
-                      ],
-                    ),
+                    ..._buildAddressRows(controller),
 
                   ],
                 ),

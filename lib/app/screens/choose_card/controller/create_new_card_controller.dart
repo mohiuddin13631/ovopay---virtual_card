@@ -72,6 +72,9 @@ class CreateNewCardController extends GetxController {
         if (model.status == "success") {
           chargeSetting = model.data?.chargeSetting;
           user = model.data?.user;
+
+          initialDepositController.text = chargeSetting?.minLimit ?? "";
+
           // existingCardHoldersList.add(ExistingCardHolder(firstName: "Select", lastName: "One", id: -1));
           // existingCardHoldersList.addAll(model.data?.existingCardHolders ?? []);
           existingCardHoldersList = model.data?.existingCardHolders ?? [];
@@ -101,9 +104,9 @@ class CreateNewCardController extends GetxController {
   ];
 
   List<String> idTypeList = [
-    "BVN",
-    "NIN",
-    "PASSPORT"
+    "National ID",
+    "Passport",
+    "Driver's License",
   ];
 
 
@@ -233,35 +236,35 @@ class CreateNewCardController extends GetxController {
     update();
 
     Map<String, dynamic> map = {
-      "card_type" : cardType,
-      "name_on_card" : carNameController.text,
-      "amount" : initialDepositController.text,
       "bg_image" : Get.find<CardController>().selectedCardImage.split('/').last,
-      "info_type" : "new",
-      "first_name" : firstNameController.text,
-      "last_name" : lastNameController.text,
-      "customer_email" : emailController.text,
+      "card_type" : cardType,
+      "name" : carNameController.text,
+      "amount" : initialDepositController.text,
       "country" : countryData?.id.toString() ?? Environment.defaultCountryId,
       "phone_number" : "${countryData?.dialCode ?? Environment.defaultPhoneDialCode}${mobileNumberController.text}",
       "id_number" : idNumberController.text,
-      "id_type" : selectedIdType,
+      "id_type" : selectedIdType?.toLowerCase().replaceAll(" ", "_"),
       "birthday_month" : dobMonth,
       "birthday" : dobDay,
       "birthday_year" : dobYear,
-      "house_number" : houseNumberController.text,
-      "line_1" : roadNumberController.text,
-      "zip_code" : zipCodeController.text,
       "city" : cityController.text,
       "state" : stateController.text,
+      "postal_code" : zipCodeController.text,
+      "line_1" : roadNumberController.text,
+      // "info_type" : "new",
+      // "first_name" : firstNameController.text,
+      // "last_name" : lastNameController.text,
+      // "customer_email" : emailController.text,
+      // "house_number" : houseNumberController.text,
     };
 
-    Map<String, File> attachment = {
-      "id_image" : idCardImage ?? File(""),
-      "user_photo" : userImage ?? File(""),
-    };
+    // Map<String, File> attachment = {
+    //   "id_image" : idCardImage ?? File(""),
+    //   "user_photo" : userImage ?? File(""),
+    // };
 
     try {
-      ResponseModel responseModel = await repo.createNewCard(map: map, attachment: attachment);
+      ResponseModel responseModel = await repo.createNewCard(map: map);
       if (responseModel.statusCode == 200) {
         final model = topUpWalletResponseModelFromJson(jsonEncode(responseModel.responseJson));
         if (model.status == "success") {

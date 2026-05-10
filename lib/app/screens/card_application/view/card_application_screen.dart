@@ -157,12 +157,15 @@ class _CardApplicationScreenState extends State<CardApplicationScreen> {
                   isLoading: controller.isSubmitLoading,
                   text: "${MyStrings.confirmAndPay.tr} - ${controller.currency}${controller.getTotal()}",
                   onTap: () {
-                    if(controller.selectedExistingCardHolder != null && controller.isExistingUser){
-                      controller.createNewCardFromExistingUser(cardType: widget.isPhysicalCard ? "Physical" : "Virtual");
-                    }
-                    else if (controller.newCardFormKey.currentState!.validate() && !controller.isExistingUser) {
+                    // if(controller.selectedExistingCardHolder != null && controller.isExistingUser){
+                    //   controller.createNewCardFromExistingUser(cardType: widget.isPhysicalCard ? "Physical" : "Virtual");
+                    // }
+                    // else if (controller.newCardFormKey.currentState!.validate() && !controller.isExistingUser) {
+                    //   controller.createNewCard(cardType: widget.isPhysicalCard ? "Physical" : "Virtual");
+                    // }
+
                       controller.createNewCard(cardType: widget.isPhysicalCard ? "Physical" : "Virtual");
-                    }
+
                   },
                 ),
                 spaceDown(Dimensions.space8.h),

@@ -11,13 +11,12 @@ class CreateCardRepo {
     return responseModel;
   }
 
-  Future<ResponseModel> createNewCard({required Map<String, dynamic> map, required Map<String, File> attachment}) async {
+  Future<ResponseModel> createNewCard({required Map<String, dynamic> map}) async {
 
     print(map);
-    print(attachment);
 
     String url = '${UrlContainer.baseUrl}${UrlContainer.createCardEndPoint}';
-    ResponseModel responseModel = await ApiService.postMultiPartRequest(url, map, attachment);
+    ResponseModel responseModel = await ApiService.postRequest(url, map);
     return responseModel;
   }
 
