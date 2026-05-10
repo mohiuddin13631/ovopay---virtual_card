@@ -30,8 +30,9 @@ class Environment {
   static const MAIN_API_URL = DEV_MODE ? TEST_API_URL : LIVE_API_URL; // Don't touch here
 
   // static const LIVE_API_URL = 'https://trxera.com'; //Live end Point URL
-  static const LIVE_API_URL = 'http://192.168.120.3/flutter/custom/trxera'; //Live end Point URL
+  // static const LIVE_API_URL = 'http://192.168.120.3/flutter/custom/trxera'; //Live end Point URL
+  static const LIVE_API_URL = 'https://trxera.com'; //Live end Point URL0
 
-  static const TEST_API_URL = 'http://192.168.120.3/flutter/custom/trxera'; //Local or demo or test URL
+  static const TEST_API_URL = 'https://trxera.com'; //Local or demo or test URL
   // API END POINT URL END
 }

@@ -72,8 +72,8 @@ class _CardApplicationScreenState extends State<CardApplicationScreen> {
 
               spaceDown(Dimensions.space24.h),
 
-              ExistingUserSection(),
-              spaceDown(Dimensions.space12.h),
+              // ExistingUserSection(),
+              // spaceDown(Dimensions.space12.h),
               NewUserSection(),
 
               spaceDown(Dimensions.space12.h),

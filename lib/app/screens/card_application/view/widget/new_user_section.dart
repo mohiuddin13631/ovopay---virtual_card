@@ -36,7 +36,7 @@ class NewUserSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(MyStrings.requiredInformation.tr, style: MyTextStyle.sectionTitle2.copyWith(color: MyColor.headingText)),
+                Text(MyStrings.cardInformation.tr, style: MyTextStyle.sectionTitle2.copyWith(color: MyColor.headingText)),
                 CustomDivider(space: 16,),
 
                 RoundedTextField(
@@ -90,74 +90,8 @@ class NewUserSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
-                    Row(
-                      children: [
-                        Container(
-                          width: 22,
-                          height: 22,
-                          decoration: BoxDecoration(
-                              color: MyColor.transparentColor,
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(width: !controller.isExistingUser ? 6: 2, color: !controller.isExistingUser ? MyColor.primary : MyColor.unselectedColor)
-                          ),
-                        ),
-                        spaceSide(6.w),
-                        Text(MyStrings.newCardInformation.tr, style: MyTextStyle.sectionTitle2.copyWith(color: MyColor.headingText))
-                      ],
-                    ),
+                    Text(MyStrings.cardDetails.tr, style: MyTextStyle.sectionTitle2.copyWith(color: MyColor.headingText)),
 
-
-                    spaceDown(Dimensions.space25),
-                    RoundedTextField(
-                      readOnly: controller.isExistingUser,
-                      labelText: MyStrings.firstName.tr,
-                      hintText: MyStrings.enterYourFirstName.tr,
-                      controller: controller.firstNameController,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
-                      validator: (value) {
-                        if (value.toString().isEmpty) {
-                          return MyStrings.kFirstNameNullError.tr;
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-
-                    spaceDown(Dimensions.space25),
-                    RoundedTextField(
-                      readOnly: controller.isExistingUser,
-                      labelText: MyStrings.lastName.tr,
-                      hintText: MyStrings.enterYourLastName.tr,
-                      controller: controller.lastNameController,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
-                      validator: (value) {
-                        if (value.toString().isEmpty) {
-                          return MyStrings.kLastNameNullError.tr;
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-
-                    spaceDown(Dimensions.space25),
-
-                    RoundedTextField(
-                      readOnly: controller.isExistingUser,
-                      labelText: MyStrings.email.tr,
-                      hintText: MyStrings.enterYourEmail.tr,
-                      controller: controller.emailController,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        if (value.toString().isEmpty) {
-                          return MyStrings.enterYourEmail.tr;
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
 
                     spaceDown(Dimensions.space25),
 
@@ -280,71 +214,6 @@ class NewUserSection extends StatelessWidget {
                       ),
                     ),
 
-                    spaceDown(Dimensions.space25),
-                    
-                    RoundedTextField(
-                      prefixIcon: CustomAppCard(
-                        showBorder: false,
-                        margin: EdgeInsetsDirectional.only(
-                          start: Dimensions.space10,
-                          end: Dimensions.space10,
-                          top: Dimensions.space5,
-                        ),
-                        padding: EdgeInsetsDirectional.zero,
-                        width: 50,
-                        height: 40,
-                        radius: Dimensions.mediumRadius.r,
-                        backgroundColor: MyColor.getPrimaryColor(),
-                        child: Icon(
-                          Icons.camera_alt_outlined,
-                          color: MyColor.getWhiteColor(),
-                        ),
-                      ),
-                      onTap: () {
-                        if(!controller.isExistingUser){
-                          _showCupertinoPickerOptions(context, "id_card");
-                        }
-                      },
-                      readOnly: true,
-                      showLabelText: true,
-                      labelText: MyStrings.idCardImage.tr,
-                      hintText: controller.idCardImage?.path.split('/').last ?? MyStrings.chooseAFile.tr,
-                      textInputAction: TextInputAction.done,
-                      keyboardType: TextInputType.text,
-                    ),
-
-                    spaceDown(Dimensions.space25),
-                    RoundedTextField(
-                      prefixIcon: CustomAppCard(
-                        showBorder: false,
-                        margin: EdgeInsetsDirectional.only(
-                          top: Dimensions.space5,
-                          start: Dimensions.space10,
-                          end: Dimensions.space10,
-                        ),
-                        padding: EdgeInsetsDirectional.zero,
-                        width: 50,
-                        height: 40,
-                        radius: Dimensions.mediumRadius.r,
-                        backgroundColor: MyColor.getPrimaryColor(),
-                        child: Icon(
-                          Icons.camera_alt_outlined,
-                          color: MyColor.getWhiteColor(),
-                        ),
-                      ),
-                      onTap: () {
-                        if(!controller.isExistingUser){
-                          _showCupertinoPickerOptions(context, "user_image");
-                        }
-                      },
-                      readOnly: true,
-                      showLabelText: true,
-                      labelText: MyStrings.userImage.tr,
-                      hintText: controller.userImage?.path.split('/').last ?? MyStrings.chooseAFile.tr,
-                      textInputAction: TextInputAction.done,
-                      keyboardType: TextInputType.text,
-                    ),
-
                     spaceDown(Dimensions.space25.h),
 
                     RoundedTextField(
@@ -428,8 +297,8 @@ class NewUserSection extends StatelessWidget {
                         Expanded(
                           child: RoundedTextField(
                             readOnly: controller.isExistingUser,
-                            labelText: MyStrings.zipCode.tr,
-                            hintText: MyStrings.zipCode.tr,
+                            labelText: MyStrings.postalCode.tr,
+                            hintText: MyStrings.postalCode.tr,
                             controller: controller.zipCodeController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
@@ -446,14 +315,14 @@ class NewUserSection extends StatelessWidget {
                         Expanded(
                           child: RoundedTextField(
                             readOnly: controller.isExistingUser,
-                            labelText: MyStrings.houseNumber.tr,
-                            hintText: MyStrings.houseNumber.tr,
-                            controller: controller.houseNumberController,
+                            labelText: MyStrings.roadNumber.tr,
+                            hintText: MyStrings.roadNumber.tr,
+                            controller: controller.roadNumberController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             validator: (value) {
                               if (value.toString().isEmpty) {
-                                return MyStrings.houseNumber.tr;
+                                return MyStrings.roadNumber.tr;
                               } else {
                                 return null;
                               }
@@ -463,22 +332,6 @@ class NewUserSection extends StatelessWidget {
                       ],
                     ),
 
-                    spaceDown(Dimensions.space25.h),
-                    RoundedTextField(
-                      readOnly: controller.isExistingUser,
-                      labelText: MyStrings.roadNumber.tr,
-                      hintText: MyStrings.roadNumber.tr,
-                      controller: controller.roadNumberController,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
-                      validator: (value) {
-                        if (value.toString().isEmpty) {
-                          return MyStrings.roadNumber.tr;
-                        } else {
-                          return null;
-                        }
-                      },
-                    )
                   ],
                 ),
               ),

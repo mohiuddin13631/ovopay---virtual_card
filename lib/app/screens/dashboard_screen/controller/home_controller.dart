@@ -41,6 +41,7 @@ class HomeController extends GetxController {
   }
 
   Future loadDashBoardInfo({bool forceLoad = true}) async {
+
     if (forceLoad) {
       isLoading = forceLoad;
       update();

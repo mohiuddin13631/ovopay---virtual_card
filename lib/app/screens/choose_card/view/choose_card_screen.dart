@@ -13,7 +13,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/utils/dimensions.dart';
 import '../../../../core/utils/my_color.dart';
-import '../widget/physical_card_section.dart';
+// import '../widget/physical_card_section.dart';
 import '../widget/virtual_card_section.dart';
 
 class ChooseCardScreen extends StatefulWidget {
@@ -23,21 +23,21 @@ class ChooseCardScreen extends StatefulWidget {
   State<ChooseCardScreen> createState() => _ChooseCardScreenState();
 }
 
-class _ChooseCardScreenState extends State<ChooseCardScreen> with SingleTickerProviderStateMixin {
-
-  late TabController _controller;
+class _ChooseCardScreenState extends State<ChooseCardScreen> {
+  // This version only supports virtual cards, so tab navigation is disabled.
+  // late TabController _controller;
 
   @override
   void initState() {
-    _controller = TabController(length: 2, vsync: this);
     super.initState();
 
     Get.put(CreateCardRepo());
     var controller = Get.put(CreateNewCardController(repo: Get.find()));
 
-    _controller.addListener(() {
-      controller.update();
-    },);
+    // _controller = TabController(length: 2, vsync: this);
+    // _controller.addListener(() {
+    //   controller.update();
+    // },);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (mounted) {
@@ -55,46 +55,47 @@ class _ChooseCardScreenState extends State<ChooseCardScreen> with SingleTickerPr
           enabled: controller.isLoading,
           child: Column(
             children: [
-
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    color: MyColor.white,
-                    borderRadius: BorderRadius.circular(Dimensions.space50),
-                ),
-                child: TabBar(
-                    controller: _controller,
-                    dividerColor: MyColor.getTransparentColor(),
-                    indicatorColor: MyColor.primary,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    overlayColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
-                      return states.contains(WidgetState.focused) ? null : Colors.transparent;
-                    }),
-                    unselectedLabelStyle: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText),
-                    labelStyle: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText),
-                    indicator: BoxDecoration(
-                      color: MyColor.primary,
-                      borderRadius: BorderRadius.circular(100)
-                    ),
-                    labelColor: MyColor.white,
-                    unselectedLabelColor: MyColor.dark,
-                    labelPadding: EdgeInsets.symmetric(horizontal: 0),
-                    padding: EdgeInsets.all(0),
-                    onFocusChange: (value, index) {},
-                    tabs: [
-                  Tab(text: MyStrings.virtualCard.tr,),
-                  Tab(text: MyStrings.physicalCard.tr),
-                ]),
-              ),
+              // Physical card tabs are intentionally disabled for this version.
+              // Container(
+              //   height: 50,
+              //   decoration: BoxDecoration(
+              //       color: MyColor.white,
+              //       borderRadius: BorderRadius.circular(Dimensions.space50),
+              //   ),
+              //   child: TabBar(
+              //       controller: _controller,
+              //       dividerColor: MyColor.getTransparentColor(),
+              //       indicatorColor: MyColor.primary,
+              //       indicatorSize: TabBarIndicatorSize.tab,
+              //       overlayColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+              //         return states.contains(WidgetState.focused) ? null : Colors.transparent;
+              //       }),
+              //       unselectedLabelStyle: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText),
+              //       labelStyle: MyTextStyle.sectionTitle3.copyWith(color: MyColor.bodyText),
+              //       indicator: BoxDecoration(
+              //         color: MyColor.primary,
+              //         borderRadius: BorderRadius.circular(100)
+              //       ),
+              //       labelColor: MyColor.white,
+              //       unselectedLabelColor: MyColor.dark,
+              //       labelPadding: EdgeInsets.symmetric(horizontal: 0),
+              //       padding: EdgeInsets.all(0),
+              //       onFocusChange: (value, index) {},
+              //       tabs: [
+              //     Tab(text: MyStrings.virtualCard.tr,),
+              //     Tab(text: MyStrings.physicalCard.tr),
+              //   ]),
+              // ),
 
               Expanded(
-                child: TabBarView(
-                  controller: _controller,
-                  children: [
-                    VirtualCardSection(),
-                    PhysicalCardSection(),
-                  ],
-                ),
+                child: VirtualCardSection(),
+                // child: TabBarView(
+                //   controller: _controller,
+                //   children: [
+                //     VirtualCardSection(),
+                //     PhysicalCardSection(),
+                //   ],
+                // ),
               ),
             ],
           ),
@@ -103,9 +104,9 @@ class _ChooseCardScreenState extends State<ChooseCardScreen> with SingleTickerPr
           child: Padding(
             padding: EdgeInsetsGeometry.all(Dimensions.space16),
             child: CustomElevatedBtn(
-              text: "${MyStrings.applyForCard.tr} - ${SharedPreferenceService.getCurrencySymbol()}${_controller.index == 0 ? AppConverter.formatNumber(controller.chargeSetting?.creationFee ?? "", forceShowPrecision: true) : ""}",
+              text: "${MyStrings.applyForCard.tr} - ${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(controller.chargeSetting?.creationFee ?? "", forceShowPrecision: true)}",
               onTap: () {
-                Get.toNamed(RouteHelper.cardApplicationScreen, arguments: _controller.index == 1 ? true : false);
+                Get.toNamed(RouteHelper.cardApplicationScreen, arguments: false);
               },
             ),
           ),

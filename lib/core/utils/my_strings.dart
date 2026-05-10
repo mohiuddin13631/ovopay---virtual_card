@@ -515,7 +515,8 @@ class MyStrings {
   static const String chooseCardHolder = "Choose Card Holder ";
   static const String existingCardHolder = "Existing Card Holder";
   static const String createNewCardHolder = "Create New Card Holder";
-  static const String newCardInformation = "New Card Information";
+  static const String cardInformation = "Card Information";
+
   static const String reusable = "Reusable";
   static const String oneTime = "One Time";
   static const String chooseCardHolderSubText = "Choose an existing cardholder if available, or create a new cardholder by providing the required information";
