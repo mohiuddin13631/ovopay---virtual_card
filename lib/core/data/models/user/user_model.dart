@@ -28,6 +28,7 @@ class UserModel {
   String? zip;
   String? address;
   String? status;
+  String? pin;
   String? kycRejectionReason;
   String? kv;
   String? ev;
@@ -59,6 +60,7 @@ class UserModel {
     this.mobile,
     this.refBy,
     this.image,
+    this.pin,
     this.countryName,
     this.countryCode,
     this.city,
@@ -98,6 +100,7 @@ class UserModel {
         mobile: json["mobile"]?.toString(),
         refBy: json["ref_by"]?.toString(),
         image: json["image"]?.toString(),
+        pin: json["pin"]?.toString(),
         countryName: json["country_name"]?.toString(),
         countryCode: json["country_code"]?.toString(),
         city: json["city"]?.toString(),

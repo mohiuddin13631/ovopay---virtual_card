@@ -23,10 +23,11 @@ class _ChangPineScreenState extends State<ChangPineScreen> {
   @override
   void initState() {
     Get.put(ChangePasswordRepo());
-    Get.put(ChangePinController(changePasswordRepo: Get.find()));
+    var controller = Get.put(ChangePinController(changePasswordRepo: Get.find()));
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Get.find<ChangePinController>().clearData();
+      controller.loadUserInfo();
     });
   }
 
@@ -55,28 +56,31 @@ class _ChangPineScreenState extends State<ChangPineScreen> {
                         child: Column(
                           children: [
                             //Current pin
-                            RoundedTextField(
-                              labelText: MyStrings.currentPin,
-                              hintText: MyStrings.enterCurrentPin,
-                              textInputAction: TextInputAction.next,
-                              keyboardType: TextInputType.number,
-                              textInputFormatter: [
-                                FilteringTextInputFormatter.digitsOnly, // Allow only digits
-                                LengthLimitingTextInputFormatter(
-                                  SharedPreferenceService.getMaxPinNumberDigit(),
-                                ), // Limit to 5 characters
-                              ],
-                              isPassword: true,
-                              validator: (value) {
-                                if (value.toString().isEmpty) {
-                                  return MyStrings.enterCurrentPin.tr;
-                                } else {
-                                  return null;
-                                }
-                              },
-                              controller: controller.currentPinController,
-                              focusNode: controller.currentPinFocusNode,
-                              nextFocus: controller.pinFocusNode,
+                            Visibility(
+                              visible: controller.userModel?.pin != null,
+                              child: RoundedTextField(
+                                labelText: MyStrings.currentPin,
+                                hintText: MyStrings.enterCurrentPin,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.number,
+                                textInputFormatter: [
+                                  FilteringTextInputFormatter.digitsOnly, // Allow only digits
+                                  LengthLimitingTextInputFormatter(
+                                    SharedPreferenceService.getMaxPinNumberDigit(),
+                                  ), // Limit to 5 characters
+                                ],
+                                isPassword: true,
+                                validator: (value) {
+                                  if (value.toString().isEmpty) {
+                                    return MyStrings.enterCurrentPin.tr;
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                controller: controller.currentPinController,
+                                focusNode: controller.currentPinFocusNode,
+                                nextFocus: controller.pinFocusNode,
+                              ),
                             ),
                             spaceDown(Dimensions.space20),
                             //Create new pin
@@ -128,7 +132,7 @@ class _ChangPineScreenState extends State<ChangPineScreen> {
                               focusNode: controller.confirmPinFocusNode,
                               onFieldSubmitted: (value) {
                                 if (formKey.currentState!.validate()) {
-                                  controller.changePassword(
+                                  controller.changePin(
                                     onSuccess: () {
                                       AppDialogs.successDialogForAll(
                                         context,
@@ -161,7 +165,7 @@ class _ChangPineScreenState extends State<ChangPineScreen> {
                         text: MyStrings.save,
                         onTap: () {
                           if (formKey.currentState!.validate()) {
-                            controller.changePassword(
+                            controller.changePin(
                               onSuccess: () {
                                 AppDialogs.successDialogForAll(
                                   context,

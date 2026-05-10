@@ -6,14 +6,31 @@ import '../../services/service_exporter.dart';
 class ChangePasswordRepo {
   String token = '', tokenType = '';
 
-  Future<ResponseModel> changePassword(
-    String currentPass,
-    String password,
+  Future<ResponseModel> changePin(
+    String currentPin,
+    String pin,
   ) async {
-    final params = modelToMap(currentPass, password);
-    String url = '${UrlContainer.baseUrl}${UrlContainer.changePasswordEndPoint}';
+    final params = modelToMap(currentPin, pin);
+    String url = '${UrlContainer.baseUrl}${UrlContainer.changePinEndPoint}';
 
     ResponseModel responseModel = await ApiService.postRequest(url, params);
+    return responseModel;
+  }
+
+  Future<ResponseModel> changePassword(
+      String currentPass,
+      String password,
+      ) async {
+
+    Map<String, dynamic> map = {
+      'current_password': currentPass,
+      'password': password,
+      'password_confirmation': password,
+    };
+
+    String url = '${UrlContainer.baseUrl}${UrlContainer.changePasswordEndPoint}';
+
+    ResponseModel responseModel = await ApiService.postRequest(url, map);
     return responseModel;
   }
 
@@ -24,5 +41,12 @@ class ChangePasswordRepo {
       'pin_confirmation': newPass,
     };
     return map2;
+  }
+
+
+  Future<ResponseModel> loadUserInfo() async {
+    String url = '${UrlContainer.baseUrl}${UrlContainer.getProfileEndPoint}';
+    ResponseModel responseModel = await ApiService.getRequest(url);
+    return responseModel;
   }
 }

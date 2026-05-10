@@ -255,12 +255,15 @@ class MyStrings {
   static const String paymentInformation = "Payment Information";
   static const String create = "Create";
   static const String createNewPin = "Create new Pin";
-  static const String createNewPin = "Create new Pin";
+  static const String createNewPassword = "Create new Password";
   static const String confirmNewPin = "Confirm new Pin";
+  static const String confirmNewPassword = "Confirm new Password";
   static const String enterCurrentPin = "Enter current PIN";
   static const String enterCurrentPassword = "Enter current Password";
   static const String enterNewPin = "Enter new PIN";
+  static const String enterNewPassword = "Enter new Password";
   static const String enterConfirmPin = "Enter confirm PIN";
+  static const String enterConfirmPassword = "Enter confirm Password";
   static const String addMoney = "Add Money";
   static const String addMoneyHistory = "Add Money History";
   static const String addMoneyRequestSuccessful = "Add Money Request Successful";
@@ -298,6 +301,7 @@ class MyStrings {
   static const String success = "Success";
   static const String invalidEmailMsg = "Enter valid email";
   static const String kMatchPinError = "Pin doesn't match";
+  static const String kMatchPasswordError = "Password doesn't match";
   static const String kNameNullError = "Name is Required";
   static const String kAccountNameNullError = "Account Name is Required";
   static const String kAccountNumberNullError = "Account Number is Required";
@@ -313,7 +317,7 @@ class MyStrings {
   static const String kPhoneNumberDigitIsRequired = "Phone number must be digits of length";
   static const String kPasswordIsRequired = "Password is required.";
   static const String kConfirmPasswordRequired = "Confirm password is required.";
-  static const String kMatchPasswordError = "Password doesn't match";
+
   static const String agreeToPoliciesError = "Please agree to the policies to continue";
   static const String skipVerification = "Skip Verification";
   static const String successfullyCodeResend = "Resend the code successfully";

@@ -6,6 +6,8 @@ import 'package:ovopay/core/data/models/global/response_model/response_model.dar
 
 import 'package:ovopay/core/data/repositories/account/change_password_repo.dart';
 
+import '../../../../core/data/models/profile/profile_response_model.dart';
+import '../../../../core/data/models/user/user_model.dart';
 import '../../../../core/utils/util_exporter.dart';
 
 class ChangePinController extends GetxController {
@@ -47,10 +49,78 @@ class ChangePinController extends GetxController {
     }
   }
 
+
+
+  UserModel? userModel;
+  Future<void> loadUserInfo({bool forceLoad = true}) async {
+    if (forceLoad) {
+      isLoading = true;
+      update();
+    }
+
+    try {
+      ResponseModel responseModel = await changePasswordRepo.loadUserInfo();
+      if (responseModel.statusCode == 200) {
+        ProfileResponseModel model = ProfileResponseModel.fromJson(responseModel.responseJson);
+        if (model.data != null && model.status?.toLowerCase() == AppStatus.SUCCESS.toLowerCase()) {
+          userModel = model.data?.user;
+        } else {
+          isLoading = false;
+          update();
+        }
+      } else {
+        CustomSnackBar.error(errorList: [responseModel.message]);
+      }
+    } catch (e) {
+      printE(e.toString());
+    } finally {
+      isLoading = false;
+      update();
+    }
+  }
+
   bool submitLoading = false;
-  Future<void> changePassword({required VoidCallback onSuccess}) async {
+  Future<void> changePin({required VoidCallback onSuccess}) async {
     String currentPass = currentPinController.text.toString();
     String password = pinController.text.toString();
+
+    try {
+      submitLoading = true;
+      update();
+      ResponseModel responseModel = await changePasswordRepo.changePin(
+        currentPass,
+        password,
+      );
+
+      if (responseModel.statusCode == 200) {
+        AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
+          responseModel.responseJson,
+        );
+        if (model.status?.toLowerCase() == AppStatus.SUCCESS.toLowerCase()) {
+          currentPinController.clear();
+          pinController.clear();
+          confirmPinController.clear();
+
+          onSuccess();
+        } else {
+          CustomSnackBar.error(
+            errorList: model.message ?? [MyStrings.requestFail],
+          );
+        }
+      } else {
+        CustomSnackBar.error(errorList: [responseModel.message]);
+      }
+    } catch (e) {
+      printE(e);
+    }
+    submitLoading = false;
+    update();
+  }
+
+
+  Future<void> changePassword({required VoidCallback onSuccess}) async {
+    String currentPass = currentPasswordController.text.toString();
+    String password = passwordController.text.toString();
 
     try {
       submitLoading = true;

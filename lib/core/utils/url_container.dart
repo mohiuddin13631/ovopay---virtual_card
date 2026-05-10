@@ -49,6 +49,7 @@ class UrlContainer {
   static const String updateProfileEndPoint = 'profile-setting';
   static const String profileCompleteEndPoint = 'user-data-submit';
 
+  static const String changePinEndPoint = 'change-pin';
   static const String changePasswordEndPoint = 'change-password';
   static const String countryEndPoint = 'get-countries';
 
