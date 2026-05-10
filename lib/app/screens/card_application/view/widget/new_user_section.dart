@@ -253,82 +253,98 @@ class NewUserSection extends StatelessWidget {
 
                     Row(
                       children: [
-                        Expanded(
-                          child: RoundedTextField(
-                            readOnly: controller.isExistingUser,
-                            labelText: MyStrings.city.tr,
-                            hintText: MyStrings.city.tr,
-                            controller: controller.cityController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.toString().isEmpty) {
-                                return MyStrings.city.tr;
-                              } else {
-                                return null;
-                              }
-                            },
+                        if(controller.user?.city == null)...[
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(right: controller.user?.city == null ? Dimensions.space10.w : 0),
+                              child: RoundedTextField(
+                                readOnly: controller.isExistingUser,
+                                labelText: MyStrings.city.tr,
+                                hintText: MyStrings.city.tr,
+                                controller: controller.cityController,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.text,
+                                validator: (value) {
+                                  if (value.toString().isEmpty) {
+                                    return MyStrings.city.tr;
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+
+                        if(controller.user?.state == null)...[
+                          Expanded(
+                            child: RoundedTextField(
+                              readOnly: controller.isExistingUser,
+                              labelText: MyStrings.state.tr,
+                              hintText: MyStrings.state.tr,
+                              controller: controller.stateController,
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.toString().isEmpty) {
+                                  return MyStrings.state.tr;
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
                           ),
-                        ),
-                        spaceSide(Dimensions.space10.w),
-                        Expanded(
-                          child: RoundedTextField(
-                            readOnly: controller.isExistingUser,
-                            labelText: MyStrings.state.tr,
-                            hintText: MyStrings.state.tr,
-                            controller: controller.stateController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.toString().isEmpty) {
-                                return MyStrings.state.tr;
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
+                        ],
+
                       ],
                     ),
 
                     spaceDown(Dimensions.space25.h),
                     Row(
                       children: [
-                        Expanded(
-                          child: RoundedTextField(
-                            readOnly: controller.isExistingUser,
-                            labelText: MyStrings.postalCode.tr,
-                            hintText: MyStrings.postalCode.tr,
-                            controller: controller.zipCodeController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.toString().isEmpty) {
-                                return MyStrings.enterYourZipCode.tr;
-                              } else {
-                                return null;
-                              }
-                            },
+
+                        if(controller.user?.zip == null)...[
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(right: controller.user?.zip == null ? Dimensions.space10.w : 0),
+                              child: RoundedTextField(
+                                readOnly: controller.isExistingUser,
+                                labelText: MyStrings.postalCode.tr,
+                                hintText: MyStrings.postalCode.tr,
+                                controller: controller.zipCodeController,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.text,
+                                validator: (value) {
+                                  if (value.toString().isEmpty) {
+                                    return MyStrings.enterYourZipCode.tr;
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                            ),
                           ),
-                        ),
-                        spaceSide(Dimensions.space10.w),
-                        Expanded(
-                          child: RoundedTextField(
-                            readOnly: controller.isExistingUser,
-                            labelText: MyStrings.roadNumber.tr,
-                            hintText: MyStrings.roadNumber.tr,
-                            controller: controller.roadNumberController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.toString().isEmpty) {
-                                return MyStrings.roadNumber.tr;
-                              } else {
-                                return null;
-                              }
-                            },
+                        ],
+
+                        if(controller.user?.address == null)...[
+                          Expanded(
+                            child: RoundedTextField(
+                              readOnly: controller.isExistingUser,
+                              labelText: MyStrings.roadNumber.tr,
+                              hintText: MyStrings.roadNumber.tr,
+                              controller: controller.roadNumberController,
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.toString().isEmpty) {
+                                  return MyStrings.roadNumber.tr;
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
                           ),
-                        ),
+                        ]
                       ],
                     ),
 
