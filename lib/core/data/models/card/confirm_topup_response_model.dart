@@ -34,7 +34,10 @@ class ConfirmTopUpResponseModel {
 class Data {
   CardModel? card;
   String? amount;
+  String? method;
+  String? createdAt;
   String? totalAmount;
+  String? createdAtFromApi;
   TransactionHistoryModel? transaction;
 
   Data({
@@ -42,11 +45,17 @@ class Data {
     this.amount,
     this.totalAmount,
     this.transaction,
+    this.method,
+    this.createdAt,
+    this.createdAtFromApi
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     card: json["card"] == null ? null : CardModel.fromJson(json["card"]),
     amount: json["amount"]?.toString(),
+    method: json["method"]?.toString(),
+    createdAt: json["created_at"]?.toString(),
+    createdAtFromApi: json["createdAt"]?.toString(),
     totalAmount: json["total_amount"]?.toString(),
     transaction: json["transaction"] == null ? null : TransactionHistoryModel.fromJson(json["transaction"]),
   );

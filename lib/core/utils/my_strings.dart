@@ -668,6 +668,7 @@ class MyStrings {
   static const String yourBalanceRemainsSafe = "Your balance remains safe";
   static const String incoming = "Incoming";
   static const String topUpSuccessful = "Top-Up Successful";
+  static const String withdrawSuccessful = "Withdraw Successful";
   static const String yourCardHasBeenToppedUpWith = "Your card has been topped  up with";
   static const String setupMonthlyFees = "Setup & Monthly Fees";
   static const String outgoing = "Outgoing";

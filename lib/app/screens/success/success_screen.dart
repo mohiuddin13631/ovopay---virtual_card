@@ -20,8 +20,6 @@ class SuccessScreen extends StatefulWidget {
 }
 
 class _SuccessScreenState extends State<SuccessScreen> {
-
-  String processingFee = "";
   @override
   void initState() {
     super.initState();
@@ -29,6 +27,12 @@ class _SuccessScreenState extends State<SuccessScreen> {
   
   @override
   Widget build(BuildContext context) {
+    final double amountAdded =
+        double.tryParse(widget.successScreenModel.transaction?.amount ?? "0") ?? 0;
+    final double processingFee =
+        double.tryParse(widget.successScreenModel.processingFee ?? "0") ?? 0;
+    final double totalDeducted = amountAdded + processingFee;
+
     return Scaffold(
       body: SafeArea(child: Center(
         child: Column(
@@ -39,7 +43,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
             MyAssetImageWidget(assetPath: MyIcons.check, isSvg: true, width: 100, height: 100),
             spaceDown(Dimensions.space4.h),
 
-            Text(MyStrings.topUpSuccessful.tr, style: MyTextStyle.sectionTitle.copyWith(fontSize: Dimensions.space22.sp)),
+            Text(widget.successScreenModel.isFromTopUp ? MyStrings.topUpSuccessful.tr : MyStrings.withdrawSuccessful.tr, style: MyTextStyle.sectionTitle.copyWith(fontSize: Dimensions.space22.sp)),
             spaceDown(Dimensions.space4),
             Text("${MyStrings.yourCardHasBeenToppedUpWith.tr} ${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.transaction?.amount ?? "")} ", style: MyTextStyle.caption1Style.copyWith(fontSize: 13.sp)),
             
@@ -57,12 +61,12 @@ class _SuccessScreenState extends State<SuccessScreen> {
 
                   RowItem(
                     title: MyStrings.dateAndTime.tr,
-                    subtitle: DateConverter.formatDate2(widget.successScreenModel.transaction?.createdAt ?? "N/A"),
+                    subtitle: DateConverter.formatDate2(widget.successScreenModel.transaction?.createdAt ?? ""),
                   ),
 
                   RowItem(
                     title: MyStrings.method,
-                    subtitle: widget.successScreenModel.transaction?.cardTransactionType ?? "",
+                    subtitle: widget.successScreenModel.method ?? "",
                   ),
 
                   RowItem(
@@ -77,7 +81,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
 
                   RowItem(
                     title: MyStrings.totalDeducted.tr,
-                    subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.processingFee ?? "", forceShowPrecision: true)}",
+                    subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(totalDeducted.toString(), forceShowPrecision: true)}",
                   ),
 
                   RowItem(
@@ -98,35 +102,6 @@ class _SuccessScreenState extends State<SuccessScreen> {
                 Get.offAllNamed(RouteHelper.dashboardScreen);
               }),
             )
-
-            /*Row(
-              children: [
-                CustomAppCard(
-                  radius: 12,
-                  margin: EdgeInsets.symmetric(horizontal: Dimensions.space16),
-                  padding: EdgeInsets.symmetric(horizontal: 38, vertical: Dimensions.space16),
-                  child: Row(
-                    children: [
-                      MyAssetImageWidget(assetPath: MyIcons.download, isSvg: true, width: 24, height: 24, radius: 12),
-                      spaceSide(6),
-                      Text("Receipt", style: MyTextStyle.sectionTitle.copyWith(fontWeight: FontWeight.w500, color: MyColor.black))
-                    ],
-                  )
-                ),
-                CustomAppCard(
-                  radius: 12,
-                  margin: EdgeInsets.symmetric(horizontal: Dimensions.space16),
-                  padding: EdgeInsets.symmetric(horizontal: 38, vertical: Dimensions.space16),
-                  child: Row(
-                    children: [
-                      MyAssetImageWidget(assetPath: MyIcons.share, isSvg: true, width: 24, height: 24, radius: 12),
-                      spaceSide(6),
-                      Text("Share", style: MyTextStyle.sectionTitle.copyWith(fontWeight: FontWeight.w500, color: MyColor.black))
-                    ],
-                  )
-                ),
-              ],
-            )*/
             
           ],
         ),
@@ -170,6 +145,9 @@ class RowItem extends StatelessWidget {
 class SuccessScreenModel{
   final TransactionHistoryModel? transaction;
   final String? processingFee;
+  final String? method;
+  final String? createdAt;
+  final bool isFromTopUp;
 
-  SuccessScreenModel({this.transaction, this.processingFee});
+  SuccessScreenModel({this.transaction, this.processingFee, this.method, this.createdAt, this.isFromTopUp = true});
 }

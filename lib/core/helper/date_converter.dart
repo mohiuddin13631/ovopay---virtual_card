@@ -129,7 +129,7 @@ class DateConverter {
 
   static String formatDate2(String? isoDate) {
     if (isoDate == null || isoDate.isEmpty) {
-      return '';
+      return 'N/A';
     }
 
     try {

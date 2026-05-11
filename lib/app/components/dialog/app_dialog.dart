@@ -939,19 +939,26 @@ class AppDialogs {
 
                         spaceDown(Dimensions.space12.h),
 
-                        MyNetworkImageWidget(
-                          imageUrl: cryptoAddress?.img ?? "",
-                          width: 200,
-                          height: 200,
-                        ),
-
-                        spaceDown(Dimensions.space12.h),
                         HeaderTextSmaller(
                           text: "${MyStrings.pleaseSendExactly.tr} ${AppConverter.formatNumber(cryptoAddress?.amount ?? "")} ${cryptoAddress?.currency} to ${cryptoAddress?.sendto}",
                           textAlign: TextAlign.center,
                           textStyle: MyTextStyle.sectionBodyTextStyle.copyWith(
                             color: MyColor.getBodyTextColor(),
                           ),
+                        ),
+
+                        spaceDown(Dimensions.space12.h),
+
+                        Text(cryptoAddress?.sendto ?? "", style: MyTextStyle.sectionSubTitle1.copyWith(color: MyColor.getPrimaryColor())),
+
+                        spaceDown(Dimensions.space12.h),
+
+
+
+                        MyNetworkImageWidget(
+                          imageUrl: cryptoAddress?.img ?? "",
+                          width: 200,
+                          height: 200,
                         ),
                         spaceDown(Dimensions.space30),
                         CustomElevatedBtn(

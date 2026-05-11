@@ -169,7 +169,7 @@ class _ConfirmTopUpScreenState extends State<ConfirmTopUpScreen> {
               ),
             );*/
             // Navigator.pop(context);
-            Get.toNamed(RouteHelper.successScreen, arguments: SuccessScreenModel(transaction: value.data?.transaction, processingFee: AppConverter.formatNumber(processingFee.toString())));
+            Get.toNamed(RouteHelper.successScreen, arguments: SuccessScreenModel(method: value.data?.method, createdAt: value.data?.createdAtFromApi, transaction: value.data?.transaction, processingFee: AppConverter.formatNumber(processingFee.toString())));
             return;
           },
         );
