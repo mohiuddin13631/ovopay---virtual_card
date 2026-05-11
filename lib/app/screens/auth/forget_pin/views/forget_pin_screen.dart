@@ -86,7 +86,7 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
   Widget build(BuildContext context) {
     return MyCustomScaffold(
       // hideAppBar: _currentPage == 0,
-      pageTitle: MyStrings.forgetPin,
+      pageTitle: MyStrings.forgetPassword,
       onBackButtonTap: () {
         if (_currentPage != 0) {
           _previousPage();
@@ -100,7 +100,7 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              _buildForgotPinFirstStepPage(),
+              // _buildForgotPinFirstStepPage(),
               _buildIdentityVerificationPage(controller),
               _buildCodeVerificationPage(controller),
               _buildPasswordResetPage(controller),
@@ -173,89 +173,17 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
                     ),
                   ),
                   spaceDown(Dimensions.space35),
-                  //Country
                   RoundedTextField(
-                    readOnly: true,
-                    labelText: MyStrings.country.tr,
-                    hintText: MyStrings.selectACountry.tr,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
-                    controller: controller.countryController,
-                    prefixIcon: Container(
-                      margin: const EdgeInsetsDirectional.only(
-                        start: Dimensions.space15,
-                        end: Dimensions.space8,
-                      ),
-                      child: MyNetworkImageWidget(
-                        width: 22.sp,
-                        height: 16.sp,
-                        boxFit: BoxFit.contain,
-                        imageUrl: UrlContainer.countryFlagImageLink.replaceAll(
-                          "{countryCode}",
-                          (controller.countryData?.code ?? Environment.defaultCountryCode).toLowerCase(),
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      CountryBottomSheet.countryBottomSheet(
-                        context,
-                        selectedCountry: controller.countryData,
-                        onSelectedData: (v) {
-                          controller.selectedCountryData(v);
-                        },
-                      );
-                    },
-                  ),
-                  spaceDown(Dimensions.space20),
-                  //phone
-                  RoundedTextField(
-                    labelText: MyStrings.phoneNumber.tr,
-                    hintText: MyStrings.phoneNumber.tr,
-                    controller: controller.mobileController,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.phone,
-                    prefixIcon: IntrinsicWidth(
-                      child: Container(
-                        padding: const EdgeInsetsDirectional.only(
-                          start: Dimensions.space15,
-                          end: Dimensions.space8,
-                        ),
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "+${controller.countryData?.dialCode ?? Environment.defaultPhoneDialCode}",
-                                style: MyTextStyle.bodyTextStyle2.copyWith(
-                                  color: MyColor.getBodyTextColor(),
-                                ),
-                              ),
-                              spaceSide(Dimensions.space8),
-                              Container(
-                                color: MyColor.getBodyTextColor().withValues(
-                                  alpha: 0.5,
-                                ),
-                                width: 1.2.w,
-                                height: Dimensions.space25.h,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    textInputFormatter: [
-                      FilteringTextInputFormatter.digitsOnly, // Allow only digits
-                    ],
+                    controller: controller.userNameOrEmailController,
+                    labelText: MyStrings.emailOrUsername,
+                    hintText: MyStrings.enterYourEmailOrUsername,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.emailAddress,
                     validator: (value) {
-                      if (value.toString().isEmpty) {
-                        return MyStrings.kPhoneNumberIsRequired.tr;
-                      } else if (value.toString().length < SharedPreferenceService.getMaxMobileNumberDigit()) {
-                        return '${MyStrings.kPhoneNumberDigitIsRequired.tr} ${SharedPreferenceService.getMaxMobileNumberDigit().toString().tr}';
-                      } else {
-                        return null;
+                      if (value == null || value.isEmpty) {
+                        return MyStrings.enterYourEmailOrUsername.tr;
                       }
+                      return null;
                     },
                   ),
                   spaceDown(Dimensions.space10),
@@ -273,7 +201,7 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
                   printW("validated");
                   controller.verifyYourMobileNo(
                     onSuccess: () {
-                      _nextPage(goToPage: 2);
+                      _nextPage(goToPage: 1);
                     },
                   );
                 } else {
@@ -310,7 +238,7 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
                 Align(
                   alignment: AlignmentDirectional.center,
                   child: HeaderText(
-                    text: "${MyStrings.weHaveSentACodeTo.tr} +${controller.countryData?.dialCode ?? Environment.defaultPhoneDialCode}${controller.mobileController.text.toNumberMask(unmaskedPrefix: 2, unmaskedSuffix: 2, maskChar: "•")}",
+                    text: "${MyStrings.weHaveSentACodeTo.tr} ${controller.getFormatMail()?.tr ?? MyStrings.yourEmail.tr}",
                     textStyle: MyTextStyle.sectionSubTitle1.copyWith(color: MyColor.getBodyTextColor()),
                   ),
                 ),
@@ -330,9 +258,9 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
             bgColor: MyColor.getPrimaryColor(),
             text: MyStrings.verifyNow,
             onTap: () {
-              controller.verifyYourMobileNoAndCode(
+              controller.verifyForgotPassCode(
                 onSuccess: () {
-                  _nextPage(goToPage: 3);
+                  _nextPage(goToPage: 2);
                 },
               );
             },
@@ -469,7 +397,7 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
                 printW("validated");
                 controller.resetNewPin(
                   onSuccess: () {
-                    _nextPage(goToPage: 4);
+                    _nextPage(goToPage: 3);
                   },
                 );
               } else {

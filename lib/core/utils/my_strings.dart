@@ -66,6 +66,7 @@ class MyStrings {
   static const String previous = "Previous";
   static const String save = "Save";
   static const String email = "Email";
+
   static const String number = "Number";
   static const String otPVerificationCode = "OTP Verification Code";
   static const String enterVerificationCode = "Enter Verification Code";
@@ -150,6 +151,7 @@ class MyStrings {
   static const String charge = "Charge";
   static const String payable = "Payable";
   static const String resetYourPin = "Reset Your PIN";
+  static const String resetYour = "Reset Your PIN";
   static const String resetPin = "Reset PIN";
   static const String resetYourPinSuccess = "Reset PIN Successful";
   static const String resetYourPinSubText = "The password must be different then before";
@@ -159,6 +161,7 @@ class MyStrings {
   static const String currentPassword = "Current Password";
   static const String enterConfirmationCode = "Enter Confirmation Code";
   static const String weHaveSentACodeTo = "We have sent a code to";
+  static const String yourEmail = 'your email';
   static const String submit = "Submit";
   static const String name = "Name";
   static const String phone = "Phone";
@@ -331,6 +334,7 @@ class MyStrings {
   static const String enterYourEmail = "Enter your email";
   static const String enterYourNameExample = "e.g. John Doe";
   static const String enterYourEmailExample = "e.g. user@example.com";
+  static const String enterYourEmailOrUsername = "Enter your email or username";
   static const String enterYourFirstName = "Enter your firstname";
   static const String enterYourLastName = "Enter your lastname";
   static const String enterPhoneNumber = "Enter phone number";

@@ -18,6 +18,7 @@ class ForgetPinController extends GetxController {
   CountryData? countryData;
   TextEditingController countryController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
+  TextEditingController userNameOrEmailController = TextEditingController();
   TextEditingController otpController = TextEditingController();
   TextEditingController pinController = TextEditingController();
   FocusNode pinFocusNode = FocusNode();
@@ -26,6 +27,8 @@ class ForgetPinController extends GetxController {
   bool submitLoading = false;
   bool isLoading = true;
   bool resendLoading = false;
+
+  String? email;
 
   void onChangeOtpField(String v) {
     otpController.text = v;
@@ -69,10 +72,11 @@ class ForgetPinController extends GetxController {
     submitLoading = forceLoad;
     update();
     try {
-      ResponseModel responseModel = await loginRepo.forgetPassword(
-        (countryData?.id ?? -1).toString(),
-        mobileController.text,
-      );
+
+      String input = userNameOrEmailController.text;
+      String type = input.contains('@') ? 'email' : 'username';
+
+      ResponseModel responseModel = await loginRepo.forgetPassword(type, input);
 
       if (responseModel.statusCode == 200) {
         AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
@@ -81,9 +85,10 @@ class ForgetPinController extends GetxController {
         update();
 
         if (model.status == AppStatus.SUCCESS) {
-          CustomSnackBar.success(
-            successList: model.message ?? [(MyStrings.requestSuccess)],
-          );
+          CustomSnackBar.success(successList: model.message ?? [(MyStrings.requestSuccess)]);
+
+          email = model.data?.user?.email;
+
           onSuccess();
         } else {
           CustomSnackBar.error(
@@ -102,13 +107,13 @@ class ForgetPinController extends GetxController {
   }
 
   //Forgot password verify code
-  Future verifyYourMobileNoAndCode({required void Function() onSuccess}) async {
+  Future verifyForgotPassCode({required void Function() onSuccess}) async {
     submitLoading = true;
     update();
     try {
       ResponseModel responseModel = await loginRepo.verifyForgetPassCode(
         otpController.text,
-        mobileController.text,
+        userNameOrEmailController.text,
       );
 
       if (responseModel.statusCode == 200) {
@@ -183,6 +188,19 @@ class ForgetPinController extends GetxController {
     } finally {
       submitLoading = false;
       update();
+    }
+  }
+
+  String? getFormatMail() {
+    try {
+
+      List<String> tempList = email?.split('@') ?? "".split('@');
+      int maskLength = tempList[0].length;
+      String maskValue = tempList[0][0].padRight(maskLength, '*');
+      String value = '$maskValue@${tempList[1]}';
+      return value;
+    } catch (e) {
+      return email;
     }
   }
 }

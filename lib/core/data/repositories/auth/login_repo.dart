@@ -26,14 +26,10 @@ class LoginRepo {
     return response;
   }
 
-  Future<ResponseModel> forgetPassword(
-    String countryCode,
-    String mobileNo,
-  ) async {
+  Future<ResponseModel> forgetPassword(String type, String value) async {
     String url = '${UrlContainer.baseUrl}${UrlContainer.forgetPasswordEndPoint}';
     final response = await ApiService.postRequest(url, {
-      'country': countryCode,
-      "mobile_number": mobileNo,
+      'type': type, 'value': value,
     });
 
     return response;
@@ -43,7 +39,7 @@ class LoginRepo {
     String code,
     String mobileNo,
   ) async {
-    Map<String, String> map = {'code': code, 'mobile_number': mobileNo};
+    Map<String, String> map = {'code': code, 'email': mobileNo};
 
     String url = '${UrlContainer.baseUrl}${UrlContainer.passwordVerifyEndPoint}';
 

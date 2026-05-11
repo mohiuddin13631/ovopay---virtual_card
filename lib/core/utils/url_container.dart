@@ -20,7 +20,7 @@ class UrlContainer {
   static const String logoutUrl = 'logout';
   static const String deleteAccountEndPoint = 'delete-account';
 
-  static const String forgetPasswordEndPoint = 'password/mobile';
+  static const String forgetPasswordEndPoint = 'password/email';
   static const String passwordVerifyEndPoint = 'password/verify-code';
   static const String resetPasswordEndPoint = 'password/reset';
   static const String verify2FAUrl = 'verify-g2fa';
