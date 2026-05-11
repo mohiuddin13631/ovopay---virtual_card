@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
@@ -199,7 +198,7 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
               onTap: () {
                 if (formKey1.currentState?.validate() ?? false) {
                   printW("validated");
-                  controller.verifyYourMobileNo(
+                  controller.verifyYourEmail(
                     onSuccess: () {
                       _nextPage(goToPage: 1);
                     },
@@ -306,74 +305,50 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
                   alignment: AlignmentDirectional.center,
                   child: HeaderText(
                     textAlign: TextAlign.center,
-                    text: MyStrings.resetYourPin.tr,
+                    text: MyStrings.resetYourPassword.tr,
                     textStyle: MyTextStyle.headerH3.copyWith(
                       color: MyColor.getHeaderTextColor(),
                     ),
                   ),
                 ),
-                spaceDown(Dimensions.space8),
-                Align(
-                  alignment: AlignmentDirectional.center,
-                  child: HeaderText(
-                    text: MyStrings.resetYourPinSubText.tr,
-                    textStyle: MyTextStyle.sectionSubTitle1.copyWith(
-                      color: MyColor.getBodyTextColor(),
-                    ),
-                  ),
-                ),
+
                 spaceDown(Dimensions.space35),
                 Form(
                   key: formKey2,
                   child: Column(
                     children: [
-                      //Pin
                       RoundedTextField(
                         controller: controller.pinController,
                         focusNode: controller.pinFocusNode,
-                        labelText: MyStrings.newPin,
-                        hintText: MyStrings.enterYourPinCode,
+                        labelText: MyStrings.password,
+                        hintText: MyStrings.enterYourPassword,
                         textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.visiblePassword,
                         isPassword: true,
-                        textInputFormatter: [
-                          FilteringTextInputFormatter.digitsOnly, // Allow only digits
-                          LengthLimitingTextInputFormatter(
-                            SharedPreferenceService.getMaxPinNumberDigit(),
-                          ), // Limit to 5 characters
-                        ],
                         nextFocus: controller.cPinFocusNode,
                         validator: (value) {
                           if (value.toString().isEmpty) {
-                            return MyStrings.kPinNumberError.tr;
-                          } else if (value.toString().length < SharedPreferenceService.getMaxPinNumberDigit()) {
-                            return MyStrings.kPinMaxNumberError.tr.rKv({
-                              "digit": "${SharedPreferenceService.getMaxPinNumberDigit()}",
-                            });
+                            return MyStrings.kPasswordIsRequired.tr;
                           } else {
                             return null;
                           }
                         },
                       ),
                       spaceDown(Dimensions.space16),
-                      //Confirm Pin
                       RoundedTextField(
                         controller: controller.cPinController,
                         focusNode: controller.cPinFocusNode,
-                        labelText: MyStrings.confirmPin,
-                        hintText: MyStrings.enterYourConfirmPinCode,
+                        labelText: MyStrings.confirmPassword,
+                        hintText: MyStrings.enterYourConfirmPassword,
                         textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.visiblePassword,
                         isPassword: true,
-                        textInputFormatter: [
-                          FilteringTextInputFormatter.digitsOnly, // Allow only digits
-                          LengthLimitingTextInputFormatter(
-                            SharedPreferenceService.getMaxPinNumberDigit(),
-                          ), // Limit to 5 characters
-                        ],
                         validator: (value) {
+                          if (value.toString().isEmpty) {
+                            return MyStrings.kConfirmPasswordRequired.tr;
+                          }
                           if (controller.cPinController.text != controller.pinController.text) {
-                            return MyStrings.kMatchPinError.tr;
+                            return MyStrings.kMatchPasswordError.tr;
                           } else {
                             return null;
                           }
@@ -395,7 +370,7 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
             onTap: () {
               if (formKey2.currentState?.validate() ?? false) {
                 printW("validated");
-                controller.resetNewPin(
+                controller.resetPassword(
                   onSuccess: () {
                     _nextPage(goToPage: 3);
                   },
@@ -453,7 +428,7 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
                 alignment: AlignmentDirectional.center,
                 child: HeaderText(
                   textAlign: TextAlign.center,
-                  text: MyStrings.resetYourPinSuccess.tr,
+                  text: MyStrings.resetYourPasswordSuccess.tr,
                   textStyle: MyTextStyle.headerH3.copyWith(
                     color: MyColor.getHeaderTextColor(),
                   ),

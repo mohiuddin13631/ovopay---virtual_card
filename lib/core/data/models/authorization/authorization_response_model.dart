@@ -46,10 +46,11 @@ class AuthorizationResponseModel {
 }
 
 class Data {
-  Data({this.actionId, this.user, this.nextStep, this.merchant, this.agent});
+  Data({this.actionId, this.user, this.nextStep, this.merchant, this.agent, this.email});
 
   Data.fromJson(dynamic json) {
     actionId = json['action_id'] != null ? json['action_id'].toString() : '';
+    email = json['email'] != null ? json['email'].toString() : '';
     user = json['user'] != null ? UserModel.fromJson(json['user']) : null;
     agent = json['agent'] != null ? UserModel.fromJson(json['agent']) : null;
     merchant = json['merchant'] != null ? UserModel.fromJson(json['merchant']) : null;
@@ -61,7 +62,7 @@ class Data {
   UserModel? merchant; // Public field for merchant
   UserModel? agent; // Public field for agent
   String? nextStep; // Public field for nextStep
-
+  String? email; // Public field for nextStep
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['action_id'] = actionId;

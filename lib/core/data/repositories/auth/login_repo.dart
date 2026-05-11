@@ -37,9 +37,9 @@ class LoginRepo {
 
   Future<ResponseModel> verifyForgetPassCode(
     String code,
-    String mobileNo,
+    String email,
   ) async {
-    Map<String, String> map = {'code': code, 'email': mobileNo};
+    Map<String, String> map = {'code': code, 'email': email};
 
     String url = '${UrlContainer.baseUrl}${UrlContainer.passwordVerifyEndPoint}';
 
@@ -48,7 +48,7 @@ class LoginRepo {
     return response;
   }
 
-  Future<ResponseModel> resetPin(
+  Future<ResponseModel> resetPassword(
     String email,
     String pin,
     String cPin,
@@ -56,9 +56,9 @@ class LoginRepo {
   ) async {
     Map<String, String> map = {
       'token': code,
-      'mobile_number': email,
-      'pin': pin,
-      'pin_confirmation': cPin,
+      'email': email,
+      'password': pin,
+      'password_confirmation': cPin,
     };
 
     String url = '${UrlContainer.baseUrl}${UrlContainer.resetPasswordEndPoint}';

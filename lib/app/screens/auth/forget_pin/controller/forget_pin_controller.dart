@@ -65,7 +65,7 @@ class ForgetPinController extends GetxController {
   }
 
   //Forgot password
-  Future verifyYourMobileNo({
+  Future verifyYourEmail({
     required void Function() onSuccess,
     bool forceLoad = true,
   }) async {
@@ -87,7 +87,7 @@ class ForgetPinController extends GetxController {
         if (model.status == AppStatus.SUCCESS) {
           CustomSnackBar.success(successList: model.message ?? [(MyStrings.requestSuccess)]);
 
-          email = model.data?.user?.email;
+          email = model.data?.email;
 
           onSuccess();
         } else {
@@ -113,7 +113,7 @@ class ForgetPinController extends GetxController {
     try {
       ResponseModel responseModel = await loginRepo.verifyForgetPassCode(
         otpController.text,
-        userNameOrEmailController.text,
+        email ?? ""
       );
 
       if (responseModel.statusCode == 200) {
@@ -145,19 +145,19 @@ class ForgetPinController extends GetxController {
     resendLoading = true;
     update();
 
-    await verifyYourMobileNo(onSuccess: () {}, forceLoad: false);
+    await verifyYourEmail(onSuccess: () {}, forceLoad: false);
     otpController.text = "";
     resendLoading = false;
     update();
   }
   //Reset password
 
-  Future resetNewPin({required void Function() onSuccess}) async {
+  Future resetPassword({required void Function() onSuccess}) async {
     submitLoading = true;
     update();
     try {
-      ResponseModel responseModel = await loginRepo.resetPin(
-        mobileController.text,
+      ResponseModel responseModel = await loginRepo.resetPassword(
+        email ?? "",
         pinController.text,
         cPinController.text,
         otpController.text,

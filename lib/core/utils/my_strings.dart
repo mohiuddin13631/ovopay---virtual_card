@@ -151,10 +151,13 @@ class MyStrings {
   static const String charge = "Charge";
   static const String payable = "Payable";
   static const String resetYourPin = "Reset Your PIN";
+  static const String resetYourPassword = "Reset Your Password";
   static const String resetYour = "Reset Your PIN";
   static const String resetPin = "Reset PIN";
   static const String resetYourPinSuccess = "Reset PIN Successful";
+  static const String resetYourPasswordSuccess = "Reset Password Successful";
   static const String resetYourPinSubText = "The password must be different then before";
+  static const String resetYourPasswordSubText = "The password must be different then before";
   static const String changePin = "Change PIN";
   static const String changePassword = "Change Password";
   static const String currentPin = "Current PIN";
