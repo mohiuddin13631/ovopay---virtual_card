@@ -45,7 +45,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
 
             Text(widget.successScreenModel.isFromTopUp ? MyStrings.topUpSuccessful.tr : MyStrings.withdrawSuccessful.tr, style: MyTextStyle.sectionTitle.copyWith(fontSize: Dimensions.space22.sp)),
             spaceDown(Dimensions.space4),
-            Text("${MyStrings.yourCardHasBeenToppedUpWith.tr} ${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.transaction?.amount ?? "")} ", style: MyTextStyle.caption1Style.copyWith(fontSize: 13.sp)),
+            Text("${widget.successScreenModel.isFromTopUp ? MyStrings.yourCardHasBeenToppedUpWith.tr : MyStrings.yourCardHasBeenWithdrawWith.tr} ${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.transaction?.amount ?? "", forceShowPrecision: true)} ", style: MyTextStyle.caption1Style.copyWith(fontSize: 13.sp)),
             
             spaceDown(Dimensions.space16.h),
             
@@ -54,14 +54,17 @@ class _SuccessScreenState extends State<SuccessScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RowItem(
-                    title: MyStrings.transactionReference.tr,
-                    subtitle: widget.successScreenModel.transaction?.reference ?? "",
+                  Visibility(
+                    visible: widget.successScreenModel.isFromTopUp,
+                    child: RowItem(
+                      title: MyStrings.transactionReference.tr,
+                      subtitle: widget.successScreenModel.transaction?.reference ?? "",
+                    ),
                   ),
 
                   RowItem(
                     title: MyStrings.dateAndTime.tr,
-                    subtitle: DateConverter.formatDate2(widget.successScreenModel.transaction?.createdAt ?? ""),
+                    subtitle:widget.successScreenModel.isFromTopUp ? DateConverter.formatDate2(widget.successScreenModel.createdAt ?? "") : widget.successScreenModel.createdAt ?? "",
                   ),
 
                   RowItem(
@@ -70,7 +73,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                   ),
 
                   RowItem(
-                    title: MyStrings.amountAdded,
+                    title: MyStrings.amount,
                     subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.transaction?.amount ?? "", forceShowPrecision: true)}",
                   ),
 
@@ -79,9 +82,12 @@ class _SuccessScreenState extends State<SuccessScreen> {
                     subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.processingFee ?? "", forceShowPrecision: true)}",
                   ),
 
-                  RowItem(
-                    title: MyStrings.totalDeducted.tr,
-                    subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(totalDeducted.toString(), forceShowPrecision: true)}",
+                  Visibility(
+                    visible: widget.successScreenModel.isFromTopUp,
+                    child: RowItem(
+                      title: MyStrings.totalDeducted.tr,
+                      subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(totalDeducted.toString(), forceShowPrecision: true)}",
+                    ),
                   ),
 
                   RowItem(

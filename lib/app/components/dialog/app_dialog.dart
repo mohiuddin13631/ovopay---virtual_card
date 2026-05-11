@@ -22,6 +22,7 @@ import 'package:lottie/lottie.dart';
 import '../../../core/utils/util_exporter.dart';
 import '../../screens/global/views/widgets/country_bottom_sheet.dart';
 import '../card/custom_card.dart';
+import '../snack_bar/show_custom_snackbar.dart';
 
 class AppDialogs {
   static Future pinVerificationPopUpWidget(
@@ -949,11 +950,53 @@ class AppDialogs {
 
                         spaceDown(Dimensions.space12.h),
 
-                        Text(cryptoAddress?.sendto ?? "", style: MyTextStyle.sectionSubTitle1.copyWith(color: MyColor.getPrimaryColor())),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                cryptoAddress?.sendto ?? "",
+                                textAlign: TextAlign.center,
+                                style: MyTextStyle.sectionSubTitle1.copyWith(
+                                  color: MyColor.getPrimaryColor(),
+                                  fontWeight: FontWeight.w600
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: Dimensions.space8),
+                            InkWell(
+                              onTap: () {
+                                final address = cryptoAddress?.sendto ?? "";
+                                if (address.isEmpty) return;
+                                Clipboard.setData(
+                                  ClipboardData(text: address),
+                                ).then((_) {
+                                  CustomSnackBar.showToast(
+                                    message: MyStrings.copiedToClipBoard.tr,
+                                  );
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: MyColor.primary.withValues(alpha: .1)
+                                ),
+                                child: Icon(
+                                  Icons.copy_rounded,
+                                  size: 18,
+                                  color: MyColor.getPrimaryColor(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
 
                         spaceDown(Dimensions.space12.h),
 
+                        Text(MyStrings.orScanTheImageBelow.tr, textAlign: TextAlign.center, style: MyTextStyle.sectionSubTitle1.copyWith(color: MyColor.getBodyTextColor()),),
 
+                        spaceDown(Dimensions.space12.h),
 
                         MyNetworkImageWidget(
                           imageUrl: cryptoAddress?.img ?? "",

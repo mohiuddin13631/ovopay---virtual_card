@@ -670,11 +670,13 @@ class MyStrings {
   static const String topUpSuccessful = "Top-Up Successful";
   static const String withdrawSuccessful = "Withdraw Successful";
   static const String yourCardHasBeenToppedUpWith = "Your card has been topped  up with";
+  static const String yourCardHasBeenWithdrawWith = "Your card has been withdrawn";
   static const String setupMonthlyFees = "Setup & Monthly Fees";
   static const String outgoing = "Outgoing";
   static const String amountAdded = "Amount Added";
   static const String method = "Method";
   static const String dateAndTime = "Date & Time";
+  static const String orScanTheImageBelow = "OR SCAN THE IMAGE BELOW";
   static const String feeRate = "Fee Rate";
   static const String paymentPreview = "Payment Preview";
   static const String minimumAmount = "Minimum Amount";

@@ -130,7 +130,7 @@ class _ConfirmWithdrawScreenState extends State<ConfirmWithdrawScreen> {
             // Handle the completed progress here
             double amount = AppConverter.formatNumberDouble(value.data?.amount ?? "");
             double totalAmount = AppConverter.formatNumberDouble(value.data?.totalAmount ?? "");
-            double processingFee = totalAmount - amount;
+            double processingFee = amount - totalAmount;
 
             Navigator.pop(context);
             Get.toNamed(RouteHelper.successScreen, arguments: SuccessScreenModel(isFromTopUp: false, method: value.data?.method, createdAt: value.data?.createdAt, transaction: value.data?.transaction, processingFee: AppConverter.formatNumber(processingFee.toString())));
