@@ -144,6 +144,7 @@ class MyStrings {
   static const String home = "Home";
   static const String transaction = "Transaction";
   static const String transactionId = "Transaction ID";
+  static const String transactionReference = "Transaction Reference";
   static const String token = "Token";
   static const String amount = "Amount";
   static const String deliveryAmount = "Delivery Amount";
@@ -718,6 +719,7 @@ class MyStrings {
   static const String userImage = "User Image";
   static const String idType = "Id Type";
   static const String totalDeductedFromWallet = "Total Deducted From Wallet";
+  static const String totalDeducted = "Total Deducted";
   static const String reviewTheDetailsBeforeProceeding = "Review the details before proceeding";
   static const String netAmountYouWillReceive = "Net Amount You Will Receive";
   static const String cardScreenTitle = "Tap on the card to view your card transactions.";

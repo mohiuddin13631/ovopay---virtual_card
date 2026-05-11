@@ -21,16 +21,6 @@ class SuccessScreen extends StatefulWidget {
 
 class _SuccessScreenState extends State<SuccessScreen> {
 
-  String getStatus(String status){
-    if(status == "0"){
-      return "Pending";
-    }else if(status == "1"){
-      return "Completed";
-    }else{
-      return "Rejected";
-    }
-  }
-
   String processingFee = "";
   @override
   void initState() {
@@ -61,13 +51,13 @@ class _SuccessScreenState extends State<SuccessScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RowItem(
-                    title: MyStrings.transactionId.tr,
-                    subtitle: widget.successScreenModel.transaction?.trx ?? "",
+                    title: MyStrings.transactionReference.tr,
+                    subtitle: widget.successScreenModel.transaction?.reference ?? "",
                   ),
 
                   RowItem(
                     title: MyStrings.dateAndTime.tr,
-                    subtitle: DateConverter.formatDate2(widget.successScreenModel.transaction?.createdAt ?? ""),
+                    subtitle: DateConverter.formatDate2(widget.successScreenModel.transaction?.createdAt ?? "N/A"),
                   ),
 
                   RowItem(
@@ -86,9 +76,14 @@ class _SuccessScreenState extends State<SuccessScreen> {
                   ),
 
                   RowItem(
+                    title: MyStrings.totalDeducted.tr,
+                    subtitle: "${SharedPreferenceService.getCurrencySymbol()}${AppConverter.formatNumber(widget.successScreenModel.processingFee ?? "", forceShowPrecision: true)}",
+                  ),
+
+                  RowItem(
                     isShowDivider: false,
                     title: MyStrings.status,
-                    subtitle: getStatus(widget.successScreenModel.transaction?.status ?? ""),
+                    subtitle: widget.successScreenModel.transaction?.status ?? "",
                   ),
 
                 ],

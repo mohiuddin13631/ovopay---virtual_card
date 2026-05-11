@@ -113,6 +113,7 @@ class TransactionHistoryModel {
   String? narrative;
   String? currency;
   String? status;
+  String? reference;
   String? createdAt;
   String? createdAtFromAPi;
   String? createdAtDiff;
@@ -131,6 +132,7 @@ class TransactionHistoryModel {
     this.method,
     this.narrative,
     this.status,
+    this.reference,
     this.currency,
     this.createdAt,
     this.createdAtFromAPi,
@@ -145,6 +147,7 @@ class TransactionHistoryModel {
         status: json["status"]?.toString(),
         narrative: json["narrative"]?.toString(),
         charge: json["charge"]?.toString(),
+        reference: json["reference"]?.toString(),
         currency: json["currency"]?.toString(),
         cardTransactionType: json["card_transaction_type"]?.toString(),
         totalAmount: json["total_amount"]?.toString(),

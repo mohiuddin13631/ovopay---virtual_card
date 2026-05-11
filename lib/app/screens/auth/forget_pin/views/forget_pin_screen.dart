@@ -5,20 +5,16 @@ import 'package:lottie/lottie.dart';
 import 'package:ovopay/app/components/buttons/custom_elevated_button.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/card/my_custom_scaffold.dart';
-import 'package:ovopay/app/components/image/my_network_image_widget.dart';
-import 'package:ovopay/app/components/text/header_text.dart';
-import 'package:ovopay/app/components/text-field/rounded_text_field.dart';
 import 'package:ovopay/app/components/otp_field_widget/otp_field_widget.dart';
+import 'package:ovopay/app/components/text-field/rounded_text_field.dart';
+import 'package:ovopay/app/components/text/header_text.dart';
 import 'package:ovopay/app/components/text/header_text_smaller.dart';
 import 'package:ovopay/app/screens/auth/forget_pin/controller/forget_pin_controller.dart';
-import 'package:ovopay/app/screens/global/views/widgets/country_bottom_sheet.dart';
 import 'package:ovopay/app/screens/onboard/views/widget/onboard_body.dart';
 import 'package:ovopay/core/data/models/onboard/onboard_model.dart';
 import 'package:ovopay/core/data/repositories/auth/login_repo.dart';
 import 'package:ovopay/core/route/route.dart';
-import 'package:ovopay/environment.dart';
 
-import '../../../../../core/data/services/service_exporter.dart';
 import '../../../../../core/utils/util_exporter.dart';
 
 class ForgotPinScreen extends StatefulWidget {
