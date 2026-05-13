@@ -6,7 +6,6 @@ import 'package:ovopay/app/components/image/my_asset_widget.dart';
 import 'package:ovopay/app/components/no_data.dart';
 import 'package:ovopay/app/screens/card/controller/card_controller.dart';
 import 'package:ovopay/app/screens/card/view/widget/card_ui.dart';
-import 'package:ovopay/core/data/repositories/card/card_repo.dart';
 import 'package:ovopay/core/route/route.dart';
 import 'package:ovopay/core/utils/util_exporter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -33,12 +32,14 @@ class _CardScreenState extends State<CardScreen> {
   @override
   void initState() {
     super.initState();
-    Get.put(CardRepo());
-    var controller = Get.put(CardController(cardRepo: Get.find()));
+    var controller = CardController.ensureInitialized();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (mounted) {
-        controller.loadData(); // Receiver if index is 0, Sender otherwise
+        if (controller.cardList.isEmpty) {
+          controller.page = 0;
+          controller.loadData();
+        }
 
         // Add scroll listeners
         cardScrollController.addListener(() => scrollListener());

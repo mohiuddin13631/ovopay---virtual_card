@@ -6,7 +6,6 @@ import 'package:ovopay/app/components/will_pop_widget.dart';
 import 'package:ovopay/app/packages/google_nav_bar/google_nav_bar.dart';
 import 'package:ovopay/app/screens/card/controller/card_controller.dart';
 import 'package:ovopay/app/screens/card/view/card_screen.dart';
-import 'package:ovopay/app/screens/card/view/static_card_preview_screen.dart';
 import 'package:ovopay/app/screens/dashboard_screen/controller/home_controller.dart';
 import 'package:ovopay/app/screens/dashboard_screen/views/home_screen.dart';
 import 'package:ovopay/app/screens/dashboard_screen/views/widgets/drawer_screen.dart';
@@ -65,6 +64,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
+    CardController.ensureInitialized();
     _pages = [
       HomeScreen(
         dashboardKey: _dashboardKey,

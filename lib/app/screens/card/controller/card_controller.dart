@@ -19,6 +19,14 @@ class CardController extends GetxController {
   CardRepo cardRepo;
   CardController({required this.cardRepo});
 
+  static CardController ensureInitialized() {
+    if (Get.isRegistered<CardController>()) {
+      return Get.find<CardController>();
+    }
+
+    return Get.put(CardController(cardRepo: CardRepo()));
+  }
+
   final double cardHeight = 344;
   final double overlap = 40;
 
@@ -32,26 +40,6 @@ class CardController extends GetxController {
     MyImages.imageTwo,
     MyImages.imageThree,
   ];
-
-  /*List<List<Color>> cards = [
-    [
-      Color(0xff24113E),
-      Color(0xff24113E),
-      Color(0xff641990),
-      Color(0xff5B16DF),
-    ],
-    [
-      Color(0xff0D0B2A),
-      Color(0xff481928),
-      Color(0xffEA3E23),
-      Color(0xffF89E26),
-    ],
-    [
-      Color(0xff121630),
-      Color(0xff7D13D2),
-      Color(0xff5576EF),
-    ],
-  ];*/
 
   void onSwipe(bool down) async {
     if (isAnimating) return;
@@ -125,6 +113,13 @@ class CardController extends GetxController {
 
   bool hasNext() {
     return nextPageUrl != null && nextPageUrl!.isNotEmpty && nextPageUrl != 'null' ? true : false;
+  }
+
+  void hideCardDetails(int index) {
+    if (index < 0 || index >= cardList.length) return;
+
+    cardList[index].isShowCardView = false;
+    update();
   }
 
 
@@ -208,6 +203,11 @@ class CardController extends GetxController {
     }
   }
 
+  @override
+  void onClose() {
+    pinController.dispose();
+    super.onClose();
+  }
 
 }
 
