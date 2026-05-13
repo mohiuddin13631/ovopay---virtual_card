@@ -142,7 +142,7 @@ class TransactionHistoryModel {
   factory TransactionHistoryModel.fromJson(Map<String, dynamic> json) => TransactionHistoryModel(
         id: json["id"]?.toString(),
         trx: json["trx"]?.toString(),
-        trxType: json["type"]?.toString(),
+        trxType: json["trx_type"]?.toString(),
         amount: json["amount"]?.toString(),
         status: json["status"]?.toString(),
         narrative: json["narrative"]?.toString(),

@@ -41,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
         controller.initController();
         if (cardController.cardList.isEmpty) {
           cardController.page = 0;
-          cardController.loadData();
         }
       }
     });
