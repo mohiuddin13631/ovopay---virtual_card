@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:ovopay/app/components/card/custom_card.dart';
 import 'package:ovopay/app/components/image/my_asset_widget.dart';
 import 'package:ovopay/app/components/text/header_text.dart';
+import 'package:ovopay/app/screens/dashboard_screen/controller/home_controller.dart';
 import 'package:ovopay/core/data/models/card/card_list_response_model.dart';
+import 'package:ovopay/core/utils/my_images.dart';
 import 'package:ovopay/core/utils/util_exporter.dart';
 
+import '../../../../components/buttons/custom_elevated_button.dart';
 import '../../../../components/snack_bar/show_custom_snackbar.dart';
+import '../../../../components/text-field/rounded_text_field.dart';
 
 class HomeScreenStaticCardCarousel extends StatefulWidget {
   const HomeScreenStaticCardCarousel({super.key});
@@ -24,96 +29,212 @@ class _HomeScreenStaticCardCarouselState
     viewportFraction: 0.88,
   );
 
-  final String currency = '\$';
-
-  late final List<CardModel> _cards = [
-    CardModel(
-      id: 1,
-      bgImage: 'image_one.png',
-      balance: '12,480.50',
-      cardNumber: '4865123412345678',
-      lastFour: '5678',
-      nameOnCard: 'ALEX MORGAN',
-      expiry: '12/28',
-      cvv: '824',
-      isShowCardView: true,
-    ),
-    CardModel(
-      id: 2,
-      bgImage: 'image_two.png',
-      balance: '8,945.20',
-      cardNumber: '5212345678904321',
-      lastFour: '4321',
-      nameOnCard: 'ALEX MORGAN',
-      expiry: '09/27',
-      cvv: '553',
-    ),
-    CardModel(
-      id: 3,
-      bgImage: 'image_three.png',
-      balance: '3,210.00',
-      cardNumber: '4532765489127788',
-      lastFour: '7788',
-      nameOnCard: 'ALEX MORGAN',
-      expiry: '05/29',
-      cvv: '102',
-    ),
-  ];
-
   @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
   }
 
-  void _toggleCardView(int index) {
-    setState(() {
-      _cards[index].isShowCardView = !_cards[index].isShowCardView;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsDirectional.only(top: Dimensions.space20.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsetsDirectional.symmetric(
-              horizontal: Dimensions.space4.w,
+    return GetBuilder<HomeController>(
+      builder: (controller) {
+        if (controller.isCardLoading) {
+          return Padding(
+            padding: EdgeInsetsDirectional.only(top: Dimensions.space20.w),
+            child: SizedBox(
+              height: 215.h,
+              child: _HomeStaticCardUi(
+                cardModel: CardModel(bgImage: 'image_one.png'),
+                currency: controller.currency,
+              ),
             ),
-            child: HeaderText(
-              text: MyStrings.virtualCards.tr,
-              textStyle: MyTextStyle.sectionTitle2.copyWith(
-                color: MyColor.getHeaderTextColor(),
+          );
+        }
+
+        if (controller.cardList.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return Padding(
+          padding: EdgeInsetsDirectional.only(top: Dimensions.space20.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: Dimensions.space4.w,
+                ),
+                child: HeaderText(
+                  text: MyStrings.virtualCards.tr,
+                  textStyle: MyTextStyle.sectionTitle2.copyWith(
+                    color: MyColor.getHeaderTextColor(),
+                  ),
+                ),
+              ),
+              spaceDown(Dimensions.space12),
+              SizedBox(
+                height: 215.h,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: controller.cardList.length,
+                  clipBehavior: Clip.none,
+                  padEnds: false,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        right: index == controller.cardList.length - 1 ? 0 : 10.w,
+                      ),
+                      child: _HomeStaticCardUi(
+                        cardModel: controller.cardList[index],
+                        currency: controller.currency,
+                        onViewTap: () {
+                          final card = controller.cardList[index];
+                          if (card.isShowCardView) {
+                            controller.hideCardDetails(index);
+                          } else {
+                            _showPinDialog(
+                              context,
+                              controller: controller,
+                              onTap: () {
+                                controller.cardPinVerification(
+                                  cardId: card.id.toString(),
+                                  index: index,
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _showPinDialog(
+    BuildContext context, {
+    required HomeController controller,
+    required VoidCallback onTap,
+  }) {
+    controller.pinController.clear();
+
+    return showDialog(
+      context: context,
+      useSafeArea: true,
+      barrierDismissible: false,
+      traversalEdgeBehavior: TraversalEdgeBehavior.leaveFlutterView,
+      builder: (_) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: GetBuilder<HomeController>(
+            builder: (_) => Dialog(
+              surfaceTintColor: MyColor.transparentColor,
+              insetPadding: EdgeInsets.all(Dimensions.space16.w),
+              backgroundColor: MyColor.transparentColor,
+              insetAnimationCurve: Curves.easeIn,
+              insetAnimationDuration: const Duration(milliseconds: 100),
+              child: LayoutBuilder(
+                builder: (context, constraint) {
+                  return Container(
+                    padding: EdgeInsetsDirectional.all(Dimensions.space16.w),
+                    decoration: BoxDecoration(
+                      color: MyColor.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20.w)),
+                      border: Border.all(
+                        color: MyColor.transparentColor,
+                        width: 0.6,
+                      ),
+                    ),
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraint.maxHeight / 3,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    HeaderText(
+                                      text: MyStrings.getCard.tr,
+                                      textStyle: MyTextStyle.headerH3.copyWith(
+                                        color: MyColor.getBodyTextColor(),
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    HeaderText(
+                                      text: MyStrings.details.tr,
+                                      textStyle: MyTextStyle.headerH3.copyWith(
+                                        color: MyColor.getBodyTextColor(),
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                IconButton(
+                                  padding: EdgeInsets.all(Dimensions.space3.w),
+                                  style: IconButton.styleFrom(),
+                                  onPressed: () {
+                                    controller.pinController.clear();
+                                    Navigator.pop(context);
+                                  },
+                                  icon: MyAssetImageWidget(
+                                    color: MyColor.getPrimaryColor(),
+                                    isSvg: true,
+                                    assetPath: MyIcons.closeButton,
+                                    width: Dimensions.space40.w,
+                                    height: Dimensions.space40.w,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            spaceDown(Dimensions.space20),
+                            CustomAppCard(
+                              radius: Dimensions.space10,
+                              borderColor: MyColor.warning.withValues(alpha: .7),
+                              borderWidth: 1,
+                              backgroundColor: MyColor.warning.withValues(alpha: .07),
+                              child: Text(MyStrings.pleaseEnterPin.tr),
+                            ),
+                            spaceDown(Dimensions.space30),
+                            RoundedTextField(
+                              labelText: MyStrings.pinNumber,
+                              hintText: MyStrings.pleaseEnterPin.tr,
+                              controller: controller.pinController,
+                              textInputAction: TextInputAction.done,
+                              keyboardType: TextInputType.text,
+                            ),
+                            spaceDown(Dimensions.space20),
+                            CustomElevatedBtn(
+                              isLoading: controller.isCardDetailsLoading,
+                              text: MyStrings.getNow,
+                              onTap: onTap,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ),
-          spaceDown(Dimensions.space12),
-          SizedBox(
-            height: 215.h,
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: _cards.length,
-              clipBehavior: Clip.none,
-              padEnds: false,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                    right: index == _cards.length - 1 ? 0 : 10.w,
-                  ),
-                  child: _HomeStaticCardUi(
-                    cardModel: _cards[index],
-                    currency: currency,
-                    onViewTap: () => _toggleCardView(index),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -279,8 +400,7 @@ class _HomeStaticCardUi extends StatelessWidget {
               Expanded(
                 child: _InfoItem(
                   title: MyStrings.cvv.tr,
-                  value:
-                      cardModel.isShowCardView ? cardModel.cvv ?? "" : "•••",
+                  value: cardModel.isShowCardView ? cardModel.cvv ?? "" : "•••",
                 ),
               ),
               spaceSide(Dimensions.space8),

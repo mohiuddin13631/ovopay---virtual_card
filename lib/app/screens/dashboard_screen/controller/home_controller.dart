@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:flutter/widgets.dart';
+import 'package:ovopay/core/data/models/card/card_list_response_model.dart';
+import 'package:ovopay/core/data/models/card/card_pin_verify_response_model.dart';
 import 'package:ovopay/core/data/models/country_model/country_model.dart';
 import 'package:ovopay/core/data/models/global/module/app_module_response_model.dart';
 import 'package:ovopay/core/data/models/global/response_model/response_model.dart';
@@ -8,6 +11,7 @@ import 'package:ovopay/core/data/models/home/dashbaord_response_model.dart';
 import 'package:ovopay/core/data/models/home/offers_response_model.dart';
 import 'package:ovopay/core/data/models/transaction_history/transaction_history_model.dart';
 import 'package:ovopay/core/data/repositories/auth/general_setting_repo.dart';
+import 'package:ovopay/core/data/repositories/card/card_repo.dart';
 import 'package:ovopay/core/data/repositories/home/home_repo.dart';
 import '../../../../core/data/services/service_exporter.dart';
 import '../../../../core/utils/util_exporter.dart';
@@ -15,6 +19,7 @@ import '../../../components/snack_bar/show_custom_snackbar.dart';
 
 class HomeController extends GetxController {
   HomeRepo homeRepo = HomeRepo();
+  CardRepo cardRepo = CardRepo();
   GeneralSettingRepo generalSettingRepo = GeneralSettingRepo();
   bool isPageLoading = true;
   bool isLoading = false;
@@ -25,6 +30,11 @@ class HomeController extends GetxController {
   String get accountBalanceFormatted => accountBalance;
   String kycStatus = "1"; //Kyc Status
   String kycReason = ""; //Kyc Reason
+  String currency = "";
+  List<CardModel> cardList = [];
+  TextEditingController pinController = TextEditingController();
+  bool isCardLoading = false;
+  bool isCardDetailsLoading = false;
 
   Future initController({bool forceLoad = true}) async {
 
@@ -34,6 +44,7 @@ class HomeController extends GetxController {
       loadCountryDataAndSaveToLocalStorage(),
       loadModuleDataAndSaveToLocalStorage(),
       loadDashBoardInfo(forceLoad: forceLoad),
+      loadCardData(forceLoad: forceLoad),
       getTransactionHistoryDataList(forceLoad: forceLoad),
     ]);
     isPageLoading = false;
@@ -152,6 +163,93 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<void> loadCardData({bool forceLoad = true}) async {
+    currency = SharedPreferenceService.getCurrencySymbol();
+
+    if (forceLoad) {
+      isCardLoading = true;
+      update();
+    }
+
+    try {
+      final responseModel = await cardRepo.getCardList();
+
+      if (responseModel.statusCode == 200) {
+        final cardListResponseModel = cardListResponseModelFromJson(
+          jsonEncode(responseModel.responseJson),
+        );
+
+        if (cardListResponseModel.status == AppStatus.SUCCESS.toLowerCase()) {
+          cardList = cardListResponseModel.data?.cards?.data ?? [];
+        } else {
+          CustomSnackBar.error(
+            errorList: cardListResponseModel.message ?? [MyStrings.somethingWentWrong],
+          );
+        }
+      } else {
+        CustomSnackBar.error(errorList: [responseModel.message]);
+      }
+    } catch (e) {
+      printE(e.toString());
+    } finally {
+      isCardLoading = false;
+      update();
+    }
+  }
+
+  void hideCardDetails(int index) {
+    if (index < 0 || index >= cardList.length) return;
+
+    cardList[index].isShowCardView = false;
+    update();
+  }
+
+  Future<void> cardPinVerification({required String cardId, required int index}) async {
+    if (pinController.text.isEmpty) {
+      CustomSnackBar.error(errorList: [MyStrings.pleaseEnterPin]);
+      return;
+    }
+
+    try {
+      isCardDetailsLoading = true;
+      update();
+
+      final responseModel = await cardRepo.pinVerificationRequest(
+        pin: pinController.text,
+        cardId: cardId,
+      );
+
+      if (responseModel.statusCode == 200) {
+        final model = cardPinVerifyResponseModelFromJson(
+          jsonEncode(responseModel.responseJson),
+        );
+
+        if (model.status == AppStatus.SUCCESS.toLowerCase()) {
+          final verifiedCard = model.data?.card;
+
+          if (verifiedCard != null && index >= 0 && index < cardList.length) {
+            cardList[index] = verifiedCard;
+            cardList[index].isShowCardView = true;
+          }
+
+          pinController.clear();
+          Get.back();
+        } else {
+          CustomSnackBar.error(
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
+        }
+      } else {
+        CustomSnackBar.error(errorList: [responseModel.message]);
+      }
+    } catch (e) {
+      printE(e.toString());
+    } finally {
+      isCardDetailsLoading = false;
+      update();
+    }
+  }
+
   //Balance Hide Unhide Logics
   bool isBalanceVisible = false;
   Timer? _autoHideTimer;
@@ -178,6 +276,7 @@ class HomeController extends GetxController {
   @override
   void onClose() {
     _autoHideTimer?.cancel();
+    pinController.dispose();
     super.onClose();
   }
 }

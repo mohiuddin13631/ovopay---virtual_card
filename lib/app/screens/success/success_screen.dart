@@ -54,6 +54,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   Visibility(
                     visible: widget.successScreenModel.isFromTopUp,
                     child: RowItem(
