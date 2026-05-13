@@ -32,13 +32,11 @@ class _CardScreenState extends State<CardScreen> {
   @override
   void initState() {
     super.initState();
-    var controller = CardController.ensureInitialized();
-
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (mounted) {
-        if (controller.cardList.isEmpty) {
-          controller.page = 0;
-          controller.loadData();
+        if (Get.find<CardController>().cardList.isEmpty) {
+          Get.find<CardController>().page = 0;
+          Get.find<CardController>().loadData();
         }
 
         // Add scroll listeners

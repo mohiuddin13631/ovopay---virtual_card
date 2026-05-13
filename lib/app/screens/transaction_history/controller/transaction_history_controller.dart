@@ -72,6 +72,8 @@ class TransactionHistoryController extends GetxController {
         return "Virtual Card";
       case "top_up":
         return "Top Up";
+      case "card_status_update":
+        return "card status update charge";
       case "cashback":
         return "Cash Back";
       case "investment":

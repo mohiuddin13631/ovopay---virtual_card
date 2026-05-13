@@ -29,7 +29,6 @@ class _HomeScreenCardCarouselState extends State<HomeScreenCardCarousel> {
   @override
   void initState() {
     super.initState();
-    CardController.ensureInitialized();
   }
 
   @override

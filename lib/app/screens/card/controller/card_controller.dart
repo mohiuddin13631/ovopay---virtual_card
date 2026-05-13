@@ -19,14 +19,6 @@ class CardController extends GetxController {
   CardRepo cardRepo;
   CardController({required this.cardRepo});
 
-  static CardController ensureInitialized() {
-    if (Get.isRegistered<CardController>()) {
-      return Get.find<CardController>();
-    }
-
-    return Get.put(CardController(cardRepo: CardRepo()));
-  }
-
   final double cardHeight = 344;
   final double overlap = 40;
 

@@ -37,6 +37,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (index == 0) {
       try {
         Get.find<HomeController>().initController(forceLoad: false);
+        Get.find<CardController>().page = 0;
+        Get.find<CardController>().loadData();
       } catch (e) {
         printE(e.toString());
       }
@@ -65,9 +67,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-    // Get.put(CardRepo());
-    // Get.put(CardController(cardRepo: Get.find()));
-    CardController.ensureInitialized();
+    Get.put(CardRepo());
+    Get.put(CardController(cardRepo: Get.find()));
     _pages = [
       HomeScreen(
         dashboardKey: _dashboardKey,

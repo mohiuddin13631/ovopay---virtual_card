@@ -32,14 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     super.initState();
     final controller = Get.put(HomeController());
-    final cardController = CardController.ensureInitialized();
 
     // Fetch initial data
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-
-      if (mounted) {
-        controller.initController();
-      }
+      await controller.initController();
     });
 
   }
@@ -56,9 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: MyColor.getPrimaryColor(),
                 onRefresh: () async {
                   homeController.initController();
-                  final cardController = CardController.ensureInitialized();
-                  cardController.page = 0;
-                  await cardController.loadData();
+                  Get.find<CardController>().page = 0;
+                  await Get.find<CardController>().loadData();
                 },
                 child: ListView(
                   padding: EdgeInsetsDirectional.all(Dimensions.space16.w),
