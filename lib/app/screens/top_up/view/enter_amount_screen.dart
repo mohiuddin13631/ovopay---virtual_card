@@ -101,21 +101,24 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                               validator: (value) {},
                             ),
 
-                            spaceDown(Dimensions.space8),
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "${MyStrings.availableBalance.tr}: ",
-                                    style: MyTextStyle.sectionBodyTextStyle.copyWith(
-                                      color: MyColor.getBodyTextColor(),
+                            spaceDown(widget.topUpInfo.topUpMethod == MyStrings.fromMainBalance ? Dimensions.space8 : 0),
+                            Visibility(
+                              visible: widget.topUpInfo.topUpMethod == MyStrings.fromMainBalance,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "${MyStrings.availableBalance.tr}: ",
+                                      style: MyTextStyle.sectionBodyTextStyle.copyWith(
+                                        color: MyColor.getBodyTextColor(),
+                                      ),
                                     ),
-                                  ),
-                                  TextSpan(
-                                    text: "${controller.currency}${AppConverter.formatNumber(Get.find<HomeController>().accountBalanceFormatted, forceShowPrecision: true)}",
-                                    style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.getPrimaryColor()),
-                                  ),
-                                ],
+                                    TextSpan(
+                                      text: "${controller.currency}${AppConverter.formatNumber(Get.find<HomeController>().accountBalanceFormatted, forceShowPrecision: true)}",
+                                      style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.getPrimaryColor()),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
 

@@ -139,7 +139,7 @@ class WithdrawController extends GetxController {
     double amount = AppConverter.formatNumberDouble(amountController.text);
     double balance = AppConverter.formatNumberDouble(cardModel?.balance ?? "");
 
-    return AppConverter.formatNumber((balance - amount).toString());
+    return AppConverter.formatNumber((balance - amount).toString(), forceShowPrecision: true);
   }
 }
 

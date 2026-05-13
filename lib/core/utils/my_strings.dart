@@ -646,8 +646,8 @@ class MyStrings {
   static const String province = "Province";
   static const String availableForInstantTransfer = "Available for Instant Transfer";
   static const String chooseHowYouWantToUpYourCard = "Choose how you want to up your card";
-  static const String fromMainBalance = "From Main Balance";
-  static const String fromCryptoBalance = "From Crypto Balance";
+  static const String fromMainBalance = "Main Account Balance";
+  static const String fromCryptoBalance = "Crypto Deposit";
   static const String cryptoDeposit = "Crypto Deposit";
   static const String instant = "Instant";
   static const String direct = "Direct";

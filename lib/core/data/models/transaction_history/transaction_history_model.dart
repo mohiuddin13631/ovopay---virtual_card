@@ -102,6 +102,7 @@ class TransactionHistoryModel {
   String? id;
   String? trx;
   String? trxType;
+  String? type;
   String? amount;
   String? charge;
   String? cardTransactionType;
@@ -122,6 +123,7 @@ class TransactionHistoryModel {
     this.id,
     this.trx,
     this.trxType,
+    this.type,
     this.amount,
     this.charge,
     this.totalAmount,
@@ -143,6 +145,7 @@ class TransactionHistoryModel {
         id: json["id"]?.toString(),
         trx: json["trx"]?.toString(),
         trxType: json["trx_type"]?.toString(),
+        type: json["type"]?.toString(),
         amount: json["amount"]?.toString(),
         status: json["status"]?.toString(),
         narrative: json["narrative"]?.toString(),

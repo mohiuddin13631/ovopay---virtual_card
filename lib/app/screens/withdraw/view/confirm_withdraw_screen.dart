@@ -96,7 +96,7 @@ class _ConfirmWithdrawScreenState extends State<ConfirmWithdrawScreen> {
         AmountDetailsCard(
           firstTitle: MyStrings.currentBalance,
           endTitle: MyStrings.newBalance,
-          amount: "${controller.currency}${controller.cardModel?.balance ?? ""}",
+          amount: "${controller.currency}${AppConverter.formatNumber(controller.cardModel?.balance ?? "", forceShowPrecision: true)}",
           total: "${controller.currency}${controller.getNewBalance()}",
         ),
       ],

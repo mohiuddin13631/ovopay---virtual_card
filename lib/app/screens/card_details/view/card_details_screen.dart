@@ -168,9 +168,9 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
-                                            Text("${transactionHistory.trxType == "credit" ? "+" : "-"}${AppConverter.formatNumber(transactionHistory.amount ?? "", forceShowPrecision: true)} ${transactionHistory.currency?.toUpperCase()}", style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.black)),
+                                            Text("${transactionHistory.type == "credit" ? "+" : "-"}${AppConverter.formatNumber(transactionHistory.amount ?? "", forceShowPrecision: true)} ${transactionHistory.currency?.toUpperCase()}", style: MyTextStyle.sectionBodyBoldTextStyle.copyWith(color: MyColor.black)),
                                             spaceDown(Dimensions.space4),
-                                            Text(transactionHistory.trxType == "credit" ? MyStrings.incoming.tr : MyStrings.outgoing.tr, style: MyTextStyle.caption1Style)
+                                            Text(transactionHistory.type == "credit" ? MyStrings.incoming.tr : MyStrings.outgoing.tr, style: MyTextStyle.caption1Style)
                                           ],
                                         )
                                       ],

@@ -12,6 +12,7 @@ import 'package:ovopay/app/screens/dashboard_screen/views/widgets/drawer_screen.
 import 'package:ovopay/app/screens/profile_and_settings_screen/views/profile_and_settings_screen.dart';
 import 'package:ovopay/app/screens/transaction_history/controller/transaction_history_controller.dart';
 import 'package:ovopay/app/screens/transaction_history/views/transaction_history_screen.dart';
+import 'package:ovopay/core/data/repositories/card/card_repo.dart';
 import 'package:ovopay/core/utils/util_exporter.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -64,6 +65,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
+    // Get.put(CardRepo());
+    // Get.put(CardController(cardRepo: Get.find()));
     CardController.ensureInitialized();
     _pages = [
       HomeScreen(
